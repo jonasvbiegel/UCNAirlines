@@ -1,7 +1,5 @@
 DROP TABLE Flight, Flight_Route, Airport, Boarding_Pass, Seat, Airplane, Passenger, Booking, Customer, City_Zip_Code;
 
-SELECT * FROM City_Zip_Code
-
 CREATE TABLE City_Zip_Code (
     zipcode VARCHAR(16) NOT NULL PRIMARY KEY,
     city VARCHAR(32) NOT NULL
@@ -61,6 +59,7 @@ CREATE TABLE Flight_Route (
     flight_route_id INT IDENTITY(1,1) PRIMARY KEY,
     start_destination_FK VARCHAR(128) FOREIGN KEY REFERENCES Airport(airport_id),
     end_destination_FK VARCHAR(128) FOREIGN KEY REFERENCES Airport(airport_id),
+    distance INT NOT NULL,
     CHECK (start_destination_FK <> end_destination_FK),
     UNIQUE(start_destination_FK, end_destination_FK)
 );
