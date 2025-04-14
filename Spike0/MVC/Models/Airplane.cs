@@ -1,6 +1,4 @@
-﻿using MVC.APIAccess;
-
-namespace MVC.Models;
+﻿namespace MVC.Models;
 
 public class Airplane
 {
