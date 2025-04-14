@@ -9,7 +9,7 @@ public class MVCAPIAccess
     public async void GetAirplanesFromApiTest()
     {
         //Arrange
-        AirplaneAPI airplaneAPI = new();
+        AirplaneAPI airplaneAPI = AirplaneAPI.Instance;
 
         //Act
         List<Airplane> list = await airplaneAPI.GetAirplanes();

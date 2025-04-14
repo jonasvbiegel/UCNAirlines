@@ -33,4 +33,18 @@ public class DBTest
         // Assert
         Assert.Equal(airplaneDb.Model, airplane_model);
     }
+
+    [Fact]
+    public void GetAirplaneNulltest()
+    {
+        //Arrange
+        string nullString = "mmmmm";
+
+        //Act
+        Airplane? airplaneNull = adb.GetAirplane(nullString);
+
+        //Assert
+        Assert.Null(airplaneNull);
+    }
+
 }
