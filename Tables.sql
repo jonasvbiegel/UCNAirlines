@@ -1,4 +1,4 @@
-DROP TABLE Flight, Flight_Route, Airport, Boarding_Pass, Seat, Airplane, Passenger, Booking, Customer, City_Zip_Code;
+DROP TABLE IF EXISTS Flight, Flight_Route, Airport, Boarding_Pass, Seat, Airplane, Passenger, Booking, Customer, City_Zip_Code;
 
 CREATE TABLE City_Zip_Code (
     zipcode VARCHAR(16) NOT NULL PRIMARY KEY,
@@ -36,6 +36,7 @@ CREATE TABLE Airplane (
 
 CREATE TABLE Seat (
     seat_id VARCHAR(128) NOT NULL PRIMARY KEY,
+    seat_name VARCHAR(128) NOT NULL,
     is_booked BIT NOT NULL,
     airplane_id_FK VARCHAR(128) NOT NULL FOREIGN KEY REFERENCES Airplane(airplane_id)
 );
