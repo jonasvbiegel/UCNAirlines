@@ -68,7 +68,6 @@ CREATE TABLE Flight_Route (
     flight_route_id INT IDENTITY(1,1) PRIMARY KEY,
     start_destination_FK VARCHAR(128) FOREIGN KEY REFERENCES Airport(airport_id),
     end_destination_FK VARCHAR(128) FOREIGN KEY REFERENCES Airport(airport_id),
-    distance INT NOT NULL,
     CHECK (start_destination_FK <> end_destination_FK),
     UNIQUE(start_destination_FK, end_destination_FK)
 );
