@@ -1,0 +1,12 @@
+﻿@model List<MVC.Models.Airplane>
+
+@{
+    ViewData["Title"] = "Airplanes";
+}
+
+<h1> List of airplanes </h1>
+
+@foreach (var m in Model)
+{
+    <p> @m <br /> </p>
+}
