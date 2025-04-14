@@ -1,8 +1,14 @@
-DROP TABLE IF EXISTS Flight, Flight_Route, Airport, Boarding_Pass, Seat, Airplane, Passenger, Booking, Customer, City_Zip_Code;
+DROP TABLE IF EXISTS Flight, Flight_Route, Airport, Boarding_Pass, Seat, Airplane, Passenger, Booking, Customer, City_Zip_Code, Country;
+
+CREATE TABLE Country (
+    country_id INT IDENTITY(1,1) PRIMARY KEY,
+    country VARCHAR(128) NOT NULL
+)
 
 CREATE TABLE City_Zip_Code (
     zipcode VARCHAR(16) NOT NULL PRIMARY KEY,
-    city VARCHAR(32) NOT NULL
+    city VARCHAR(32) NOT NULL,
+    country_id_FK INT FOREIGN KEY REFERENCES Country(country_id)
 );
 
 CREATE TABLE Customer (
@@ -16,7 +22,7 @@ CREATE TABLE Customer (
 
 CREATE TABLE Booking (
     booking_id INT IDENTITY(1,1) PRIMARY KEY,
-    customer_id_FK int FOREIGN KEY REFERENCES Customer(customer_id)
+    customer_id_FK INT FOREIGN KEY REFERENCES Customer(customer_id)
 );
 
 CREATE TABLE Passenger (
@@ -50,9 +56,11 @@ CREATE TABLE Boarding_Pass (
 
 CREATE TABLE Airport (
     airport_id VARCHAR(128) NOT NULL PRIMARY KEY,
-    street VARCHAR(128) NOT NULL,
-    streetNo VARCHAR(32) NOT NULL,
-    country VARCHAR(64) NOT NULL,
+    airport_name VARCHAR(128) NOT NULL,
+    airport_code VARCHAR(16) NOT NULL,
+    -- street VARCHAR(128) NOT NULL,
+    -- streetNo VARCHAR(32) NOT NULL,
+    -- country VARCHAR(64) NOT NULL,
     zipcode_FK VARCHAR(16) FOREIGN KEY REFERENCES City_Zip_Code(zipcode)
 );
 
