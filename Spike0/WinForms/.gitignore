@@ -1,0 +1,7 @@
+.vs/**/*
+WinForms/.vs/**/*
+WinForms/bin/**/*
+WinForms/obj/**/*
+WinForms.Library/.vs/**/*
+WinForms.Library/bin/**/*
+WinForms.Library/obj/**/*
