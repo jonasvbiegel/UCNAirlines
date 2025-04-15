@@ -8,7 +8,7 @@ public class AirplaneDB : IAirplaneDB
 {
     private readonly string _connectionString = "Data Source = 79.171.148.149; Initial Catalog = Sprint0Spike; Persist Security Info=True; User ID = sa; Password=KhanhErSej123; Encrypt=False";
 
-    private static AirplaneDB? _instance;
+    private static readonly AirplaneDB? _instance;
 
     public static AirplaneDB Instance
     {
