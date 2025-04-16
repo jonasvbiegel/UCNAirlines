@@ -4,6 +4,8 @@ namespace MVC.APIAccess;
 public class AirplaneAPI
 {
 
+    private readonly string _url = "http://localhost:5262/api/";
+
     private AirplaneAPI()
     {
 
@@ -25,9 +27,9 @@ public class AirplaneAPI
     {
         List<Airplane>? airplanes = new();
 
-        string url = "http://localhost:5262/api/Airplane";
+        // string url = "http://localhost:5262/api/Airplane";
 
-        HttpResponseMessage response = await client.GetAsync(url);
+        HttpResponseMessage response = await client.GetAsync(_url + "Airplane");
 
         if (response.IsSuccessStatusCode)
         {
