@@ -6,4 +6,5 @@ public interface IAirplaneDB
 {
     public List<Airplane> GetAirplanes();
     public Airplane? GetAirplane(string airplaneId);
+    public Airplane? CreateAirplane(Airplane airplane);
 }

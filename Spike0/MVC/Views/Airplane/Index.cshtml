@@ -13,17 +13,13 @@
 
 <h2> Some form </h2>
 
-<form method="post">
-    <fieldset>
-        <legend>Something 1</legend>
-        <div>
-            <label for="Airplane">Airplane:</label>
-            <input type="text" name="Airplane" value="" />
-        </div>
+<legend>Post an airplane</legend>
 
-        <div>
-            <label>&nbsp;</label>
-            <input type="submit" value="Submit" class="submit" />
-        </div>
-    </fieldset>
+<form id="airplanepost">
+    Airplane ID: <input type="text" name="airplaneid" value=""><br>
+    Airplane Model: <input type="text" name="model" value="">
+    Seat rows: <input type="number" name="rows" value="">
+    Seat columns: <input type="number" name="rows" value="">
 </form>
+
+<button onclick="postAirplane()">Post</button>

@@ -42,4 +42,24 @@ public class AirplaneDB : IAirplaneDB
         con.Open();
         return con.QueryFirstOrDefault<Airplane>(sql, new { @Airplane_id = airplaneId });
     }
+
+    public Airplane? CreateAirplane(Airplane airplane)
+    {
+        string sql = "INSERT INTO Airplane VALUES (@Airplane_id, @Model, @Seatrows, @Seatcolumns)";
+
+        using SqlConnection con = new(_connectionString);
+
+        con.Open();
+        var result = con.Execute(sql, new
+        {
+            @Airplane_id = airplane.Airplane_id,
+            @Model = airplane.Model,
+            @Seatrows = airplane.Seat_rows,
+            @Seatcolumns = airplane.Seat_columns
+        });
+
+        if (result == 1) return airplane;
+        return null;
+
+    }
 }
