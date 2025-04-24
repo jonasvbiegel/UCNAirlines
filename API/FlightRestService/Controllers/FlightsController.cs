@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+﻿using AirlineData.DatabaseLayer;
+using AirlineData.ModelLayer;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FlightRestService.Controllers
 {
@@ -8,11 +8,15 @@ namespace FlightRestService.Controllers
     [ApiController]
     public class FlightsController : ControllerBase
     {
+        private FlightDatabaseAccess flightDatabaseAccess;
+
         // GET: api/<FlightsController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ActionResult<List<Flight>> GetAllFlights()
         {
-            return new string[] { "value1", "value2" };
+            flightDatabaseAccess = new FlightDatabaseAccess();
+            var flights = flightDatabaseAccess.GetAllFlights();
+            return Ok(flights);
         }
 
         // GET api/<FlightsController>/5
