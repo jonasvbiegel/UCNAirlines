@@ -1,4 +1,4 @@
-﻿namespace APIService.Model;
+﻿namespace AirlineData.Model;
 
 public class Seat
 {

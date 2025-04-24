@@ -5,6 +5,8 @@ VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIService", "APIService\APIService.csproj", "{7EB66864-1F65-4B79-B29C-7033C15EB4CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirlineData", "AirlineData\AirlineData.csproj", "{1008C75A-F686-4ECE-9FFF-E81DB5CF5A77}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,18 @@ Global
 		{7EB66864-1F65-4B79-B29C-7033C15EB4CF}.Release|x64.Build.0 = Release|Any CPU
 		{7EB66864-1F65-4B79-B29C-7033C15EB4CF}.Release|x86.ActiveCfg = Release|Any CPU
 		{7EB66864-1F65-4B79-B29C-7033C15EB4CF}.Release|x86.Build.0 = Release|Any CPU
+		{1008C75A-F686-4ECE-9FFF-E81DB5CF5A77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1008C75A-F686-4ECE-9FFF-E81DB5CF5A77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1008C75A-F686-4ECE-9FFF-E81DB5CF5A77}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1008C75A-F686-4ECE-9FFF-E81DB5CF5A77}.Debug|x64.Build.0 = Debug|Any CPU
+		{1008C75A-F686-4ECE-9FFF-E81DB5CF5A77}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1008C75A-F686-4ECE-9FFF-E81DB5CF5A77}.Debug|x86.Build.0 = Debug|Any CPU
+		{1008C75A-F686-4ECE-9FFF-E81DB5CF5A77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1008C75A-F686-4ECE-9FFF-E81DB5CF5A77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1008C75A-F686-4ECE-9FFF-E81DB5CF5A77}.Release|x64.ActiveCfg = Release|Any CPU
+		{1008C75A-F686-4ECE-9FFF-E81DB5CF5A77}.Release|x64.Build.0 = Release|Any CPU
+		{1008C75A-F686-4ECE-9FFF-E81DB5CF5A77}.Release|x86.ActiveCfg = Release|Any CPU
+		{1008C75A-F686-4ECE-9FFF-E81DB5CF5A77}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
