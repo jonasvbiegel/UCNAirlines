@@ -15,7 +15,7 @@ namespace FlightRestService.Controllers
         public ActionResult<List<Flight>> GetAllFlights()
         {
             flightDatabaseAccess = new FlightDatabaseAccess();
-            var flights = flightDatabaseAccess.GetAllFlights();
+            var flights = flightDatabaseAccess.Get();
             return Ok(flights);
         }
 
