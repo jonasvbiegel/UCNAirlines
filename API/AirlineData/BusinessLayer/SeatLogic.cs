@@ -14,13 +14,11 @@ public class SeatLogic
 	{
 		return null;
 
-		List<Seat> seats = new();
-
-		for (int i = 1; i < airplane.SeatRows + 1; i++)
-		{
-
-		}
+		// List<Seat> seats = new();
+		//
+		// for (int i = 1; i < airplane.SeatRows + 1; i++)
+		// {
+		//
+		// }
 	}
-
-
 }

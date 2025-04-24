@@ -27,6 +27,8 @@ public class SeatController : ControllerBase
         if (foundSeat != null) return Ok(foundSeat);
         return NotFound();
     }
+
+
 }
 
 
