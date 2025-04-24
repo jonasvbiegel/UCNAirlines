@@ -13,4 +13,13 @@ public class TestData
 
 		Seats = new() { s1, s2, s3 };
 	}
+
+	public Seat? FindSeat(string seatName)
+	{
+		foreach (Seat s in Seats)
+		{
+			if (s.SeatName == seatName) return s;
+		}
+		return null;
+	}
 }

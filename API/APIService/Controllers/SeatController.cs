@@ -10,13 +10,22 @@ namespace APIService.Controllers;
 [ApiController]
 public class SeatController : ControllerBase
 {
-    static TestData testdata = new();
-    List<Seat> list = testdata.Seats;
+    readonly static TestData testdata = new();
+    readonly List<Seat> list = testdata.Seats;
 
     [HttpGet]
     public ActionResult<List<Seat>> GetSeats()
     {
         return Ok(list);
+    }
+
+    [HttpGet("{seatName}")]
+    public ActionResult<Seat> GetSeat(string seatName)
+    {
+        Seat? foundSeat = testdata.FindSeat(seatName);
+
+        if (foundSeat != null) return Ok(foundSeat);
+        return NotFound();
     }
 }
 
