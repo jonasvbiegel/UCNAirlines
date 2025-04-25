@@ -1,10 +1,65 @@
 ﻿@page
-@model IndexModel
-@{
-    ViewData["Title"] = "Home page";
-}
+@model UCNAirlineApp.Pages.IndexModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<style>
+    .centered-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        margin-bottom: 120px;
+    }
+
+    table {
+        width: 50%;
+        font-size: 1.3rem;
+    }
+
+    th, td {
+        padding: 12px 20px;
+        border-bottom: 1px solid #ccc; /* streg under hver række */
+        text-align: center;
+    }
+
+    thead {
+        background-color: #f0f0f0;
+        border-bottom: 2px solid #888;
+    }
+
+    button {
+        padding: 6px 12px;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+</style>
+
+<h1 style="text-align: center; margin-top: auto">Select a flight</h1>
+<br />
+<div class="centered-container">
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Flight Name</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Time</th>
+                <th>Select</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var flight in Model.Flights)
+            {
+                <tr>
+                    <td>@flight.Airplane.Model</td>
+                    <td>@flight.Route.StartDestination</td>
+                    <td>@flight.Route.EndDestination</td>
+                    <td>@flight.Departure</td>
+                    <td>
+                        <a asp-page="/Privacy" asp-route-FlightName="@flight.Airplane.AirplaneId" target="_blank">
+                            <button>Select</button>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

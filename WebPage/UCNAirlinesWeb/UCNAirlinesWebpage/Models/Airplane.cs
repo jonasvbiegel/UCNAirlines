@@ -15,6 +15,14 @@
             SeatColumns = seatColumns;
             SeatRows = seatRows;
             Capacity = seatColumns * seatRows;
+
+        }
+
+        public Airplane(string model)
+        {
+            AirplaneId = model;
+            Model = model;
         }
     }
+    
 }
