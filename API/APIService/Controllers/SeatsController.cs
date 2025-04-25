@@ -1,43 +1,51 @@
 using Microsoft.AspNetCore.Mvc;
 using AirlineData.ModelLayer;
-using AirlineData.DataAccessLayer;
+using AirlineData.DatabaseLayer;
 
 namespace APIService.Controllers;
-
 
 [Route("api/[controller]")]
 [ApiController]
 public class SeatsController : ControllerBase
 {
-    TestData td = new();
+    SeatDatabaseAccess seatDatabaseAccess = new();
 
     [HttpGet]
     public ActionResult<List<Seat>> GetSeats()
     {
-        return Ok(td.Seats);
+        return Ok(seatDatabaseAccess.Seats);
     }
 
     [HttpGet("{airplaneId}")]
     public ActionResult<List<Seat>> GetSeatsFromAirplane(string airplaneId, [FromHeader] DateTime depart)
     {
-        List<Seat?> seats = new();
+        List<Seat>? listOfSeats = seatDatabaseAccess.Seats;
 
-        foreach (Seat s in td.Seats)
+        foreach (Seat s in listOfSeats)
         {
-            if (s.Flight.Airplane.AirplaneId == airplaneId && s.Flight.Departure == depart) seats.Add(s);
+            if (s.Flight.Airplane.AirplaneId == airplaneId && s.Flight.Departure == depart) listOfSeats.Add(s);
         }
 
 
-        if (seats == null) return NotFound();
-        return Ok(seats);
+        if (listOfSeats == null) return NotFound();
+        return Ok(listOfSeats);
     }
 
     [HttpPut("{airplaneId}")]
     public ActionResult<Seat> UpdateSeat(string airplaneId, [FromHeader] DateTime depart, [FromHeader] string seatName, [FromHeader] bool newBookedStatus)
     {
-        Flight? flight = td.Flights.Find(f => f.Airplane.AirplaneId == airplaneId && f.Departure == depart);
 
-        Seat? foundSeat = td.Seats.Find(s => s.SeatName == seatName && s.Flight == flight);
+        List<Flight>? flights = seatDatabaseAccess.Flights;
+
+        List<Flight>? listOfFligts = new();
+
+        // Flight? flight = td.Flights.Find(f => f.Airplane.AirplaneId == airplaneId && f.Departure == depart);
+
+        Flight? flight = flights.Find(f => f.Airplane.AirplaneId == airplaneId && f.Departure == depart);
+
+
+
+        Seat? foundSeat = seatDatabaseAccess.Seats.Find(s => s.SeatName == seatName && s.Flight == flight);
 
         if (foundSeat != null)
         {

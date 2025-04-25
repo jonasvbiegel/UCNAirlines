@@ -2,7 +2,7 @@
 using AirlineData.ModelLayer;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FlightRestService.Controllers
+namespace APIService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

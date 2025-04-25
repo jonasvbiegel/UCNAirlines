@@ -1,12 +1,12 @@
-﻿using AirlineData.Model;
-using AirlineData.DataAccessLayer;
+﻿using AirlineData.ModelLayer;
+using AirlineData.DatabaseLayer;
 
 namespace AirlineData.BusinessLayer;
 
 public class SeatLogic
 {
 
-	static readonly TestData td = new();
+	static readonly SeatDatabaseAccess td = new();
 	// public List<Seat> Seats = td.Seats;
 	public List<Seat> Seats { get; }
 
