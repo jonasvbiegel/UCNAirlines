@@ -22,7 +22,12 @@ public class SeatsController : ControllerBase
     [HttpGet("{airplaneId}")]
     public ActionResult<List<Seat>> GetSeatsFromAirplane(string airplaneId, [FromHeader] DateTime depart)
     {
-        List<Seat>? seats = td.FindSeatsByFlight(airplaneId, depart);
+        List<Seat?> seats = new();
+
+        foreach (Seat s in td.Seats)
+        {
+            if (s.Flight.Airplane.AirplaneId == airplaneId && s.Flight.Departure == depart) seats.Add(s);
+        }
 
         if (seats == null) return NotFound();
         return Ok(seats);
