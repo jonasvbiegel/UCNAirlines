@@ -9,12 +9,15 @@ namespace AirlineData.DatabaseLayer
 {
     public class FlightDatabaseAccess
     {
-        public List<Flight> Flights=new List<Flight> ();
+        public List<Flight> Flights = new List<Flight>();
 
         public FlightDatabaseAccess()
         {
-            Airplane airplane1 = new("1", "UCNDK787", 8, 4, 2);
-            Airplane airplane2 = new("2", "UCNdfjds", 6, 3, 2);
+            // Airplane airplane1 = new("1", "UCNDK787", 4, 2);
+            // Airplane airplane2 = new("2", "UCNdfjds", 6, 3, 2);
+
+            Airplane airplane1 = new() { AirplaneId = "1", Model = "UCNDK787", SeatRows = 4, SeatColumns = 2 };
+            Airplane airplane2 = new() { AirplaneId = "2", Model = "UCNdfjds", SeatRows = 3, SeatColumns = 2 };
 
             Seat seat1 = new() { SeatName = "1A", IsBooked = true };
             Seat seat2 = new() { SeatName = "1B", IsBooked = true };
