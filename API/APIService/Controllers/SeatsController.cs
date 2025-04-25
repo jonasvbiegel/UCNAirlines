@@ -1,8 +1,6 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using AirlineData.Model;
+using AirlineData.ModelLayer;
 using AirlineData.DataAccessLayer;
-using AirlineData.BusinessLayer;
 
 namespace APIService.Controllers;
 

@@ -1,4 +1,4 @@
-﻿using AirlineData.Model;
+﻿using AirlineData.ModelLayer;
 
 namespace AirlineData.DataAccessLayer;
 
