@@ -1,0 +1,6 @@
+@SelectAFlightWebpage_HostAddress = http://localhost:5056
+
+GET {{SelectAFlightWebpage_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
