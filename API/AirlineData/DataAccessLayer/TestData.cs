@@ -9,6 +9,7 @@ public class TestData
 	public TestData()
 	{
 		//  AIRPLANE CONSTRUCTOR
+		//  I do this to reference what im doing when creating objects
 		//  public string? AirplaneId { get; set; }
 		//  public string? Model { get; set; }
 		//  public int Capacity { get; }
