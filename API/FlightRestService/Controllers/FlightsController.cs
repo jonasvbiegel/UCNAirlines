@@ -1,5 +1,7 @@
 ﻿using AirlineData.DatabaseLayer;
 using AirlineData.ModelLayer;
+using FlightRestService.BusinessLogicLayer;
+using FlightRestService.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlightRestService.Controllers
@@ -8,40 +10,69 @@ namespace FlightRestService.Controllers
     [ApiController]
     public class FlightsController : ControllerBase
     {
-        private FlightDatabaseAccess flightDatabaseAccess;
+        private readonly IFlightData _businessLogic;
+
+        public FlightsController(IFlightData businessLogic)
+        {
+            _businessLogic = businessLogic;
+        } 
 
         // GET: api/<FlightsController>
         [HttpGet]
-        public ActionResult<List<Flight>> GetAllFlights()
+        public ActionResult<List<FlightDTO>> GetAllFlights()
         {
-            flightDatabaseAccess = new FlightDatabaseAccess();
-            var flights = flightDatabaseAccess.GetAllFlights();
-            return Ok(flights);
+            ActionResult<List<FlightDTO>> foundFlights;
+            List<FlightDTO> flightsDto = _businessLogic.Get();
+            if (flightsDto != null) 
+            {
+                if (flightsDto.Count > 0)
+                {
+                    foundFlights = Ok(flightsDto);
+                }else 
+                {
+                    foundFlights = new StatusCodeResult(204);
+                }
+            }
+            else
+            {
+                foundFlights = new StatusCodeResult(500);  
+            }
+            return foundFlights;
         }
 
         // GET api/<FlightsController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet,Route("{id}")]
+        public ActionResult<FlightDTO> Get(int id)
         {
-            return "value";
+            ActionResult<FlightDTO> foundFlight;
+            FlightDTO flightDTO = _businessLogic.Get(id);
+            if (flightDTO != null)
+            {
+                foundFlight = Ok(flightDTO);
+            }
+            else
+            {
+                foundFlight = new StatusCodeResult(500);
+            }
+                return foundFlight;
         }
 
-        // POST api/<FlightsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+    //    // POST api/<FlightsController>
+    //    [HttpPost]
+    //    public void Post([FromBody] string value)
+    //    {
+    //    }
 
-        // PUT api/<FlightsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+    //    // PUT api/<FlightsController>/5
+    //    [HttpPut("{id}")]
+    //    public void Put(int id, [FromBody] string value)
+    //    {
+    //    }
 
-        // DELETE api/<FlightsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+    //    // DELETE api/<FlightsController>/5
+    //    [HttpDelete("{id}")]
+    //    public void Delete(int id)
+    //    {
+    //    }
     }
 }

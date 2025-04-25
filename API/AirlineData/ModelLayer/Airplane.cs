@@ -12,14 +12,18 @@
 
         public int SeatRows { get; set; }
 
-
-        public Airplane(string airplaneId, string model, int capacity, int seatColumns, int seatRows)
+        public Airplane(string model, int capacity, int seatColumns, int seatRows)
         {
-            AirplaneId = airplaneId;
             Model = model;
             Capacity = capacity;
             SeatColumns = seatColumns;
             SeatRows = seatRows;
+        }
+    
+        public Airplane(string airplaneId, string model, int capacity, int seatColumns, int seatRows):this(model,capacity,seatColumns,seatRows)
+        {
+            AirplaneId = airplaneId;
+            
         }
     }
 }
