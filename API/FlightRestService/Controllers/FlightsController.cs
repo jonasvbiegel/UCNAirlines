@@ -21,6 +21,7 @@ namespace FlightRestService.Controllers
         [HttpGet]
         public ActionResult<List<FlightDTO>> GetAllFlights()
         {
+
             ActionResult<List<FlightDTO>> foundFlights;
             List<FlightDTO> flightsDto = _businessLogic.Get();
             if (flightsDto != null) 
