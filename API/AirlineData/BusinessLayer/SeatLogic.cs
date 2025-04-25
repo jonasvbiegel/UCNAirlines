@@ -33,7 +33,8 @@ public class SeatLogic
 	}
 
 
-
+	// FOR POST SEAT
+	//
 	// static private char ConvertIntToChar(int i)
 	// {
 	// 	if (i > 26) return '-';

@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AirlineData.ModelLayer
+{
+    public class Flight
+    {
+        public DateTime Departure { get; set; }
+        public List<Seat> ListOfSeats { get; set; }
+
+        public Airplane airplane { get; set; }
+        public FlightRoute route {get; set; }
+
+    }
+}

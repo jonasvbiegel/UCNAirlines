@@ -30,7 +30,7 @@ public class SeatsController : ControllerBase
     }
 
     [HttpPut("{airplaneId}")]
-    public ActionResult<Seat>? UpdateSeat(string airplaneId, [FromHeader] DateTime depart, [FromHeader] string seatName, [FromHeader] bool newBookedStatus)
+    public ActionResult<Seat> UpdateSeat(string airplaneId, [FromHeader] DateTime depart, [FromHeader] string seatName, [FromHeader] bool newBookedStatus)
     {
         // Flight? flight = seatLogic.Flights.Find(f => f.Airplane.AirplaneId == airplaneId && f.Departure == depart);
 
