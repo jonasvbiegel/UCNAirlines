@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using AirlineData.Model;
-// using AirlineData.DataAccessLayer;
+using AirlineData.DataAccessLayer;
 using AirlineData.BusinessLayer;
 
 namespace APIService.Controllers;
@@ -11,19 +11,18 @@ namespace APIService.Controllers;
 [ApiController]
 public class SeatsController : ControllerBase
 {
-    static SeatLogic seatLogic = new();
-    // readonly List<Seat> list = seat.Seats;
+    TestData td = new();
 
     [HttpGet]
     public ActionResult<List<Seat>> GetSeats()
     {
-        return Ok(seatLogic.Seats);
+        return Ok(td.Seats);
     }
 
     [HttpGet("{airplaneId}")]
     public ActionResult<List<Seat>> GetSeatsFromAirplane(string airplaneId, [FromHeader] DateTime depart)
     {
-        List<Seat>? seats = seatLogic.FindSeatsByFlight(airplaneId, depart);
+        List<Seat>? seats = td.FindSeatsByFlight(airplaneId, depart);
 
         if (seats == null) return NotFound();
         return Ok(seats);
@@ -32,17 +31,12 @@ public class SeatsController : ControllerBase
     [HttpPut("{airplaneId}")]
     public ActionResult<Seat> UpdateSeat(string airplaneId, [FromHeader] DateTime depart, [FromHeader] string seatName, [FromHeader] bool newBookedStatus)
     {
-        // Flight? flight = seatLogic.Flights.Find(f => f.Airplane.AirplaneId == airplaneId && f.Departure == depart);
+        Flight? flight = td.Flights.Find(f => f.Airplane.AirplaneId == airplaneId && f.Departure == depart);
 
-        List<Seat>? seats = seatLogic.FindSeatsByFlight(airplaneId, depart);
-
-        Seat? foundSeat = seats.Find(s => s.SeatName == seatName);
-
-
+        Seat? foundSeat = td.Seats.Find(s => s.SeatName == seatName && s.Flight == flight);
 
         if (foundSeat != null)
         {
-            // Seat? updatedSeat = seatLogic.UpdateSeat(flight, seatName, newBookedStatus);
             foundSeat.IsBooked = true;
             return Ok(foundSeat);
         }
