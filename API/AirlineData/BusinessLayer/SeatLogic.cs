@@ -1,12 +1,19 @@
-﻿namespace AirlineData.BusinessLayer;
-using AirlineData.Model;
+﻿using AirlineData.Model;
 using AirlineData.DataAccessLayer;
+
+namespace AirlineData.BusinessLayer;
 
 public class SeatLogic
 {
 
 	static readonly TestData td = new();
-	public List<Seat> Seats = td.Seats;
+	// public List<Seat> Seats = td.Seats;
+	public List<Seat> Seats { get; }
+
+	public SeatLogic()
+	{
+		Seats = td.Seats;
+	}
 
 	public Seat? UpdateSeat(Flight flight, string seatName, bool newValue)
 	{

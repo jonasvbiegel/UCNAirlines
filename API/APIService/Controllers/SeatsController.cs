@@ -11,7 +11,7 @@ namespace APIService.Controllers;
 [ApiController]
 public class SeatsController : ControllerBase
 {
-    readonly static SeatLogic seatLogic = new();
+    static SeatLogic seatLogic = new();
     // readonly List<Seat> list = seat.Seats;
 
     [HttpGet]
