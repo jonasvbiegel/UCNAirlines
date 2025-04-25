@@ -27,6 +27,7 @@ public class SeatsController : ControllerBase
             if (s.Flight.Airplane.AirplaneId == airplaneId && s.Flight.Departure == depart) seats.Add(s);
         }
 
+
         if (seats == null) return NotFound();
         return Ok(seats);
     }
