@@ -1,20 +1,32 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using UCNAirlineApp.Models;
+using UCNAirlinesWebpage.Models;
 
-namespace UCNAirlinesWebpage.Pages
+namespace UCNAirlineApp.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
-
-        public IndexModel(ILogger<IndexModel> logger)
-        {
-            _logger = logger;
-        }
+        public List<Flight> Flights { get; set; } = new();
 
         public void OnGet()
         {
+            var airplane1 = new Airplane("NotBoringA");
+            var airplane2 = new Airplane("NotBoringB");
 
+            var route1 = new Flightroute("Aalborg", "Nuuk");
+            var route2 = new Flightroute("Aalborg", "Nuuk");
+
+            string time1 = "10:00";
+            string time2 = "22:00";
+
+
+            Flights = new List<Flight>
+            {
+                new Flight(route1, airplane1, time1),
+                new Flight(route2, airplane2, time2)
+            };
         }
     }
 }
+
+
