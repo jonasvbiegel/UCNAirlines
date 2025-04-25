@@ -35,7 +35,7 @@ CREATE TABLE Passenger (
 
 CREATE TABLE Airplane (
     airplane_id VARCHAR(128) NOT NULL PRIMARY KEY,
-    model VARCHAR(128) NOT NULL,
+    airline VARCHAR(128) NOT NULL,
     seat_rows INT NOT NULL,
     seat_columns INT NOT NULL
 );
@@ -44,7 +44,7 @@ CREATE TABLE Seat (
     seat_id VARCHAR(128) NOT NULL PRIMARY KEY,
     seat_name VARCHAR(128) NOT NULL,
     is_booked BIT NOT NULL,
-    airplane_id_FK VARCHAR(128) NOT NULL FOREIGN KEY REFERENCES Airplane(airplane_id)
+    flight_id_FK VARCHAR(128) NOT NULL FOREIGN KEY REFERENCES Flight(flight_id)
 );
 
 CREATE TABLE Boarding_Pass (
@@ -58,9 +58,6 @@ CREATE TABLE Airport (
     airport_id VARCHAR(128) NOT NULL PRIMARY KEY,
     airport_name VARCHAR(128) NOT NULL,
     airport_code VARCHAR(16) NOT NULL,
-    -- street VARCHAR(128) NOT NULL,
-    -- streetNo VARCHAR(32) NOT NULL,
-    -- country VARCHAR(64) NOT NULL,
     zipcode_FK VARCHAR(16) FOREIGN KEY REFERENCES City_Zip_Code(zipcode)
 );
 
@@ -73,8 +70,8 @@ CREATE TABLE Flight_Route (
 );
 
 CREATE TABLE Flight (
+    flight_id INT IDENTITY(1,1) PRIMARY KEY,
     airplane_id_FK VARCHAR(128) FOREIGN KEY REFERENCES Airplane(airplane_id),
-    datetime DATETIME NOT NULL,
-    seat_id_FK VARCHAR(128) FOREIGN KEY REFERENCES Seat(seat_id),
+    departure DATETIME NOT NULL,
     flight_route_id_FK INT FOREIGN KEY REFERENCES Flight_Route(flight_route_id)
 )
