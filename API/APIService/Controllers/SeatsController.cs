@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using AirlineData.Model;
-using AirlineData.DataAccessLayer;
+// using AirlineData.DataAccessLayer;
+using AirlineData.BusinessLayer;
 
 namespace APIService.Controllers;
 
@@ -10,19 +11,19 @@ namespace APIService.Controllers;
 [ApiController]
 public class SeatsController : ControllerBase
 {
-    readonly static TestData testdata = new();
-    readonly List<Seat> list = testdata.Seats;
+    readonly static SeatLogic seatLogic = new();
+    // readonly List<Seat> list = testdata.Seats;
 
     [HttpGet]
     public ActionResult<List<Seat>> GetSeats()
     {
-        return Ok(list);
+        return Ok(seatLogic.Seats);
     }
 
     [HttpGet("{airplaneId}")]
     public ActionResult<List<Seat>> GetSeatsFromAirplane(string airplaneId, [FromHeader] DateTime depart)
     {
-        List<Seat>? seats = testdata.FindSeatsByFlight(airplaneId, depart);
+        List<Seat>? seats = seatLogic.FindSeatsByFlight(airplaneId, depart);
 
         if (seats == null) return NotFound();
         return Ok(seats);
@@ -31,12 +32,19 @@ public class SeatsController : ControllerBase
     [HttpPut("{airplaneId}")]
     public ActionResult<Seat>? UpdateSeat(string airplaneId, [FromHeader] DateTime depart, [FromHeader] string seatName, [FromHeader] bool newBookedStatus)
     {
-        Flight? flight = testdata.Flights.Find(f => f.Airplane.AirplaneId == airplaneId && f.Departure == depart);
+        // Flight? flight = seatLogic.Flights.Find(f => f.Airplane.AirplaneId == airplaneId && f.Departure == depart);
 
-        if (flight != null)
+        List<Seat>? seats = seatLogic.FindSeatsByFlight(airplaneId, depart);
+
+        Seat? foundSeat = seats.Find(s => s.SeatName == seatName);
+
+
+
+        if (foundSeat != null)
         {
-            Seat? updatedSeat = testdata.UpdateSeat(flight, seatName, newBookedStatus);
-            return Ok(updatedSeat);
+            // Seat? updatedSeat = seatLogic.UpdateSeat(flight, seatName, newBookedStatus);
+            foundSeat.IsBooked = true;
+            return Ok(foundSeat);
         }
 
         return NotFound();

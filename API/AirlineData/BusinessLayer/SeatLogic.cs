@@ -5,7 +5,8 @@ using AirlineData.DataAccessLayer;
 public class SeatLogic
 {
 
-	readonly TestData td = new();
+	static readonly TestData td = new();
+	public List<Seat> Seats = td.Seats;
 
 	public Seat? UpdateSeat(Flight flight, string seatName, bool newValue)
 	{
@@ -52,5 +53,5 @@ public class SeatLogic
 	// 		// insert a seat 1A, 1B etc for every seat
 	// 	}
 	// }
-}
+	// }
 }
