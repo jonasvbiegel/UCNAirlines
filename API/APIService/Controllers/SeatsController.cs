@@ -12,7 +12,7 @@ namespace APIService.Controllers;
 public class SeatsController : ControllerBase
 {
     readonly static SeatLogic seatLogic = new();
-    // readonly List<Seat> list = testdata.Seats;
+    // readonly List<Seat> list = seat.Seats;
 
     [HttpGet]
     public ActionResult<List<Seat>> GetSeats()
