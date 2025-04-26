@@ -10,12 +10,16 @@ public class SeatsController : ControllerBase
 {
     private readonly SeatDatabaseAccess seatDatabaseAccess = new();
 
+    // Returns all seats
+    // GET /api/seats/
     [HttpGet]
     public ActionResult<List<Seat>> GetSeats()
     {
         return Ok(seatDatabaseAccess.Seats);
     }
 
+    // Returns seats from a specific flight
+    // GET /api/seats/UCN737 [departure from header]
     [HttpGet("{airplaneId}")]
     public ActionResult<List<Seat>> GetSeatsFromAirplane(string airplaneId, [FromHeader] DateTime depart)
     {
@@ -31,6 +35,8 @@ public class SeatsController : ControllerBase
         return Ok(listOfSeats);
     }
 
+    // Updates the IsBooked value of a specific seat
+    // PUT /api/seats/UCN 747 [departure, SeatName and NewBookedStatus from header]
     [HttpPut("{airplaneId}")]
     public ActionResult<Seat> UpdateSeat(string airplaneId, [FromHeader] DateTime depart, [FromHeader] string seatName, [FromHeader] bool newBookedStatus)
     {
