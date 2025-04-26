@@ -36,7 +36,7 @@ public class SeatsController : ControllerBase
     }
 
     // Updates the IsBooked value of a specific seat
-    // PUT /api/seats/UCN 747 [departure, SeatName and NewBookedStatus from header]
+    // PUT /api/seats/UCN747 [departure, SeatName and NewBookedStatus from header]
     [HttpPut("{airplaneId}")]
     public ActionResult<Seat> UpdateSeat(string airplaneId, [FromHeader] DateTime depart, [FromHeader] string seatName, [FromHeader] bool newBookedStatus)
     {
