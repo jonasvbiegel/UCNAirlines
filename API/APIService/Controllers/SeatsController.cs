@@ -8,7 +8,7 @@ namespace APIService.Controllers;
 [ApiController]
 public class SeatsController : ControllerBase
 {
-    SeatDatabaseAccess seatDatabaseAccess = new();
+    private readonly SeatDatabaseAccess seatDatabaseAccess = new();
 
     [HttpGet]
     public ActionResult<List<Seat>> GetSeats()
@@ -36,14 +36,7 @@ public class SeatsController : ControllerBase
     {
 
         List<Flight>? flights = seatDatabaseAccess.Flights;
-
-        List<Flight>? listOfFligts = new();
-
-        // Flight? flight = td.Flights.Find(f => f.Airplane.AirplaneId == airplaneId && f.Departure == depart);
-
         Flight? flight = flights.Find(f => f.Airplane.AirplaneId == airplaneId && f.Departure == depart);
-
-
 
         Seat? foundSeat = seatDatabaseAccess.Seats.Find(s => s.SeatName == seatName && s.Flight == flight);
 
