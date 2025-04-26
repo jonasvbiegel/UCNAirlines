@@ -1,4 +1,6 @@
-﻿namespace AirlineData.ModelLayer;
+﻿using System.Text.Json.Serialization;
+
+namespace AirlineData.ModelLayer;
 
 public class Airplane
 {
