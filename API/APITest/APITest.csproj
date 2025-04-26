@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\APIService\APIService.csproj" />
+    <ProjectReference Include="..\AirlineData\AirlineData.csproj" />
   </ItemGroup>
 
 </Project>
