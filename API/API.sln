@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightRestService", "Flight
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIService", "APIService\APIService.csproj", "{66E5D314-0D31-4544-833D-97AF5BA32F6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APITest", "APITest\APITest.csproj", "{51DCD1D9-C446-476A-9CDD-472F5865172D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,18 @@ Global
 		{66E5D314-0D31-4544-833D-97AF5BA32F6A}.Release|x64.Build.0 = Release|Any CPU
 		{66E5D314-0D31-4544-833D-97AF5BA32F6A}.Release|x86.ActiveCfg = Release|Any CPU
 		{66E5D314-0D31-4544-833D-97AF5BA32F6A}.Release|x86.Build.0 = Release|Any CPU
+		{51DCD1D9-C446-476A-9CDD-472F5865172D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51DCD1D9-C446-476A-9CDD-472F5865172D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51DCD1D9-C446-476A-9CDD-472F5865172D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{51DCD1D9-C446-476A-9CDD-472F5865172D}.Debug|x64.Build.0 = Debug|Any CPU
+		{51DCD1D9-C446-476A-9CDD-472F5865172D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{51DCD1D9-C446-476A-9CDD-472F5865172D}.Debug|x86.Build.0 = Debug|Any CPU
+		{51DCD1D9-C446-476A-9CDD-472F5865172D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51DCD1D9-C446-476A-9CDD-472F5865172D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51DCD1D9-C446-476A-9CDD-472F5865172D}.Release|x64.ActiveCfg = Release|Any CPU
+		{51DCD1D9-C446-476A-9CDD-472F5865172D}.Release|x64.Build.0 = Release|Any CPU
+		{51DCD1D9-C446-476A-9CDD-472F5865172D}.Release|x86.ActiveCfg = Release|Any CPU
+		{51DCD1D9-C446-476A-9CDD-472F5865172D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
