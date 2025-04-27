@@ -54,7 +54,6 @@ public class SeatControllerTest
 
         string foundAirplaneModel = seatsOfFlight.Find(s => s.SeatName == "1A").Flight.Airplane.Model;
 
-        Console.WriteLine("lollll");
         //Assert
         Assert.NotEmpty(seatsOfFlight);
         Assert.Equal(airplaneModel, foundAirplaneModel);
