@@ -19,15 +19,17 @@ public class SeatsController : ControllerBase
     }
 
     // Returns seats from a specific flight
-    // GET /api/seats/UCN737 [departure from header]
+    // GET /api/seats/UCN737 [departure from query]
     [HttpGet("{airplaneId}")]
-    public ActionResult<List<Seat>> GetSeatsFromAirplane(string airplaneId, [FromHeader] DateTime depart)
+    public ActionResult<List<Seat>> GetSeatsFromAirplane(string airplaneId, [FromQuery] DateTime departure)
     {
-        List<Seat>? listOfSeats = seatDatabaseAccess.Seats;
+        List<Seat>? seats = seatDatabaseAccess.Seats;
 
-        foreach (Seat s in listOfSeats)
+        List<Seat>? listOfSeats = new();
+
+        foreach (Seat s in seats)
         {
-            if (s.Flight.Airplane.AirplaneId == airplaneId && s.Flight.Departure == depart) listOfSeats.Add(s);
+            if (s.Flight.Airplane.AirplaneId == airplaneId && s.Flight.Departure == departure) listOfSeats.Add(s);
         }
 
 
