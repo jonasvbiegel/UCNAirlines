@@ -19,7 +19,7 @@ public class SeatsController : ControllerBase
     }
 
     // Returns seats from a specific flight
-    // GET /api/seats/UCN737 [departure from query]
+    // GET /api/seats/UCN737? [departure from query]
     [HttpGet("{airplaneId}")]
     public ActionResult<List<Seat>> GetSeatsFromAirplane(string airplaneId, [FromQuery] DateTime departure)
     {
@@ -33,12 +33,12 @@ public class SeatsController : ControllerBase
         }
 
 
-        if (listOfSeats == null) return NotFound();
+        if (listOfSeats == null) return new StatusCodeResult(500);
         return Ok(listOfSeats);
     }
 
     // Updates the IsBooked value of a specific seat
-    // PUT /api/seats/UCN 747 , takes a Seat object
+    // PUT /api/seats/UCN, Seat object in Body of request
     [HttpPut]
     public ActionResult<Seat> UpdateSeat(Seat seat)
     {
@@ -54,7 +54,7 @@ public class SeatsController : ControllerBase
             return Ok(foundSeat);
         }
 
-        return NotFound();
+        return new StatusCodeResult(500);
     }
 
 }
