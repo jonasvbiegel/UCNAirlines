@@ -64,14 +64,12 @@ public class SeatControllerTest
     public async void Test_PutSeatStatus()
     {
         //Arrange
-        // string airplaneId = "CES123";
-        // string uri = baseUri + airplaneId;
-
         Seat returnedSeat = new();
 
         SeatDatabaseAccess sdb = new();
 
-        Seat? seatToPut = sdb.Seats.Find(s => s.SeatName == "1A" && s.Flight.Airplane.AirplaneId == "CES123");
+        Flight? flightToUpdate = sdb.Flights.Find(f => f.Airplane.AirplaneId == "CES123");
+        Seat? seatToPut = sdb.Seats.Find(s => s.SeatName == "1A" && s.Flight.Airplane.AirplaneId == flightToUpdate.Airplane.AirplaneId);
         seatToPut.IsBooked = true;
 
         string json = JsonSerializer.Serialize(seatToPut);
