@@ -36,19 +36,21 @@ public class SeatsController : ControllerBase
     }
 
     // Updates the IsBooked value of a specific seat
-    // PUT /api/seats/UCN747 [departure, SeatName and NewBookedStatus from header]
-    [HttpPut("{airplaneId}")]
-    public ActionResult<Seat> UpdateSeat(string airplaneId, [FromHeader] DateTime depart, [FromHeader] string seatName, [FromHeader] bool newBookedStatus)
+    // PUT /api/seats/UCN 747 [departure, SeatName and NewBookedStatus from header]
+    // [HttpPut("{airplaneId}")]
+    [HttpPut]
+    // public ActionResult<Seat> UpdateSeat(string airplaneId, [FromHeader] DateTime depart, [FromHeader] string seatName, [FromHeader] bool newBookedStatus)
+    public ActionResult<Seat> UpdateSeat(Seat seat)
     {
 
         List<Flight>? flights = seatDatabaseAccess.Flights;
-        Flight? flight = flights.Find(f => f.Airplane.AirplaneId == airplaneId && f.Departure == depart);
+        Flight? flight = flights.Find(f => f.Airplane.AirplaneId == seat.Flight.Airplane.AirplaneId && f.Departure == seat.Flight.Departure);
 
-        Seat? foundSeat = seatDatabaseAccess.Seats.Find(s => s.SeatName == seatName && s.Flight == flight);
+        Seat? foundSeat = seatDatabaseAccess.Seats.Find(s => s.SeatName == seat.SeatName && s.Flight == flight);
 
         if (foundSeat != null)
         {
-            foundSeat.IsBooked = true;
+            foundSeat.IsBooked = seat.IsBooked;
             return Ok(foundSeat);
         }
 
