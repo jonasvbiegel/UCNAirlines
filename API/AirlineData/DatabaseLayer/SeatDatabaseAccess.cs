@@ -8,8 +8,8 @@ namespace AirlineData.DatabaseLayer
         public List<Flight> Flights { get; }
         public SeatDatabaseAccess()
         {
-            Airplane a1 = new() { AirplaneId = "CES123", Model = "Cessna", SeatRows = 2, SeatColumns = 2 };
-            Airplane a2 = new() { AirplaneId = "BOE123", Model = "Boeing", SeatRows = 2, SeatColumns = 2 };
+            Airplane a1 = new() { AirplaneId = "UCN123", Airline = "UCN", SeatRows = 2, SeatColumns = 2 };
+            Airplane a2 = new() { AirplaneId = "SAS123", Airline = "SAS", SeatRows = 2, SeatColumns = 2 };
             DateTime departure = DateTime.Parse("04/24/2025 20:00:00");
             Flight f1 = new() { Airplane = a1, Departure = departure };
             Flight f2 = new() { Airplane = a2, Departure = departure };
