@@ -41,7 +41,6 @@ CREATE TABLE Airplane (
     seat_columns INT NOT NULL
 );
 
-
 CREATE TABLE Flight_Route (
     flight_route_id INT IDENTITY(1,1) PRIMARY KEY,
     start_destination_FK VARCHAR(16) FOREIGN KEY REFERENCES Airport(icao_code),
