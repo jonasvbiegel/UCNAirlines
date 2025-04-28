@@ -6,7 +6,7 @@ public class Airplane
 {
     public string? AirplaneId { get; set; }
 
-    public string? Model { get; set; }
+    public string? Airline { get; set; }
     public int Capacity
     {
         get
