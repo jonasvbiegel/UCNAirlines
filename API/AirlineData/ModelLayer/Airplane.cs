@@ -4,7 +4,6 @@ namespace AirlineData.ModelLayer;
 
 public class Airplane
 {
-    // [JsonIgnore]
     public string? AirplaneId { get; set; }
 
     public string? Model { get; set; }
