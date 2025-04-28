@@ -1,5 +1,6 @@
 ﻿using AirlineData.ModelLayer;
-
+using Dapper;
+using Microsoft.Data.SqlClient;
 namespace AirlineData.DatabaseLayer;
 
 public class SeatDB : ISeatDB
@@ -8,6 +9,10 @@ public class SeatDB : ISeatDB
 
     public List<Seat>? GetAllSeats()
     {
+        string sql = "SELECT * FROM Seats";
+
+
+
         throw new NotImplementedException();
     }
     public List<Seat>? GetSeatsFromFlight(string airline, DateTime departure)
