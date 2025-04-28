@@ -17,12 +17,27 @@ public class DatabaseTest
         List<Seat>? listOfSeats;
         SeatDB sdb = new();
 
+        string expectedIcaoCode = "AALB";
+        string expectedSeatName = "1A";
+
         //Act
         listOfSeats = sdb.GetAllSeats();
 
         // listOfSeats = await client.GetFromJsonAsync<List<Seat>>(baseUri);
 
         //Assert
+
+        // string actualIcaoCode = listOfSeats[0].Flight.Route.StartDestination.IcaoCode;
+        // Assert.Equal(expectedIcaoCode, actualIcaoCode);
+
+        // string actualSeatName = listOfSeats[0].SeatName;
+        // string actualSeatName = listOfSeats.First().SeatName;
+        // Assert.Equal(expectedSeatName, actualSeatName);
+
+        foreach (Seat s in listOfSeats)
+        {
+            Console.WriteLine(s);
+        }
         Assert.NotEmpty(listOfSeats);
     }
 }
