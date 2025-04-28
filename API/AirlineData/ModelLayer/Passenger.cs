@@ -8,4 +8,5 @@ public class Passenger
     public DateOnly BirthDate { get; set; }
     public bool Baggage { get; set; }
     public Booking? Booking { get; set; }
+    public Seat? Seat { get; set; }
 }

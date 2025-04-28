@@ -36,8 +36,14 @@ public class DatabaseTest
 
         foreach (Seat s in listOfSeats)
         {
-            Console.WriteLine(s);
+            // Console.WriteLine(s);
+            // Console.WriteLine(s.Flight.Departure);
+            // Console.WriteLine(s.Flight.Airplane.Airline);
+            // Console.WriteLine(s.Flight.Route.FlightRouteId);
+            Console.WriteLine(s.Flight.Route.StartDestination.AirportName + " " + s.Flight.Route.EndDestination.AirportName);
         }
+        Assert.Equal(expectedIcaoCode, listOfSeats.First().Flight.Route.StartDestination.IcaoCode);
+
         Assert.NotEmpty(listOfSeats);
     }
 }

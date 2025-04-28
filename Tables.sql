@@ -10,7 +10,7 @@ CREATE TABLE Country (
 CREATE TABLE City_Zip_Code (
     zipcode VARCHAR(16) NOT NULL PRIMARY KEY,
     city VARCHAR(32) NOT NULL,
-    country_id INT FOREIGN KEY REFERENCES Country(country_id)
+    country_id_FK INT FOREIGN KEY REFERENCES Country(country_id)
 );
 
 CREATE TABLE Customer (
@@ -24,7 +24,7 @@ CREATE TABLE Customer (
 
 CREATE TABLE Booking (
     booking_id INT IDENTITY(1,1) PRIMARY KEY,
-    customer_id INT FOREIGN KEY REFERENCES Customer(customer_id)
+    customer_id_FK INT FOREIGN KEY REFERENCES Customer(customer_id)
 );
 
 CREATE TABLE Airplane (
@@ -37,29 +37,29 @@ CREATE TABLE Airplane (
 CREATE TABLE Airport (
     icao_code VARCHAR(16) NOT NULL PRIMARY KEY,
     airport_name VARCHAR(128) NOT NULL,
-    zipcode VARCHAR(16) FOREIGN KEY REFERENCES City_Zip_Code(zipcode)
+    zipcode_FK VARCHAR(16) FOREIGN KEY REFERENCES City_Zip_Code(zipcode)
 );
 
 CREATE TABLE Flight_Route (
     flight_route_id INT IDENTITY(1,1) PRIMARY KEY,
-    start_destination VARCHAR(16) FOREIGN KEY REFERENCES Airport(icao_code),
-    end_destination VARCHAR(16) FOREIGN KEY REFERENCES Airport(icao_code),
-    CHECK (start_destination <> end_destination),
-    UNIQUE(start_destination, end_destination)
+    start_destination_FK VARCHAR(16) FOREIGN KEY REFERENCES Airport(icao_code),
+    end_destination_FK VARCHAR(16) FOREIGN KEY REFERENCES Airport(icao_code),
+    CHECK (start_destination_FK <> end_destination_FK),
+    UNIQUE(start_destination_FK, end_destination_FK)
 );
 
 CREATE TABLE Flight (
     flight_id INT IDENTITY(1,1) PRIMARY KEY,
-    airplane_id VARCHAR(128) FOREIGN KEY REFERENCES Airplane(airplane_id),
     datetime DATETIME NOT NULL,
-    flight_route_id INT FOREIGN KEY REFERENCES Flight_Route(flight_route_id)
+    airplane_id_FK VARCHAR(128) FOREIGN KEY REFERENCES Airplane(airplane_id),
+    flight_route_id_FK INT FOREIGN KEY REFERENCES Flight_Route(flight_route_id)
 )
 
 CREATE TABLE Seat (
     seat_id INT IDENTITY(1,1) PRIMARY KEY,
     seat_name VARCHAR(128) NOT NULL,
     is_booked BIT NOT NULL,
-    flight_id INT NOT NULL FOREIGN KEY REFERENCES Flight(flight_id),
+    flight_id_FK INT NOT NULL FOREIGN KEY REFERENCES Flight(flight_id),
 );
 
 CREATE TABLE Passenger (
@@ -68,8 +68,8 @@ CREATE TABLE Passenger (
     last_name VARCHAR(64) NOT NULL,
     birth_date DATE NOT NULL,
     baggage BIT NOT NULL,
-    booking_id INT NOT NULL FOREIGN KEY REFERENCES Booking(booking_id),
-    seat_id INT NOT NULL FOREIGN KEY REFERENCES Seat(seat_id) UNIQUE
+    booking_id_FK INT NOT NULL FOREIGN KEY REFERENCES Booking(booking_id),
+    seat_id_FK INT NOT NULL FOREIGN KEY REFERENCES Seat(seat_id) UNIQUE
 )
 
 
