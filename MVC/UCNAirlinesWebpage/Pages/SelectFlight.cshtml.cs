@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using UCNAirlineApp.Models;
 using UCNAirlinesWebpage.Models;
 
-namespace UCNAirlineApp.Pages
+namespace UCNAirlinesWebpage.Pages
 {
     public class IndexModel : PageModel
     {
