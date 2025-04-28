@@ -19,8 +19,16 @@ public class SeatDB : ISeatDB
         return con.Query<Seat>(sql).ToList();
     }
 
-    public List<Seat>? GetSeatsFromFlight(string airline, DateTime departure)
+    public List<Seat>? GetSeatsFromFlight(Flight flight)
     {
+        string sql = "SELECT * FROM Seats WHERE flight_id = @Flight_id";
+
+        using SqlConnection con = new(_connectionString);
+
+        con.Open();
+
+        return con.Query<Seat>(sql, new { Flight_id = 1 }).ToList();
+
         throw new NotImplementedException();
     }
 
