@@ -52,7 +52,7 @@ public class SeatControllerTest
             seatsOfFlight = await response.Content.ReadFromJsonAsync<List<Seat>>();
         }
 
-        string foundAirplaneModel = seatsOfFlight.Find(s => s.SeatName == "1A").Flight.Airplane.Model;
+        string foundAirplaneModel = seatsOfFlight.Find(s => s.SeatName == "1A").Flight.Airplane.Airline;
 
         //Assert
         Assert.NotEmpty(seatsOfFlight);

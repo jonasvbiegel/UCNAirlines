@@ -18,6 +18,7 @@ public class SeatDB : ISeatDB
 
         return con.Query<Seat>(sql).ToList();
     }
+
     public List<Seat>? GetSeatsFromFlight(string airline, DateTime departure)
     {
         throw new NotImplementedException();
