@@ -5,7 +5,7 @@ namespace AirlineData.DatabaseLayer;
 
 public class SeatDB : ISeatDB
 {
-    private readonly string _connectionString = "Data Source = localhost; Initial Catalog = Razor; Persist Security Info=True; User ID = sa; Password=@12tf56so; Encrypt=False";
+    private readonly string _connectionString = "Data Source = localhost; Initial Catalog = UCNAirlines; Persist Security Info=True; User ID = sa; Password=@12tf56so; Encrypt=False";
 
     public List<Seat>? GetAllSeats()
     {
@@ -27,7 +27,7 @@ public class SeatDB : ISeatDB
 
         con.Open();
 
-        return con.Query<Seat>(sql, new { Flight_id = 1 }).ToList();
+        return con.Query<Seat>(sql, new { Flight_id = flight.FlightId }).ToList();
 
         throw new NotImplementedException();
     }
