@@ -25,11 +25,11 @@ namespace UCNAirlineApp.Pages
 
         public void OnGet()
         {
-            var airplane1 = new Airplane("NotBoeingA");
-            var airplane2 = new Airplane("NotBoeingB");
+            Airplane airplane1 = new Airplane("NotBoeingA");
+            Airplane airplane2 = new Airplane("NotBoeingB");
 
-            var route1 = new Flightroute("Aalborg", "Nuuk");
-            var route2 = new Flightroute("Aalborg", "Nuuk");
+            Flightroute route1 = new Flightroute("Aalborg", "Nuuk");
+            Flightroute route2 = new Flightroute("Aalborg", "Nuuk");
 
             DateTime departure1 = DateTime.Today.AddHours(10);
             DateTime departure2 = DateTime.Today.AddHours(22);
