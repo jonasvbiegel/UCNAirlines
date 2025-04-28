@@ -1,4 +1,6 @@
-DROP TABLE IF EXISTS Flight, Flight_Route, Airport, Boarding_Pass, Seat, Airplane, Passenger, Booking, Customer, City_Zip_Code, Country;
+USE UCNAirlines;
+
+DROP TABLE IF EXISTS Boarding_Pass, Seat, Flight, Flight_Route, Airport, Airplane, Passenger, Booking, Customer, City_Zip_Code, Country;
 
 CREATE TABLE Country (
     country_id INT IDENTITY(1,1) PRIMARY KEY,
@@ -40,20 +42,6 @@ CREATE TABLE Airplane (
     seat_columns INT NOT NULL
 );
 
-CREATE TABLE Seat (
-    seat_id VARCHAR(128) NOT NULL PRIMARY KEY,
-    seat_name VARCHAR(128) NOT NULL,
-    is_booked BIT NOT NULL,
-    flight_id_FK VARCHAR(128) NOT NULL FOREIGN KEY REFERENCES Flight(flight_id)
-);
-
-CREATE TABLE Boarding_Pass (
-    booking_id_FK INT FOREIGN KEY REFERENCES Booking(booking_id),
-    passport_no_FK VARCHAR(128) FOREIGN KEY REFERENCES Passenger(passport_no),
-    seat_id_FK VARCHAR(128) FOREIGN KEY REFERENCES Seat(seat_id),
-    PRIMARY KEY (booking_id_FK, passport_no_FK)
-);
-
 CREATE TABLE Airport (
     airport_id VARCHAR(128) NOT NULL PRIMARY KEY,
     airport_name VARCHAR(128) NOT NULL,
@@ -75,3 +63,19 @@ CREATE TABLE Flight (
     departure DATETIME NOT NULL,
     flight_route_id_FK INT FOREIGN KEY REFERENCES Flight_Route(flight_route_id)
 )
+
+CREATE TABLE Seat (
+    seat_id VARCHAR(128) NOT NULL PRIMARY KEY,
+    seat_name VARCHAR(128) NOT NULL,
+    is_booked BIT NOT NULL,
+    flight_id_FK int NOT NULL FOREIGN KEY REFERENCES Flight(flight_id)
+);
+
+CREATE TABLE Boarding_Pass (
+    booking_id_FK INT FOREIGN KEY REFERENCES Booking(booking_id),
+    passport_no_FK VARCHAR(128) FOREIGN KEY REFERENCES Passenger(passport_no),
+    seat_id_FK VARCHAR(128) FOREIGN KEY REFERENCES Seat(seat_id),
+    PRIMARY KEY (booking_id_FK, passport_no_FK)
+);
+
+
