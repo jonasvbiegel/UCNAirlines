@@ -1,0 +1,80 @@
+﻿@page
+@model UCNAirlineApp.Pages.IndexModel
+
+<style>
+    .centered-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        margin-bottom: 120px;
+    }
+
+    table {
+        width: 50%;
+        font-size: 1.3rem;
+    }
+
+    th, td {
+        padding: 12px 20px;
+        border-bottom: 1px solid #ccc; /* streg under hver række */
+        text-align: center;
+    }
+
+    thead {
+        background-color: lightblue;
+        border-bottom: 2px solid #888;
+    }
+
+    button {
+        padding: 6px 12px;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+</style>
+
+<h1 style="text-align: center; margin-top: auto">Select a flight</h1>
+<br />
+
+<div style="margin-bottom: 20px;">
+    <strong>From:</strong> @Model.From
+    <br />
+    <strong>To:</strong> @Model.To
+    <br />
+    <strong>Date:</strong> @Model.Date
+    <br />
+    <strong>Passenger:</strong> @Model.Passenger
+
+</div>
+
+<div class="centered-container">
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Flight Model</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Date</th>
+                <th>Departure Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var flight in Model.Flights)
+            {
+                <tr>
+                    <td>@flight.Airplane.AirplaneModel</td>
+                    <td>@Model.From</td>
+                    <td>@Model.To</td>
+                    <td>@Model.Date</td>
+                    <td>@flight.Departure.ToString("HH:mm")</td>
+
+                    <td>
+                        <a asp-page="/Privacy" asp-route-FlightName="@flight.Airplane.AirplaneId" target="_blank">
+                            <button>Select</button>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
