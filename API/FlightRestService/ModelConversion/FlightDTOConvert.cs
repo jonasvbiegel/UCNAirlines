@@ -39,7 +39,7 @@ namespace FlightRestService.ModelConversion
             Flight? flight = null;
             if (flightDto != null)
             {
-                flight = new Flight(flightDto.Departure,flightDto.Airplane,flightDto.Route);
+                flight = new Flight(flightDto.Departure_time_and_date,flightDto.Airplane,flightDto.Route);
             }
             return flight;
         }

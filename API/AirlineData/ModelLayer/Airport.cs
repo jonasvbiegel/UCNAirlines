@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace AirlineData.ModelLayer
@@ -22,9 +23,10 @@ namespace AirlineData.ModelLayer
             AirportId = airportId;
             
         }
-
+        [JsonIgnore]
         public int AirportId { get; set; }
         public string AirportName { get; set; }
+        [JsonIgnore]
         public  string Code { get; set; }    
         public string Zipcode { get; set; }
 
