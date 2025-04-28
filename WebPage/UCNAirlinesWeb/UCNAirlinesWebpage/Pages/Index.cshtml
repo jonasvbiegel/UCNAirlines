@@ -1,65 +1,82 @@
 ﻿@page
-@model UCNAirlineApp.Pages.IndexModel
+@model UCNAirlinesWebpage.Pages.IndexModel
+@{
+}
 
-<style>
-    .centered-container {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-        margin-bottom: 120px;
-    }
+<h1 style="text-align: center; margin-top: auto">Book Your Trip</h1>
 
-    table {
-        width: 50%;
-        font-size: 1.3rem;
-    }
-
-    th, td {
-        padding: 12px 20px;
-        border-bottom: 1px solid #ccc; /* streg under hver række */
-        text-align: center;
-    }
-
-    thead {
-        background-color: #f0f0f0;
-        border-bottom: 2px solid #888;
-    }
-
-    button {
-        padding: 6px 12px;
-        font-size: 1rem;
-        cursor: pointer;
-    }
-
-</style>
-
-<h1 style="text-align: center; margin-top: auto">Select a flight</h1>
 <br />
-<div class="centered-container">
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Flight Name</th>
-                <th>From</th>
-                <th>To</th>
-                <th>Time</th>
-                <th>Select</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var flight in Model.Flights)
-            {
-                <tr>
-                    <td>@flight.Airplane.Model</td>
-                    <td>@flight.Route.StartDestination</td>
-                    <td>@flight.Route.EndDestination</td>
-                    <td>@flight.Departure</td>
-                    <td>
-                        <a asp-page="/Privacy" asp-route-FlightName="@flight.Airplane.AirplaneId" target="_blank">
-                            <button>Select</button>
-                        </a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<br />
+
+<form method="get" asp-page="SelectFlight">
+	<label>From:</label>
+	<select id="fromSelect" name="from" onchange="updateToOptions()" required>
+		<option value="">-- selected Departure --</option>
+		<option value="Aalborg">Aalborg</option>
+		<option value="Nuuk">Nuuk</option>
+	</select>
+
+	<label>To:</label>
+	<select id="toSelect" name="to" required>
+		<option value="">-- selected Arrival --</option>
+		<option value="Aalborg">Aalborg</option>
+		<option value="Nuuk">Nuuk</option>
+	</select>
+
+<br />
+<br />
+
+	<label>Date:</label>
+	<input type="date" name="date" required />
+
+<br />
+<br />
+
+	<label>Passenger:</label>
+	<select name="passenger" required>
+		<option value="">-- select passenger --</option>
+		<option value="1">1</option>
+		<option value="2">2</option>
+		<option value="3">3</option>
+		<option value="4">4</option>
+		<option value="5">5</option>
+		<option value="6">6</option>
+		<option value="7">7</option>
+		<option value="8">8</option>
+		<option value="9">9</option>
+		<option value="10">10</option>
+	</select>
+
+<br />
+<br />
+	
+<button type="Submit">Select</button>
+
+</form>
+
+<script>
+	function updateToOptions()
+	{
+		var fromSelect = document.getElementById('fromSelect');
+		var toSelect = document.getElementById('toSelect');
+		var selectedFrom = fromSelect.value;
+
+		var allOptions = [
+			{ value: "Aalborg", text: "Aalborg"},
+			{ value: "Nuuk", text: "Nuuk"}
+		];
+
+		toSelect.innerHTML = '<option value="">--select Destination--</option>';
+
+		for (var i = 0; i < allOptions.length; i++)
+			{
+				if (allOptions[i].value !== selectedFrom)
+				{
+					var option = document.createElement("option");
+					option.value = allOptions[i].value;
+					option.text = allOptions[i].text;
+					toSelect.appendChild(option);
+				}
+			}
+	}
+</script>

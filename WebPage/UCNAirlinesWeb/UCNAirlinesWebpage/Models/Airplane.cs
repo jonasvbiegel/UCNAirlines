@@ -3,25 +3,25 @@
     public class Airplane
     {
         public string AirplaneId { get; set; }
-        public string Model { get; set; }
+        public string AirplaneModel { get; set; }
         public int SeatColumns { get; set; }
         public int SeatRows { get; set; }
         public int Capacity { get; }
 
-        public Airplane(string airplaneId, string model, int seatColumns, int seatRows)
+        public Airplane(string airplaneId, string airplaneModel, int seatColumns, int seatRows)
         {
             AirplaneId = airplaneId;
-            Model = model;
+            AirplaneModel = airplaneModel;
             SeatColumns = seatColumns;
             SeatRows = seatRows;
             Capacity = seatColumns * seatRows;
 
         }
 
-        public Airplane(string model)
+        public Airplane(string airplaneModel)
         {
-            AirplaneId = model;
-            Model = model;
+            AirplaneId = airplaneModel;
+            AirplaneModel = airplaneModel;
         }
     }
     
