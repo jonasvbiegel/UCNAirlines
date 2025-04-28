@@ -1,6 +1,5 @@
-﻿using UCNAirlinesWebpage.Models;
-
-namespace UCNAirlineApp.Models
+﻿
+namespace UCNAirlinesWebpage.Models
 {
     public class Flight
     {
@@ -10,9 +9,11 @@ namespace UCNAirlineApp.Models
 
         public Flight(Flightroute route, Airplane airplane, DateTime departure)
         {
+
             Route = route;
             Airplane = airplane;
             Departure = departure;
         }
+
     }
 }
