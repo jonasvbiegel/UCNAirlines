@@ -8,6 +8,7 @@ namespace APIService.Controllers;
 [ApiController]
 public class SeatsController : ControllerBase
 {
+    private readonly ISeatDB seatDB = new SeatDB();
     private readonly SeatDatabaseAccess seatDatabaseAccess = new();
 
     // Returns all seats
@@ -15,7 +16,8 @@ public class SeatsController : ControllerBase
     [HttpGet]
     public ActionResult<List<Seat>> GetSeats()
     {
-        return Ok(seatDatabaseAccess.Seats);
+        // return Ok(seatDatabaseAccess.Seats);
+        return Ok(seatDB.GetAllSeats());
     }
 
     // Returns seats from a specific flight

@@ -24,7 +24,6 @@ public class SeatDB : ISeatDB
         using SqlConnection con = new(_connectionString);
         con.Open();
 
-        // var reader = con.ExecuteReader(sql);
         SqlCommand cmd = new SqlCommand(sql, con);
         SqlDataReader reader = cmd.ExecuteReader();
 
@@ -32,8 +31,6 @@ public class SeatDB : ISeatDB
 
         while (reader.Read())
         {
-
-
             int flightRouteId = (int)reader["flight_route_id"];
 
             Tuple<Airport, Airport> airports = FindAirports(flightRouteId);
