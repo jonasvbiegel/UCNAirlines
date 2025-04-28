@@ -9,11 +9,14 @@ public class SeatDB : ISeatDB
 
     public List<Seat>? GetAllSeats()
     {
+
         string sql = "SELECT * FROM Seats";
 
+        using SqlConnection con = new(_connectionString);
 
+        con.Open();
 
-        throw new NotImplementedException();
+        return con.Query<Seat>(sql).ToList();
     }
     public List<Seat>? GetSeatsFromFlight(string airline, DateTime departure)
     {
