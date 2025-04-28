@@ -8,7 +8,8 @@ namespace AirlineData.ModelLayer
 {
     public class FlightRoute
     {
-        public string? DepartureAirport { get; set; }//airport
-        public string? ArrivalAirport { get; set; }//airport
+        public int FlightRouteId { get; set; }
+        public Airport? StartDestination { get; set; }
+        public Airport? EndDestination { get; set; }
     }
 }
