@@ -15,34 +15,35 @@ namespace FlightRestService.Controllers
         public FlightsController(IFlightData businessLogic)
         {
             _businessLogic = businessLogic;
-        } 
+        }
 
         // GET: api/<FlightsController>
-        [HttpGet]
-        public ActionResult<List<FlightDTO>> GetAllFlights()
+        [HttpGet, Route("GetAllFlightsByDate")]
+        public ActionResult<List<FlightDTO>> GetAllFlights([FromQuery] DateTime date)
         {
 
             ActionResult<List<FlightDTO>> foundFlights;
-            List<FlightDTO> flightsDto = _businessLogic.Get();
-            if (flightsDto != null) 
+            List<FlightDTO> flightsDto = _businessLogic.Get(date);
+            if (flightsDto != null)
             {
                 if (flightsDto.Count > 0)
                 {
                     foundFlights = Ok(flightsDto);
-                }else 
+                }
+                else
                 {
                     foundFlights = new StatusCodeResult(204);
                 }
             }
             else
             {
-                foundFlights = new StatusCodeResult(500);  
+                foundFlights = new StatusCodeResult(500);
             }
             return foundFlights;
         }
 
         // GET api/<FlightsController>/5
-        [HttpGet,Route("{id}")]
+        [HttpGet, Route("{id}")]
         public ActionResult<FlightDTO> Get(int id)
         {
             ActionResult<FlightDTO> foundFlight;
@@ -53,27 +54,48 @@ namespace FlightRestService.Controllers
             }
             else
             {
-                foundFlight = new StatusCodeResult(500);
+                foundFlight = new StatusCodeResult(404);
             }
-                return foundFlight;
+            return foundFlight;
         }
 
-    //    // POST api/<FlightsController>
-    //    [HttpPost]
-    //    public void Post([FromBody] string value)
-    //    {
-    //    }
+        //Kun STAFF/Admin kan oprette nye flyvninger
+        // POST api/<FlightsController>
+        [HttpPost, Route("flights")]
+        public ActionResult<int> PostNewFlight(FlightDTO newFlight)
+        {
+            ActionResult<int> foundFlight;
+            int insertedFlight = -1;
+            if (newFlight != null)
+            {
+                insertedFlight = _businessLogic.Create(newFlight);
+            }
 
-    //    // PUT api/<FlightsController>/5
-    //    [HttpPut("{id}")]
-    //    public void Put(int id, [FromBody] string value)
-    //    {
-    //    }
+            //Evaluate
+            if (insertedFlight > 0)
+            {
+                foundFlight = Ok(insertedFlight);
+            }
+            else if (insertedFlight == 0)
+            {
+                foundFlight = BadRequest();  // missing input
+            }
+            else
+            {
+                foundFlight = new StatusCodeResult(500); // Internal server error
+            }
+            return foundFlight;
+        }
+            //    // PUT api/<FlightsController>/5
+            //    [HttpPut("{id}")]
+            //    public void Put(int id, [FromBody] string value)
+            //    {
+            //    }
 
-    //    // DELETE api/<FlightsController>/5
-    //    [HttpDelete("{id}")]
-    //    public void Delete(int id)
-    //    {
-    //    }
+            //    // DELETE api/<FlightsController>/5
+            //    [HttpDelete("{id}")]
+            //    public void Delete(int id)
+            //    {
+            //    
     }
 }

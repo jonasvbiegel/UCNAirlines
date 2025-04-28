@@ -14,5 +14,6 @@ namespace AirlineData.DatabaseLayer
         int CreateFlight(Flight flight);
         bool UpdateFlight(Flight flight);
         bool DeleteFlightById(int id);
+        List<Flight> GetAllFlightsByDate(DateTime date);
     }
 }

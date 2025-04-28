@@ -54,11 +54,11 @@ namespace FlightRestService.BusinessLogicLayer
            return flightDTO;
         }
 
-        public List<FlightDTO> Get()
+        public List<FlightDTO> Get(DateTime date)
         {
             List<FlightDTO> flightsDTO;
             try {
-                List<Flight> flights = _flightAccess.GetAllFlights();
+                List<Flight> flights = _flightAccess.GetAllFlightsByDate(date);
                 flightsDTO = FlightDTOConvert.FromFlightCollection(flights);
             }
             catch
@@ -67,6 +67,8 @@ namespace FlightRestService.BusinessLogicLayer
             }
             return flightsDTO;
             }
+
+
 
         public bool Update(FlightDTO flightUpdate)
         {

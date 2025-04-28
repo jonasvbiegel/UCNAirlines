@@ -34,7 +34,7 @@ namespace AirlineData.DatabaseLayer
             Flight flight1 = new(1,departureDate1, airplane1, flightRoute1);
             flight1.ListOfSeats = seatList1;
             Flight flight2 = new(2,departureDate2,airplane2,flightRoute2);
-            flight2.ListOfSeats = seatList2;    
+            flight2.ListOfSeats = seatList2;
             Flights.Add(flight1);
             Flights.Add(flight2);
         }
@@ -54,6 +54,19 @@ namespace AirlineData.DatabaseLayer
                 }
             }
             return flight;
+        }
+
+        public List<Flight> GetAllFlightsByDate(DateTime date)
+        {
+            List<Flight> flights = new List<Flight>();
+            foreach (Flight f in Flights)
+            {
+                if (f.Departure.Date == date.Date)
+                {
+                    flights.Add(f);
+                }
+            }
+            return flights;
         }
 
         public int CreateFlight(Flight flight)
