@@ -27,11 +27,11 @@
 <br />
 
 	<label>Date:</label>
-	<input type="date" name="date" required />
+	<input type="date" name="date" min="@DateTime.Today.ToString("yyyy-MM-dd")" required />
 
 <br />
 <br />
-
+	
 	<label>Passenger:</label>
 	<select name="passenger" required>
 		<option value="">-- select passenger --</option>
