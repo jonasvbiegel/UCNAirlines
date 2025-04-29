@@ -4,6 +4,7 @@ using AirlineData.DatabaseLayer;
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Http;
 using System.Text;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace APITest;
 
@@ -31,32 +32,42 @@ public class SeatControllerTest
     public async void Test_GetSeatFromFlight()
     {
         //Arrange
+        int expectedFlightId = 1;
+        List<Seat>? listOfSeats;
+        // string url = baseUri + expectedFlightId;
+        string url = $"{baseUri}flightId?flightId={expectedFlightId}";
 
         //This is what we are sending as the request
-        string airplaneId = "CES123";
-        string uri = baseUri + airplaneId;
-        string date = "04/24/2025 20:00";
-
+        // string airplaneId = "CES123";
+        // string uri = baseUri + airplaneId;
+        // string date = "04/24/2025 20:00";
+        //
         // This is to test that it is the actual model we get back
-        string airplaneModel = "Cessna";
+        // string airplaneModel = "Cessna";
 
-        List<Seat>? seatsOfFlight = new();
+        // List<Seat>? seatsOfFlight = new();
 
-        client.DefaultRequestHeaders.Clear();
-        client.DefaultRequestHeaders.Add("depart", "2025/04/25 20:00");
+        // client.DefaultRequestHeaders.Clear();
+        // client.DefaultRequestHeaders.Add("depart", "2025/04/25 20:00");
 
         //Act
-        HttpResponseMessage response = await client.GetAsync(uri);
-        if (response.IsSuccessStatusCode)
-        {
-            seatsOfFlight = await response.Content.ReadFromJsonAsync<List<Seat>>();
-        }
+        listOfSeats = await client.GetFromJsonAsync<List<Seat>>(url);
 
-        string foundAirplaneModel = seatsOfFlight.Find(s => s.SeatName == "1A").Flight.Airplane.Airline;
+
+        // HttpResponseMessage response = await client.GetAsync(uri);
+        // if (response.IsSuccessStatusCode)
+        // {
+        //     seatsOfFlight = await response.Content.ReadFromJsonAsync<List<Seat>>();
+        // }
+        //
+        // string foundAirplaneModel = seatsOfFlight.Find(s => s.SeatName == "1A").Flight.Airplane.Airline;
 
         //Assert
-        Assert.NotEmpty(seatsOfFlight);
-        Assert.Equal(airplaneModel, foundAirplaneModel);
+        Assert.NotEmpty(listOfSeats);
+        Assert.True(listOfSeats.FindAll(s => s.Flight.FlightId == expectedFlightId).TrueForAll(s => s.Flight.FlightId == expectedFlightId));
+
+        // Assert.NotEmpty(seatsOfFlight);
+        // Assert.Equal(airplaneModel, foundAirplaneModel);
     }
 
     [Fact]

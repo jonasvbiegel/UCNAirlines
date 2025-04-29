@@ -37,12 +37,12 @@ public class SeatDB : ISeatDB
                     JOIN Flight ON flight_id_FK = flight_id 
                     JOIN Airplane ON airplane_id_FK = airplane_id 
                     JOIN Flight_Route ON flight_route_id_FK = flight_route_id 
-                    WHERE flight_id = @flight_id";
+                    WHERE flight_id = @Flight_id";
 
         using SqlConnection con = new(_connectionString);
         con.Open();
 
-        using var reader = con.ExecuteReader(sql, new { flight_id = flightRouteId });
+        using var reader = con.ExecuteReader(sql, new { Flight_id = flightRouteId });
 
         List<Seat> seats = new();
 
@@ -58,7 +58,24 @@ public class SeatDB : ISeatDB
 
     public Seat? GetSeat(int seatId)
     {
-        throw new NotImplementedException();
+        string sql = @"SELECT * FROM Seat 
+                    JOIN Flight ON flight_id_FK = flight_id 
+                    JOIN Airplane ON airplane_id_FK = airplane_id 
+                    JOIN Flight_Route ON flight_route_id_FK = flight_route_id 
+                    WHERE seat_id = @Seat_id";
+        Seat? foundSeat = null;
+
+        using SqlConnection con = new(_connectionString);
+        con.Open();
+
+        using var reader = con.ExecuteReader(sql, new { Seat_id = seatId });
+
+        while (reader.Read())
+        {
+            foundSeat = CreateSeatFromReader(reader);
+        }
+
+        return foundSeat;
     }
 
     public Seat? CreateSeat(Seat seat)
