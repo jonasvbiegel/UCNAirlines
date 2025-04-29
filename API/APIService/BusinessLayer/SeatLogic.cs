@@ -1,27 +1,30 @@
 ﻿using APIService.BusinessLayer;
+using AirlineData.DatabaseLayer;
 using AirlineData.ModelLayer;
 
-namespace APIService;
+namespace APIService.BusinessLayer;
 
 public class SeatLogic : ISeatLogic
 {
+    private readonly ISeatDB seatDB = new SeatDB();
+
     public List<Seat?>? GetSeats()
     {
-        throw new NotImplementedException();
+        return seatDB.GetAllSeats() ?? null;
     }
 
     public List<Seat?> GetSeatsFromFlight(int flightId)
     {
-        throw new NotImplementedException();
+        return seatDB.GetSeatsFromFlight(flightId);
     }
 
     public Seat? GetSeat(int seatId)
     {
-        throw new NotImplementedException();
+        return seatDB.GetSeat(seatId);
     }
 
     public Seat? UpdateSeat(Seat seat)
     {
-        throw new NotImplementedException();
+        return seatDB.UpdateSeat(seat);
     }
 }

@@ -8,7 +8,7 @@ public class SeatDB : ISeatDB
 {
     private readonly string _connectionString = "Data Source = localhost; Initial Catalog = UCNAirlines; Persist Security Info=True; User ID = sa; Password=@12tf56so; Encrypt=False";
 
-    public List<Seat>? GetAllSeats()
+    public List<Seat?>? GetAllSeats()
     {
 
         string sql = @"SELECT * FROM Seat 
@@ -31,7 +31,7 @@ public class SeatDB : ISeatDB
         return seats;
     }
 
-    public List<Seat>? GetSeatsFromFlight(int flightRouteId)
+    public List<Seat?>? GetSeatsFromFlight(int flightRouteId)
     {
         string sql = @"SELECT * FROM Seat 
                     JOIN Flight ON flight_id_FK = flight_id 
@@ -78,17 +78,7 @@ public class SeatDB : ISeatDB
         return foundSeat;
     }
 
-    public Seat? CreateSeat(Seat seat)
-    {
-        throw new NotImplementedException();
-    }
-
     public Seat? UpdateSeat(Seat seat)
-    {
-        throw new NotImplementedException();
-    }
-
-    public bool Delete(int seatId)
     {
         throw new NotImplementedException();
     }
