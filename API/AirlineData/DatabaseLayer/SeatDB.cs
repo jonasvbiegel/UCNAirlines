@@ -10,16 +10,10 @@ public class SeatDB : ISeatDB
     public List<Seat>? GetAllSeats()
     {
 
-        string sql = @"SELECT * FROM Seat s 
-            INNER Join Flight f on s.flight_id_FK = f.flight_id 
-            INNER JOIN Airplane a ON f.airplane_id_FK = a.airplane_id 
-            INNER JOIN Flight_Route fr on f.flight_route_id_FK = fr.flight_route_id 
-            INNER JOIN Airport startdest on fr.start_destination_FK = startdest.icao_code 
-            INNER JOIN Airport enddest ON fr.end_destination_FK = enddest.icao_code 
-            INNER JOIN City_Zip_Code zipstart on startdest.zipcode_FK = zipstart.zipcode 
-            INNER JOIN City_Zip_Code zipend ON enddest.zipcode_FK = zipend.zipcode 
-            INNER JOIN Country startcountry on zipstart.country_id_FK = startcountry.country_id 
-            INNER JOIN Country endcountry ON zipend.country_id_FK = endcountry.country_id";
+        string sql = @"SELECT * FROM Seat 
+                    JOIN Flight ON flight_id_FK = flight_id 
+                    JOIN Airplane ON airplane_id_FK = airplane_id 
+                    JOIN Flight_Route ON flight_route_id_FK = flight_route_id";
 
         using SqlConnection con = new(_connectionString);
         con.Open();
@@ -77,14 +71,6 @@ public class SeatDB : ISeatDB
 
     public List<Seat>? GetSeatsFromFlight(Flight flight)
     {
-        string sql = "SELECT* FROM Seats WHERE flight_id = @Flight_id";
-
-        using SqlConnection con = new(_connectionString);
-
-        con.Open();
-
-        return con.Query<Seat>(sql, new { Flight_id = flight.FlightId }).ToList();
-
         throw new NotImplementedException();
     }
 
@@ -113,11 +99,6 @@ public class SeatDB : ISeatDB
         string? startIcao;
         string? endIcao;
 
-        Tuple<Airport, Airport> tuple = new(null, null);
-
-        Airport airportStart;
-        Airport airportEnd;
-
         Airport[] airports = new Airport[2];
 
         using SqlConnection con = new(_connectionString);
@@ -133,11 +114,9 @@ public class SeatDB : ISeatDB
 
         using (var startReader = con.ExecuteReader(startAirportSql))
         {
-
-
             while (startReader.Read())
             {
-                airportStart = new()
+                airports[0] = new()
                 {
                     IcaoCode = startIcao,
                     Country = (string)startReader["country"],
@@ -145,8 +124,6 @@ public class SeatDB : ISeatDB
                     City = (string)startReader["city"],
                     Zipcode = (string)startReader["zipcode"]
                 };
-
-                airports[0] = airportStart;
             }
         }
 
@@ -154,16 +131,14 @@ public class SeatDB : ISeatDB
         {
             while (endReader.Read())
             {
-                airportEnd = new()
+                airports[1] = new()
                 {
-                    IcaoCode = startIcao,
+                    IcaoCode = endIcao,
                     Country = (string)endReader["country"],
                     AirportName = (string)endReader["airport_name"],
                     City = (string)endReader["city"],
                     Zipcode = (string)endReader["zipcode"]
                 };
-
-                airports[1] = airportEnd;
             }
 
         }
