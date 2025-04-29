@@ -10,11 +10,10 @@ namespace TestUCNAirlineWebpage
         public List<Flight> Flights { get; private set; }
 
         [Fact]  
-        public void NoFlightTest()
+        public void Test_FlightroutecannotBeNull()
         {
             //Arrange
-            
-
+        
             DateTime departure1 = DateTime.Today.AddHours(10);
             DateTime departure2 = DateTime.Today.AddHours(22);
             var airplane1 = new Airplane("NotBoeingA");
@@ -29,11 +28,9 @@ namespace TestUCNAirlineWebpage
                     new Flight(route1, airplane1,departure1),
                     new Flight(route2, airplane2, departure2),
                     new Flight(route3, airplane2, departure1)
-
-
                 };
-            //Act
 
+            //Act
             FlightController fc = new FlightController(); 
 
             //Assert
