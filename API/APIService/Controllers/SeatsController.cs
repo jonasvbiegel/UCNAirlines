@@ -11,8 +11,6 @@ namespace APIService.Controllers;
 [ApiController]
 public class SeatsController : ControllerBase
 {
-    // private readonly ISeatDB seatDB = new SeatDB();
-    // private readonly SeatDatabaseAccess seatDatabaseAccess = new();
     private readonly SeatLogic seatLogic = new();
 
     // Returns all seats
@@ -20,8 +18,6 @@ public class SeatsController : ControllerBase
     [HttpGet]
     public ActionResult<List<Seat>> GetSeats()
     {
-        // return Ok(seatDatabaseAccess.Seats);
-        // return Ok(seatDB.GetAllSeats());
         return Ok(seatLogic.GetSeats());
     }
 
@@ -30,7 +26,6 @@ public class SeatsController : ControllerBase
     [HttpGet("flightId")]
     public ActionResult<List<Seat>> GetSeatsFromAirplane(int flightId)
     {
-        // List<Seat>? listOfSeats = seatDB.GetSeatsFromFlight(flightId);
         List<Seat?>? listOfSeats = seatLogic.GetSeatsFromFlight(flightId);
         if (listOfSeats.IsNullOrEmpty()) return new StatusCodeResult(500);
         return Ok(listOfSeats);
@@ -39,7 +34,6 @@ public class SeatsController : ControllerBase
     [HttpGet("seatId")]
     public ActionResult<Seat> GetSeat(int seatId)
     {
-        // Seat? seat = seatDB.GetSeat(seatId);
         Seat? seat = seatLogic.GetSeat(seatId);
         if (seat == null) return new StatusCodeResult(500);
         return Ok(seat);
