@@ -1,5 +1,8 @@
 ﻿using AirlineData.DatabaseLayer;
 using AirlineData.ModelLayer;
+using APIService.BusinessLogicLayer;
+using APIService.DTOs;
+using APIService.ModelConversion;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIService.Controllers
@@ -8,40 +11,82 @@ namespace APIService.Controllers
     [ApiController]
     public class FlightsController : ControllerBase
     {
-        private FlightDatabaseAccess flightDatabaseAccess;
+        private readonly IFlightLogic _businessLogic;
+
+        public FlightsController(IFlightLogic businessLogic)
+        {
+            _businessLogic = businessLogic;
+        }
 
         // GET: api/<FlightsController>
-        [HttpGet]
-        public ActionResult<List<Flight>> GetAllFlights()
+        [HttpGet, Route("GetAllFlightsByDate")]
+        public ActionResult<List<FlightDTO>> GetAllFlights([FromQuery] DateTime date)
         {
-            flightDatabaseAccess = new FlightDatabaseAccess();
-            var flights = flightDatabaseAccess.Get();
-            return Ok(flights);
+
+            ActionResult<List<FlightDTO>> foundFlights;
+            List<FlightDTO> flightsDto = _businessLogic.Get(date);
+            if (flightsDto != null)
+            {
+                if (flightsDto.Count > 0)
+                {
+                    foundFlights = Ok(flightsDto);
+                }
+                else
+                {
+                    foundFlights = new StatusCodeResult(204);
+                }
+            }
+            else
+            {
+                foundFlights = new StatusCodeResult(500);
+            }
+            return foundFlights;
         }
 
         // GET api/<FlightsController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet, Route("{id}")]
+        public ActionResult<FlightDTO> Get(int id)
         {
-            return "value";
+            ActionResult<FlightDTO> foundFlight;
+            FlightDTO flightDTO = _businessLogic.Get(id);
+            if (flightDTO != null)
+            {
+                foundFlight = Ok(flightDTO);
+            }
+            else
+            {
+                foundFlight = new StatusCodeResult(404);
+            }
+            return foundFlight;
         }
 
+        //Kun STAFF/Admin kan oprette nye flyvninger
         // POST api/<FlightsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost, Route("flights")]
+        public ActionResult<int> PostNewFlight(FlightDTO newFlight)
         {
+            ActionResult<int> foundFlight;
+            int insertedFlight = -1;
+            if (newFlight != null)
+            {
+                insertedFlight = _businessLogic.Create(newFlight);
+            }
+
+            //Evaluate
+            if (insertedFlight > 0)
+            {
+                foundFlight = Ok(insertedFlight);
+            }
+            else if (insertedFlight == 0)
+            {
+                foundFlight = BadRequest();  // missing input
+            }
+            else
+            {
+                foundFlight = new StatusCodeResult(500); // Internal server error
+            }
+            return foundFlight;
         }
 
-        // PUT api/<FlightsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<FlightsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
