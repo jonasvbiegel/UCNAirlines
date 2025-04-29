@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace UCNAirlinesWebpage.Pages
+namespace UCNAirlinesWebpage.Views.Flight
 {
     //public class IndexModel : PageModel
     //{

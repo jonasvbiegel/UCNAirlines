@@ -1,6 +1,6 @@
-﻿@page
-@model UCNAirlinesWebpage.Pages.IndexModel
-@{
+﻿
+@* @model UCNAirlinesWebpage.Pages.IndexModel
+ *@@{
 }
 
 <h1 style="text-align: center; margin-top: auto">Book Your Trip</h1>
@@ -8,7 +8,7 @@
 <br />
 <br />
 
-<form method="get" asp-page="SelectFlight">
+<form method="get" asp-controller="Flight" asp-action="SelectFlight">
 	<label>From:</label>
 	<select id="fromSelect" name="from" onchange="updateToOptions()" required>
 		<option value="">-- selected Departure --</option>
