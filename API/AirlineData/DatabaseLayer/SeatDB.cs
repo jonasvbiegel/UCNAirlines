@@ -25,45 +25,7 @@ public class SeatDB : ISeatDB
 
         while (reader.Read())
         {
-            int flightRouteId = (int)reader["flight_route_id"];
-
-            Tuple<Airport, Airport> airports = FindAirports(flightRouteId);
-
-            Airport airportStart = airports.Item1;
-            Airport airportEnd = airports.Item2;
-
-            FlightRoute flightRoute = new()
-            {
-                FlightRouteId = (int)reader["flight_route_id"],
-                StartDestination = airportStart,
-                EndDestination = airportEnd
-            };
-
-            Airplane airplane = new()
-            {
-                AirplaneId = (string)reader["airplane_id"],
-                Airline = (string)reader["airline"],
-                SeatRows = (int)reader["seat_rows"],
-                SeatColumns = (int)reader["seat_columns"]
-            };
-
-            Flight flight = new()
-            {
-                FlightId = (int)reader["flight_id"],
-                Departure = (DateTime)reader["datetime"],
-                Airplane = airplane,
-                Route = flightRoute
-            };
-
-            Seat seat = new()
-            {
-                SeatId = (int)reader["seat_id"],
-                SeatName = (string)reader["seat_name"],
-                IsBooked = (bool)reader["is_booked"],
-                Flight = flight
-            };
-
-            seats.Add(seat);
+            seats.Add(CreateSeatFromReader(reader));
         }
 
         return seats;
@@ -71,6 +33,8 @@ public class SeatDB : ISeatDB
 
     public List<Seat>? GetSeatsFromFlight(Flight flight)
     {
+
+
         throw new NotImplementedException();
     }
 
@@ -92,6 +56,49 @@ public class SeatDB : ISeatDB
     public bool Delete(int seatId)
     {
         throw new NotImplementedException();
+    }
+
+    private Seat CreateSeatFromReader(SqlDataReader reader)
+    {
+        int flightRouteId = (int)reader["flight_route_id"];
+
+        Tuple<Airport, Airport> airports = FindAirports(flightRouteId);
+
+        Airport airportStart = airports.Item1;
+        Airport airportEnd = airports.Item2;
+
+        FlightRoute flightRoute = new()
+        {
+            FlightRouteId = (int)reader["flight_route_id"],
+            StartDestination = airportStart,
+            EndDestination = airportEnd
+        };
+
+        Airplane airplane = new()
+        {
+            AirplaneId = (string)reader["airplane_id"],
+            Airline = (string)reader["airline"],
+            SeatRows = (int)reader["seat_rows"],
+            SeatColumns = (int)reader["seat_columns"]
+        };
+
+        Flight flight = new()
+        {
+            FlightId = (int)reader["flight_id"],
+            Departure = (DateTime)reader["datetime"],
+            Airplane = airplane,
+            Route = flightRoute
+        };
+
+        Seat seat = new()
+        {
+            SeatId = (int)reader["seat_id"],
+            SeatName = (string)reader["seat_name"],
+            IsBooked = (bool)reader["is_booked"],
+            Flight = flight
+        };
+
+        return seat;
     }
 
     private Tuple<Airport, Airport> FindAirports(int id)
@@ -140,7 +147,6 @@ public class SeatDB : ISeatDB
                     Zipcode = (string)endReader["zipcode"]
                 };
             }
-
         }
 
         return Tuple.Create(airports[0], airports[1]);
