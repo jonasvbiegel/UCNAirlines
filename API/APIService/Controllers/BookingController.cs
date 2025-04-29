@@ -1,7 +1,6 @@
-﻿using APIService.DTOs;
+﻿using APIService.BusinessLogicLayer;
+using APIService.DTOs;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace APIService.Controllers
 {
@@ -10,30 +9,31 @@ namespace APIService.Controllers
     public class BookingController : ControllerBase
     {
 
-        //private readonly IBookingLogic _businessLogicCtrl;
+        private readonly IBookingLogic _businessLogicCtrl;
 
-        public BookingController(IBookingLogic InbusinessLogicCtrl) {
-            
-            //_businessLogicCtrl = inBusinessLogicCtrl;
+        public BookingController(IBookingLogic InBusinessLogicCtrl) {
+
+            _businessLogicCtrl = InBusinessLogicCtrl;
         }
+
         // POST api/<BookingController>
         [HttpPost]
-        public ActionResult<BookingDTO> CreateBooking([FromBody] BookingDTO bookingDto)
+        public ActionResult<int> CreateBooking(BookingDTO bookingDto)
         {
             try
             {
-                BookingDTO newBooking = _businessLogicCtrl.CreateBooking(bookingDto);
-                if (newBooking == null)
+                int newBooking = _businessLogicCtrl.CreateBooking(bookingDto);
+                if (newBooking > 0)
+                {
+                    return Ok(newBooking);
+                }
+                else
                 {
                     return StatusCode(500, "Booking could not be created");
                 }
-
-                return Ok(newBooking);
-
             } catch (Exception ex)
             {
                 return StatusCode(500, "Internal server error.");
-
             }
         }
 
