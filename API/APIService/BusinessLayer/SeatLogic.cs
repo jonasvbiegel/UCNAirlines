@@ -15,7 +15,7 @@ public class SeatLogic : ISeatLogic
 
     public List<Seat?> GetSeatsFromFlight(int flightId)
     {
-        return seatDB.GetSeatsFromFlight(flightId);
+        return seatDB.GetSeatsFromFlight(flightId) ?? null;
     }
 
     public Seat? GetSeat(int seatId)
