@@ -24,7 +24,8 @@ CREATE TABLE Customer (
 
 CREATE TABLE Booking (
     booking_id INT IDENTITY(1,1) PRIMARY KEY,
-    customer_id_FK INT FOREIGN KEY REFERENCES Customer(customer_id)
+    customer_id_FK INT FOREIGN KEY REFERENCES Customer(customer_id),
+    flight_id_FK INT FOREIGN KEY REFERENCES Flight(flight_id)
 );
 
 CREATE TABLE Airplane (
