@@ -11,7 +11,7 @@ public class DatabaseTest
 {
 
     [Fact]
-    public void Test_GetSeatsFromDB()
+    public void DBTest_GetSeats()
     {
         //Arrange
         List<Seat>? listOfSeats;
@@ -23,27 +23,28 @@ public class DatabaseTest
         //Act
         listOfSeats = sdb.GetAllSeats();
 
-        // listOfSeats = await client.GetFromJsonAsync<List<Seat>>(baseUri);
+        //Assert
+        Assert.Equal(expectedIcaoCode, listOfSeats.First().Flight.Route.StartDestination.IcaoCode);
+        Assert.True(listOfSeats.FindAll(s => s.Flight.FlightId == 1).TrueForAll(s => s.Flight.Route.StartDestination.IcaoCode == expectedIcaoCode));
+        Assert.NotEmpty(listOfSeats);
+    }
+
+    [Fact]
+    public void DBTest_GetSeatsFromFlight()
+    {
+        //Arrange
+        SeatDB sdb = new();
+
+        List<Seat>? listOfSeats;
+        int expectedFlightRouteId = 1;
+
+        //Act
+        listOfSeats = sdb.GetSeatsFromFlight(expectedFlightRouteId);
 
         //Assert
 
-        // string actualIcaoCode = listOfSeats[0].Flight.Route.StartDestination.IcaoCode;
-        // Assert.Equal(expectedIcaoCode, actualIcaoCode);
-
-        // string actualSeatName = listOfSeats[0].SeatName;
-        // string actualSeatName = listOfSeats.First().SeatName;
-        // Assert.Equal(expectedSeatName, actualSeatName);
-
-        foreach (Seat s in listOfSeats)
-        {
-            // Console.WriteLine(s);
-            // Console.WriteLine(s.Flight.Departure);
-            // Console.WriteLine(s.Flight.Airplane.Airline);
-            // Console.WriteLine(s.Flight.Route.FlightRouteId);
-            Console.WriteLine(s.Flight.Route.StartDestination.AirportName + " " + s.Flight.Route.EndDestination.AirportName);
-        }
-        Assert.Equal(expectedIcaoCode, listOfSeats.First().Flight.Route.StartDestination.IcaoCode);
-
         Assert.NotEmpty(listOfSeats);
+        Assert.True(listOfSeats.TrueForAll(s => s.Flight.FlightId == expectedFlightRouteId));
     }
+
 }

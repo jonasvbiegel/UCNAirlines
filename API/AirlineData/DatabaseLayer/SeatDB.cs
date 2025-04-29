@@ -1,4 +1,5 @@
-﻿using AirlineData.ModelLayer;
+﻿using System.Data;
+using AirlineData.ModelLayer;
 using Dapper;
 using Microsoft.Data.SqlClient;
 namespace AirlineData.DatabaseLayer;
@@ -18,8 +19,7 @@ public class SeatDB : ISeatDB
         using SqlConnection con = new(_connectionString);
         con.Open();
 
-        SqlCommand cmd = new SqlCommand(sql, con);
-        SqlDataReader reader = cmd.ExecuteReader();
+        using var reader = con.ExecuteReader(sql);
 
         List<Seat> seats = new();
 
@@ -31,11 +31,29 @@ public class SeatDB : ISeatDB
         return seats;
     }
 
-    public List<Seat>? GetSeatsFromFlight(Flight flight)
+    public List<Seat>? GetSeatsFromFlight(int flightRouteId)
     {
+        string sql = @"SELECT * FROM Seat 
+                    JOIN Flight ON flight_id_FK = flight_id 
+                    JOIN Airplane ON airplane_id_FK = airplane_id 
+                    JOIN Flight_Route ON flight_route_id_FK = flight_route_id 
+                    WHERE flight_id = @flight_id";
 
+        using SqlConnection con = new(_connectionString);
+        con.Open();
 
-        throw new NotImplementedException();
+        using var reader = con.ExecuteReader(sql, new { flight_id = flightRouteId });
+
+        List<Seat> seats = new();
+
+        while (reader.Read())
+        {
+            seats.Add(CreateSeatFromReader(reader));
+        }
+
+        return seats;
+
+        // throw new NotImplementedException();
     }
 
     public Seat? GetSeat(int seatId)
@@ -58,7 +76,7 @@ public class SeatDB : ISeatDB
         throw new NotImplementedException();
     }
 
-    private Seat CreateSeatFromReader(SqlDataReader reader)
+    private Seat CreateSeatFromReader(IDataReader reader)
     {
         int flightRouteId = (int)reader["flight_route_id"];
 
