@@ -29,45 +29,20 @@ public class SeatControllerTest
     }
 
     [Fact]
-    public async void Test_GetSeatFromFlight()
+    public async void Test_GetSeatsFromFlight()
     {
         //Arrange
         int expectedFlightId = 1;
         List<Seat>? listOfSeats;
-        // string url = baseUri + expectedFlightId;
         string url = $"{baseUri}flightId?flightId={expectedFlightId}";
 
-        //This is what we are sending as the request
-        // string airplaneId = "CES123";
-        // string uri = baseUri + airplaneId;
-        // string date = "04/24/2025 20:00";
-        //
-        // This is to test that it is the actual model we get back
-        // string airplaneModel = "Cessna";
-
-        // List<Seat>? seatsOfFlight = new();
-
-        // client.DefaultRequestHeaders.Clear();
-        // client.DefaultRequestHeaders.Add("depart", "2025/04/25 20:00");
 
         //Act
         listOfSeats = await client.GetFromJsonAsync<List<Seat>>(url);
 
-
-        // HttpResponseMessage response = await client.GetAsync(uri);
-        // if (response.IsSuccessStatusCode)
-        // {
-        //     seatsOfFlight = await response.Content.ReadFromJsonAsync<List<Seat>>();
-        // }
-        //
-        // string foundAirplaneModel = seatsOfFlight.Find(s => s.SeatName == "1A").Flight.Airplane.Airline;
-
         //Assert
         Assert.NotEmpty(listOfSeats);
         Assert.True(listOfSeats.FindAll(s => s.Flight.FlightId == expectedFlightId).TrueForAll(s => s.Flight.FlightId == expectedFlightId));
-
-        // Assert.NotEmpty(seatsOfFlight);
-        // Assert.Equal(airplaneModel, foundAirplaneModel);
     }
 
     [Fact]
