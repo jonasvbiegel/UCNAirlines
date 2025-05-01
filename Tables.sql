@@ -28,11 +28,6 @@ CREATE TABLE Booking (
     flight_id_FK INT FOREIGN KEY REFERENCES Flight(flight_id),
 );
 
-CREATE TABLE PassengerBooking (
-    passenger_booking_id INT IDENTITY(1,1) PRIMARY KEY,
-    booking_id_FK INT NOT NULL FOREIGN KEY REFERENCES Booking(booking_id),
-    passport_no_FK VARCHAR(128) NOT NULL FOREIGN KEY REFERENCES Passenger(passport_no)
-)
 
 CREATE TABLE Airplane (
     airplane_id VARCHAR(128) NOT NULL PRIMARY KEY,
@@ -60,13 +55,6 @@ CREATE TABLE Flight (
     airplane_id_FK VARCHAR(128) FOREIGN KEY REFERENCES Airplane(airplane_id),
     departure DATETIME NOT NULL,
     flight_route_id_FK INT FOREIGN KEY REFERENCES Flight_Route(flight_route_id)
-)
-
-CREATE TABLE Seat (
-    seat_id INT IDENTITY(1,1) PRIMARY KEY,
-    seat_name VARCHAR(128) NOT NULL,
-    is_booked BIT NOT NULL,
-    flight_id_FK INT NOT NULL FOREIGN KEY REFERENCES Flight(flight_id),
 );
 
 CREATE TABLE Passenger (
@@ -75,7 +63,21 @@ CREATE TABLE Passenger (
     last_name VARCHAR(64) NOT NULL,
     birth_date DATE NOT NULL,
     baggage BIT NOT NULL,
-    seat_id_FK INT NOT NULL FOREIGN KEY REFERENCES Seat(seat_id) UNIQUE
+    -- seat_id_FK INT NOT NULL FOREIGN KEY REFERENCES Seat(seat_id) UNIQUE
+);
+
+CREATE TABLE Seat (
+    seat_id INT IDENTITY(1,1) PRIMARY KEY,
+    seat_name VARCHAR(128) NOT NULL,
+    -- is_booked BIT NOT NULL,
+    flight_id_FK INT NOT NULL FOREIGN KEY REFERENCES Flight(flight_id),
+    passport_no_FK VARCHAR(128) NOT NULL FOREIGN KEY REFERENCES Passenger(passport_no)
+);
+
+CREATE TABLE PassengerBooking (
+    passenger_booking_id INT IDENTITY(1,1) PRIMARY KEY,
+    booking_id_FK INT NOT NULL FOREIGN KEY REFERENCES Booking(booking_id),
+    passport_no_FK VARCHAR(128) NOT NULL FOREIGN KEY REFERENCES Passenger(passport_no)
 )
 
 
