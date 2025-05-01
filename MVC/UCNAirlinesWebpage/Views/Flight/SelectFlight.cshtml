@@ -67,23 +67,31 @@
             </tr>
         </thead>
         <tbody>
-
-            @foreach (var flight in Model.Flights)
+            @if (Model != null)
             {
-                <tr>
-                    <td>@flight.Airplane.AirplaneModel</td>
-                    <td>@Model.From</td>
-                    <td>@Model.To</td>
-                    <td>@Model.Date</td>
-                    <td>@flight.Departure.ToString("HH:mm")</td>
 
-                    <td>
-                         <a asp-controller="Flight" asp-action="SelectSeat" asp-route-FlightName="@flight.Airplane.AirplaneId" target="_blank">
-                            <button>Select</button>
-                        </a>
-                    </td>
-                </tr>
+
+                @foreach (var flight in Model.Flights)
+                {
+                    <tr>
+                        <td>@flight.Airplane.AirplaneModel</td>
+                        <td>@Model.From</td>
+                        <td>@Model.To</td>
+                        <td>@Model.Date</td>
+                        <td>@flight.Departure.ToString("HH:mm")</td>
+
+                        <td>
+                            <a asp-controller="Flight" asp-action="SelectSeat" asp-route-FlightName="@flight.Airplane.AirplaneId" target="_blank">
+                                <button>Select</button>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            
+              
             }
+           
+        }
         </tbody>
     </table>
 </div>
