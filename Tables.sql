@@ -1,5 +1,7 @@
 USE UCNAirlines;
 
+-- DROP VIEW IF EXISTS FlightRouteAirplane, RouteWithAirports;
+
 DROP TABLE IF EXISTS Passenger, Seat, Flight, Flight_Route, Airport, Airplane, Booking, Customer, City_Zip_Code, Country;
 
 CREATE TABLE Country (
