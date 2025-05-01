@@ -1,7 +1,6 @@
 USE UCNAirlines;
 
-DROP VIEW IF EXISTS FlightRouteAirplane, RouteWithAirports;
-DROP TABLE IF EXISTS PassengerBooking, Seat, Passenger, Flight, FlightRoute, Airport, Airplane, Booking, City_Zip_Code, Country;
+DROP TABLE IF EXISTS Passenger, Seat, Flight, Flight_Route, Airport, Airplane, Booking, Customer, City_Zip_Code, Country;
 
 CREATE TABLE Country (
     country_id INT IDENTITY(1,1) PRIMARY KEY,
@@ -12,11 +11,6 @@ CREATE TABLE City_Zip_Code (
     zipcode VARCHAR(16) NOT NULL PRIMARY KEY,
     city VARCHAR(32) NOT NULL,
     country_id_FK INT FOREIGN KEY REFERENCES Country(country_id)
-);
-
-CREATE TABLE Booking (
-    booking_id INT IDENTITY(1,1) PRIMARY KEY,
-    flight_id_FK INT FOREIGN KEY REFERENCES Flight(flight_id),
 );
 
 CREATE TABLE Airplane (
@@ -37,7 +31,7 @@ CREATE TABLE Flight_Route (
     start_destination_FK VARCHAR(16) FOREIGN KEY REFERENCES Airport(icao_code),
     end_destination_FK VARCHAR(16) FOREIGN KEY REFERENCES Airport(icao_code),
     CHECK (start_destination_FK <> end_destination_FK),
-    UNIQUE(start_destination_FK, end_destination_FK)
+    unique(start_destination_FK, end_destination_FK)
 );
 
 CREATE TABLE Flight (
@@ -45,6 +39,11 @@ CREATE TABLE Flight (
     departure DATETIME NOT NULL,
     airplane_id_FK VARCHAR(128) FOREIGN KEY REFERENCES Airplane(airplane_id),
     flight_route_id_FK INT FOREIGN KEY REFERENCES Flight_Route(flight_route_id)
+);
+
+CREATE TABLE Booking (
+    booking_id INT IDENTITY(1,1) PRIMARY KEY,
+    flight_id_FK INT FOREIGN KEY REFERENCES Flight(flight_id),
 );
 
 CREATE TABLE Passenger (
