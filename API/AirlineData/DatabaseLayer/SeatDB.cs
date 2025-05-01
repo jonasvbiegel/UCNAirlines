@@ -135,8 +135,8 @@ public class SeatDB : ISeatDB
 
         using SqlConnection con = new(_connectionString);
 
-        string startIcaoSql = $"SELECT start_destination_FK FROM Flight_Route WHERE flight_route_id = {id}";
-        string endIcaoSql = $"SELECT end_destination_FK FROM Flight_Route WHERE flight_route_id = {id}";
+        string startIcaoSql = $"SELECT start_destination_FK FROM Flight_Route WHERE flight_route_id = @id";
+        string endIcaoSql = $"SELECT end_destination_FK FROM Flight_Route WHERE flight_route_id = @id";
 
         startIcao = con.Query<string>(startIcaoSql).FirstOrDefault();
         endIcao = con.Query<string>(endIcaoSql).FirstOrDefault();
