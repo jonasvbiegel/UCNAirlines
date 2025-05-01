@@ -2,7 +2,7 @@ USE UCNAirlines;
 
 -- DROP VIEW IF EXISTS FlightRouteAirplane, RouteWithAirports;
 
-DROP TABLE IF EXISTS Passenger, Seat, Flight, Flight_Route, Airport, Airplane, Booking, Customer, City_Zip_Code, Country;
+DROP TABLE IF EXISTS PassengerBooking, Seat, Passenger, Booking, Flight, Flight_Route, Airport, Airplane, City_Zip_Code, Country;
 
 CREATE TABLE Country (
     country_id INT IDENTITY(1,1) PRIMARY KEY,
