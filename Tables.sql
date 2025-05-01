@@ -1,6 +1,7 @@
 USE UCNAirlines;
 
-DROP TABLE IF EXISTS Passenger, Seat, Flight, Flight_Route, Airport, Airplane, Booking, Customer, City_Zip_Code, Country;
+DROP VIEW IF EXISTS FlightRouteAirplane, RouteWithAirports;
+DROP TABLE IF EXISTS PassengerBooking, Seat, Passenger, Flight, FlightRoute, Airport, Airplane, Booking, City_Zip_Code, Country;
 
 CREATE TABLE Country (
     country_id INT IDENTITY(1,1) PRIMARY KEY,
@@ -11,15 +12,6 @@ CREATE TABLE City_Zip_Code (
     zipcode VARCHAR(16) NOT NULL PRIMARY KEY,
     city VARCHAR(32) NOT NULL,
     country_id_FK INT FOREIGN KEY REFERENCES Country(country_id)
-);
-
-CREATE TABLE Customer (
-    customer_id INT IDENTITY(1,1) PRIMARY KEY,
-    first_name VARCHAR(64) NOT NULL,
-    last_name VARCHAR(64) NOT NULL,
-    birth_date DATE NOT NULL,
-    email VARCHAR(256) NOT NULL,
-    phoneNo VARCHAR(128) NOT NULL
 );
 
 CREATE TABLE Booking (
