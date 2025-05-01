@@ -23,4 +23,9 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BusinesslogicLayer\" />
+    <Folder Include="ModelLayer\" />
+  </ItemGroup>
+
 </Project>

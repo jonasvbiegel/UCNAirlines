@@ -57,9 +57,9 @@
             groupBox1.Controls.Add(comboBoxPersons);
             groupBox1.Controls.Add(comboBoxArrival);
             groupBox1.Controls.Add(comboBoxDeparture);
-            groupBox1.Location = new Point(279, 339);
+            groupBox1.Location = new Point(278, 315);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(781, 512);
+            groupBox1.Size = new Size(781, 399);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Fly";
@@ -142,7 +142,7 @@
             panel1.Controls.Add(buttonCheckIn);
             panel1.Location = new Point(0, 174);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1282, 49);
+            panel1.Size = new Size(1282, 52);
             panel1.TabIndex = 2;
             // 
             // buttonLogIn
@@ -179,7 +179,7 @@
             // 
             labelBookaTrip.AutoSize = true;
             labelBookaTrip.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelBookaTrip.Location = new Point(518, 271);
+            labelBookaTrip.Location = new Point(516, 248);
             labelBookaTrip.Name = "labelBookaTrip";
             labelBookaTrip.Size = new Size(231, 54);
             labelBookaTrip.TabIndex = 3;
@@ -187,7 +187,7 @@
             // 
             // buttonNext
             // 
-            buttonNext.Location = new Point(1157, 812);
+            buttonNext.Location = new Point(1130, 685);
             buttonNext.Name = "buttonNext";
             buttonNext.Size = new Size(94, 29);
             buttonNext.TabIndex = 4;
@@ -199,7 +199,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1282, 853);
+            ClientSize = new Size(1282, 729);
             Controls.Add(buttonNext);
             Controls.Add(labelBookaTrip);
             Controls.Add(panel1);
