@@ -91,7 +91,13 @@ namespace DesktopClientUCNFlight
                 return;
             }
 
-            Form2 form2 = new Form2();
+            string departure = comboBoxDeparture.SelectedItem.ToString();
+            string arrival = comboBoxArrival.SelectedItem.ToString();
+            string persons = comboBoxPersons.SelectedItem.ToString();
+            string date = monthCalendar1.SelectionStart.ToShortDateString();
+
+
+            Form2 form2 = new Form2(departure, arrival, persons, date);
             form2.Show();
             this.Hide();
         }
