@@ -28,7 +28,7 @@ CREATE TABLE Booking (
     flight_id_FK INT FOREIGN KEY REFERENCES Flight(flight_id),
 );
 
-CREATE TABLE PassengersBooking (
+CREATE TABLE PassengerBooking (
     passenger_booking_id INT IDENTITY(1,1) PRIMARY KEY,
     booking_id_FK INT NOT NULL FOREIGN KEY REFERENCES Booking(booking_id),
     passport_no_FK VARCHAR(128) NOT NULL FOREIGN KEY REFERENCES Passenger(passport_no)
