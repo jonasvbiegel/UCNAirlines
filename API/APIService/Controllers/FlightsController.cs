@@ -15,7 +15,7 @@ namespace APIService.Controllers
         public ActionResult<List<Flight>> GetAllFlights()
         {
             flightDatabaseAccess = new FlightDatabaseAccess();
-            var flights = flightDatabaseAccess.Get();
+            var flights = flightDatabaseAccess.GetFlight_s();
             return Ok(flights);
         }
 

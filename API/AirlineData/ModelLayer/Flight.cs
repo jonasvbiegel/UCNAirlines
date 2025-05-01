@@ -12,5 +12,6 @@ namespace AirlineData.ModelLayer
         public DateTime Departure { get; set; }
         public Airplane? Airplane { get; set; }
         public FlightRoute? Route { get; set; }
+        public List<Seat> ListOfSeats { get; set; }
     }
 }
