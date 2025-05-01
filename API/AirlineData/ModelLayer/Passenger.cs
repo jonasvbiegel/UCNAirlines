@@ -7,5 +7,4 @@ public class Passenger
     public string? LastName { get; set; }
     public DateOnly BirthDate { get; set; }
     public bool Baggage { get; set; }
-    public Booking? Booking { get; set; }
 }
