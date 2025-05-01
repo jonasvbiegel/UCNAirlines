@@ -26,9 +26,13 @@ CREATE TABLE Booking (
     booking_id INT IDENTITY(1,1) PRIMARY KEY,
     customer_id_FK INT FOREIGN KEY REFERENCES Customer(customer_id),
     flight_id_FK INT FOREIGN KEY REFERENCES Flight(flight_id),
-    passport_no_FK VARCHAR(128) NOT NULL FOREIGN KEY REFERENCES Passenger(passport_no)
-
 );
+
+CREATE TABLE PassengersBooking (
+    passenger_booking_id INT IDENTITY(1,1) PRIMARY KEY,
+    booking_id_FK INT NOT NULL FOREIGN KEY REFERENCES Booking(booking_id),
+    passport_no_FK VARCHAR(128) NOT NULL FOREIGN KEY REFERENCES Passenger(passport_no)
+)
 
 CREATE TABLE Airplane (
     airplane_id VARCHAR(128) NOT NULL PRIMARY KEY,
