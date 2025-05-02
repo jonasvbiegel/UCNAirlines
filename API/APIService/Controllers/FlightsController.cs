@@ -19,12 +19,12 @@ namespace APIService.Controllers
         }
 
         // GET: api/<FlightsController>
-        [HttpGet,Route("{dateAndTime}")]
-        public ActionResult<List<FlightDTO>> GetAllFlights(DateTime dateAndTime)
+        [HttpGet,Route("{date}")]
+        public ActionResult<List<FlightDTO>> GetAllFlights(DateOnly date)
         {
 
             ActionResult<List<FlightDTO>> foundFlights;
-            List<FlightDTO?>? flightsDto = _businessLogic.GetByDateAndTime(dateAndTime);
+            List<FlightDTO?>? flightsDto = _businessLogic.GetByDate(date);
             if (!(flightsDto==null))
             {
                 if (flightsDto.Count > 0)

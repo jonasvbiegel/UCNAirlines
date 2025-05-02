@@ -4,7 +4,7 @@ namespace APIService.BusinessLogicLayer
 {
     public interface IFlightLogic
     {
-        List<FlightDTO?>? GetByDateAndTime(DateTime date);
+        List<FlightDTO?>? GetByDate(DateOnly date);
         int Create(FlightDTO flightAdd);
         bool Update(FlightDTO flightUpdate);
         bool Delete(int id);

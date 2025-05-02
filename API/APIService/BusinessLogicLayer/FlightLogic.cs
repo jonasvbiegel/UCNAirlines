@@ -44,14 +44,14 @@ namespace APIService.BusinessLogicLayer
             return flightDTO;
         }
 
-        public List<FlightDTO>? GetByDateAndTime(DateTime date)
+        public List<FlightDTO>? GetByDate(DateOnly date)
         {
             List<FlightDTO> flightsByDate = new List<FlightDTO>();
             List<Flight> flights = _flightAccess.GetFlight_s();
             List<FlightDTO> flightsDTO = FlightDTOConvert.FromFlightCollection(flights);
             foreach (var flight in flightsDTO)
             {
-                if (flight.Departure_time_and_date.Equals(date))
+                if ((DateOnly.FromDateTime(flight.Departure_time_and_date).Equals(date)))
                 {
                     flightsByDate.Add(flight);
                 }
