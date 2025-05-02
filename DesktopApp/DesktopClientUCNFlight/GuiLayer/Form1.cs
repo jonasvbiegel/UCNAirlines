@@ -75,19 +75,19 @@ namespace DesktopClientUCNFlight
         {
             if (comboBoxDeparture.SelectedIndex == 0)
             {
-                MessageBox.Show("Vælg venligst en afrejselufthavn.");
+                MessageBox.Show("Please select a departure airport");
                 return;
             }
 
             if (comboBoxArrival.SelectedIndex == 0)
             {
-                MessageBox.Show("Vælg venligst en ankomstlufthavn.");
+                MessageBox.Show("Please select an arrival airport");
                 return;
             }
 
             if (comboBoxPersons.SelectedIndex == 0)
             {
-                MessageBox.Show("Vælg venligst antal personer.");
+                MessageBox.Show("Please select the number of persons");
                 return;
             }
 

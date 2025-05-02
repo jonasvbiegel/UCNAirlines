@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
-            labelPersons = new Label();
+            labelPerson = new Label();
             labelTo = new Label();
             labelFrom = new Label();
             monthCalendar1 = new MonthCalendar();
@@ -50,7 +50,7 @@
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(labelPersons);
+            groupBox1.Controls.Add(labelPerson);
             groupBox1.Controls.Add(labelTo);
             groupBox1.Controls.Add(labelFrom);
             groupBox1.Controls.Add(monthCalendar1);
@@ -64,15 +64,15 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Fly";
             // 
-            // labelPersons
+            // labelPerson
             // 
-            labelPersons.AutoSize = true;
-            labelPersons.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelPersons.Location = new Point(59, 209);
-            labelPersons.Name = "labelPersons";
-            labelPersons.Size = new Size(89, 28);
-            labelPersons.TabIndex = 6;
-            labelPersons.Text = "Persons:";
+            labelPerson.AutoSize = true;
+            labelPerson.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelPerson.Location = new Point(59, 209);
+            labelPerson.Name = "labelPerson";
+            labelPerson.Size = new Size(80, 28);
+            labelPerson.TabIndex = 6;
+            labelPerson.Text = "Person:";
             // 
             // labelTo
             // 
@@ -187,9 +187,10 @@
             // 
             // buttonNext
             // 
-            buttonNext.Location = new Point(1130, 685);
+            buttonNext.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            buttonNext.Location = new Point(1149, 680);
             buttonNext.Name = "buttonNext";
-            buttonNext.Size = new Size(94, 29);
+            buttonNext.Size = new Size(94, 34);
             buttonNext.TabIndex = 4;
             buttonNext.Text = "Next";
             buttonNext.UseVisualStyleBackColor = true;
@@ -227,7 +228,7 @@
         private Button buttonLogIn;
         private Button buttonFindReservation;
         private Button buttonCheckIn;
-        private Label labelPersons;
+        private Label labelPerson;
         private Label labelTo;
         private Label labelFrom;
         private Label labelBookaTrip;
