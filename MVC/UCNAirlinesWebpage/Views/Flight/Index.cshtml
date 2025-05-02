@@ -8,7 +8,7 @@
 <br />
 <br />
 
-<form method="get" asp-controller="Flight" asp-action="SelectFlight">
+<form method="get" asp-controller="Flight" asp-action="SelectFlight" asp-for="date">
 	<label>From:</label>
 	<select id="fromSelect" name="from" onchange="updateToOptions()" required>
 		<option value="">-- selected Departure --</option>

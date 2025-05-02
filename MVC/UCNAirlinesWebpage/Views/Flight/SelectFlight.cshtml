@@ -77,7 +77,8 @@
                         <td>@flight.Airplane.AirplaneModel</td>
                         <td>@Model.From</td>
                         <td>@Model.To</td>
-                        <td>@Model.Date</td>
+                        <td>@flight.Departure.ToString("yyyy-MM-dd")</td>
+                      @*   <td>@Model.Date /td> *@
                         <td>@flight.Departure.ToString("HH:mm")</td>
 
                         <td>
@@ -91,7 +92,7 @@
               
             }
            
-        }
+        
         </tbody>
     </table>
 </div>
