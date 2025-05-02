@@ -1,6 +1,7 @@
 ﻿using APIService.BusinessLayer;
 using AirlineData.DatabaseLayer;
 using AirlineData.ModelLayer;
+using Microsoft.Data.SqlClient;
 
 namespace APIService.BusinessLayer;
 
@@ -13,18 +14,26 @@ public class SeatLogic : ISeatLogic
         return seatDB.GetAllSeats() ?? null;
     }
 
-    public List<Seat?> GetSeatsFromFlight(int flightId)
+    public List<Seat?>? GetSeatsFromFlight(int flightId)
     {
         return seatDB.GetSeatsFromFlight(flightId) ?? null;
     }
 
     public Seat? GetSeat(int seatId)
     {
-        return seatDB.GetSeat(seatId);
+        return seatDB.GetSeat(seatId) ?? null;
     }
 
-    public Seat? UpdateSeat(Seat seat)
+    public bool UpdateSeat(int seatId, string passportNo)
     {
-        return seatDB.UpdateSeat(seat);
+        try
+        {
+            seatDB.UpdateSeat(seatId, passportNo);
+        }
+        catch (SqlException)
+        {
+            return false;
+        }
+        return true;
     }
 }

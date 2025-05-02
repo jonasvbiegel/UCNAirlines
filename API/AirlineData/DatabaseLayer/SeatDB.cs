@@ -34,26 +34,19 @@ public class SeatDB : ISeatDB
 
     public Seat? GetSeat(int seatId)
     {
-        // string sql = @"SELECT * FROM Seat 
-        //             JOIN Flight ON flight_id_FK = flight_id 
-        //             JOIN Airplane ON airplane_id_FK = airplane_id 
-        //             JOIN Flight_Route ON flight_route_id_FK = flight_route_id 
-        //             WHERE seat_id = @Seat_id";
-        // Seat? foundSeat = null;
-        //
-        // using SqlConnection con = new(_connectionString);
-        // con.Open();
-        //
-        // using var reader = con.ExecuteReader(sql, new { Seat_id = seatId });
-        //
-        // while (reader.Read())
-        // {
-        //     foundSeat = CreateSeatFromReader(reader);
-        // }
-        //
-        // return foundSeat;
+        string sql = "SELECT * FROM Seat WHERE seat_id = @SeatId";
 
-        return null;
+        using SqlConnection con = new(_connectionString);
+        using var reader = con.ExecuteReader(sql, new { SeatId = seatId });
+
+        Seat? s = new();
+
+        while (reader.Read())
+        {
+            s = CreateSeatFromReader(reader);
+        }
+
+        return s;
     }
 
     public List<Seat?>? GetSeatsFromFlight(int flightId)
@@ -77,9 +70,48 @@ public class SeatDB : ISeatDB
     }
 
 
-    public Seat? UpdateSeat(Seat seat)
+
+    // public bool SetPassportNoSeat(int seatId, string passportNo)
+    // {
+    //     string sql = @"UPDATE Seat
+    //         SET passport_no_FK = @PassportNo
+    //         WHERE seat_id = @SeatId";
+    //
+    //     using SqlConnection con = new(_connectionString);
+    //     // using var reader = con.ExecuteReader(sql, new
+    //     // {
+    //     //     PassportNo = passportNo,
+    //     //     SeatId = seatId
+    //     // });
+    //
+    //     int rowsChanged = con.Execute(sql, new
+    //     {
+    //         PassportNo = passportNo,
+    //         SeatId = seatId
+    //     });
+    //
+    //     if (rowsChanged == 0) return false;
+    //     return true;
+    // }
+
+    // TODO: Concurrency issue here
+
+    public bool UpdateSeat(int seatId, string passportNo)
     {
-        throw new NotImplementedException();
+
+        string sql = @"UPDATE Seat
+            SET passport_no_FK = @PassportNo
+            WHERE seat_id = @SeatId";
+
+        using SqlConnection con = new(_connectionString);
+
+        int rowsChanged = con.Execute(sql, new
+        {
+            PassportNo = passportNo,
+            SeatId = seatId
+        });
+
+        return rowsChanged != 0;
     }
 
     private Passenger? CreatePassengerFromPassportNo(string passportNo)
@@ -104,47 +136,47 @@ public class SeatDB : ISeatDB
         return p;
     }
 
-    private Flight CreateFlightFromReader(int flight_id)
-    {
-        string sql = "SELECT * FROM Flight WHERE flight_id = @Flight_id";
-
-        using SqlConnection con = new(_connectionString);
-
-        var reader = con.ExecuteReader(sql, new { Flight_id = flight_id });
-
-        int flightRouteId = (int)reader["flight_route_id"];
-
-        Tuple<Airport, Airport> airports = FindAirports(flightRouteId);
-
-        Airport start = airports.Item1;
-        Airport end = airports.Item2;
-
-        FlightRoute flightRoute = new()
-        {
-            FlightRouteId = (int)reader["flight_route_id"],
-            StartDestination = start,
-            EndDestination = end
-        };
-
-        Airplane airplane = new()
-        {
-            AirplaneId = (string)reader["airplane_id"],
-            Airline = (string)reader["airline"],
-            SeatRows = (int)reader["seat_rows"],
-            SeatColumns = (int)reader["seat_columns"]
-        };
-
-        Flight flight = new()
-        {
-            FlightId = (int)reader["flight_id"],
-            Departure = (DateTime)reader["datetime"],
-            Airplane = airplane,
-            Route = flightRoute,
-            Seats = new List<Seat?>()
-        };
-
-        return flight;
-    }
+    // private Flight CreateFlightFromReader(int flight_id)
+    // {
+    //     string sql = "SELECT * FROM Flight WHERE flight_id = @Flight_id";
+    //
+    //     using SqlConnection con = new(_connectionString);
+    //
+    //     var reader = con.ExecuteReader(sql, new { Flight_id = flight_id });
+    //
+    //     int flightRouteId = (int)reader["flight_route_id"];
+    //
+    //     Tuple<Airport, Airport> airports = FindAirports(flightRouteId);
+    //
+    //     Airport start = airports.Item1;
+    //     Airport end = airports.Item2;
+    //
+    //     FlightRoute flightRoute = new()
+    //     {
+    //         FlightRouteId = (int)reader["flight_route_id"],
+    //         StartDestination = start,
+    //         EndDestination = end
+    //     };
+    //
+    //     Airplane airplane = new()
+    //     {
+    //         AirplaneId = (string)reader["airplane_id"],
+    //         Airline = (string)reader["airline"],
+    //         SeatRows = (int)reader["seat_rows"],
+    //         SeatColumns = (int)reader["seat_columns"]
+    //     };
+    //
+    //     Flight flight = new()
+    //     {
+    //         FlightId = (int)reader["flight_id"],
+    //         Departure = (DateTime)reader["datetime"],
+    //         Airplane = airplane,
+    //         Route = flightRoute,
+    //         Seats = new List<Seat?>()
+    //     };
+    //
+    //     return flight;
+    // }
 
     private Seat? CreateSeatFromReader(IDataReader reader)
     {

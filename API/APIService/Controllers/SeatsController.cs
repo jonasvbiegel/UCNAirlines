@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using AirlineData.ModelLayer;
 using APIService.BusinessLayer;
-// using AirlineData.DatabaseLayer;
-
 using Microsoft.IdentityModel.Tokens;
+// using AirlineData.DatabaseLayer;
 
 namespace APIService.Controllers;
 
@@ -22,7 +21,7 @@ public class SeatsController : ControllerBase
     }
 
     // Returns seats from a specific flight
-    // GET /api/seats/UCN737? [departure from query]
+    // GET /api/seats/flightId?flightId={id}
     [HttpGet("flightId")]
     public ActionResult<List<Seat>> GetSeatsFromAirplane(int flightId)
     {
@@ -31,7 +30,9 @@ public class SeatsController : ControllerBase
         return Ok(listOfSeats);
     }
 
-    [HttpGet("seatId")]
+    // Gets a specific seat from id
+    // GET /api/seats/{seatId}
+    [HttpGet("{seatId}")]
     public ActionResult<Seat> GetSeat(int seatId)
     {
         Seat? seat = seatLogic.GetSeat(seatId);
@@ -39,27 +40,17 @@ public class SeatsController : ControllerBase
         return Ok(seat);
     }
 
-    // Updates the IsBooked value of a specific seat
-    // PUT /api/seats/UCN, Seat object in Body of request
-    [HttpPut]
-    public ActionResult<Seat> UpdateSeat(Seat seat)
+    // Updates the passport number of the given seat
+    // PUT /api/seats/{seatId}, passport number in query
+    [HttpPut("{seatId}")]
+    public ActionResult<Seat> UpdateSeat(int seatId, [FromQuery] string passportNo)
     {
-        // List<Flight>? flights = seatDatabaseAccess.Flights;
-        // Flight? flight = flights.Find(f => f.Airplane.AirplaneId == seat.Flight.Airplane.AirplaneId && f.Departure == seat.Flight.Departure);
-        //
-        // Seat? foundSeat = seatDatabaseAccess.Seats.Find(s => s.SeatName == seat.SeatName && s.Flight == flight);
-        //
-        // if (foundSeat != null)
-        // {
-        //     foundSeat.IsBooked = seat.IsBooked;
-        //     return Ok(foundSeat);
-        // }
-        //
-        // return new StatusCodeResult(500);
+        bool updated = seatLogic.UpdateSeat(seatId, passportNo);
 
-        return NotFound();
+        if (!updated) return new StatusCodeResult(500);
+
+        return Ok(updated);
     }
-
 }
 
 
