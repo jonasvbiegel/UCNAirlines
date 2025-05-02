@@ -26,8 +26,9 @@ public class SeatsController : ControllerBase
     [HttpGet("flightId")]
     public ActionResult<List<Seat>> GetSeatsFromAirplane(int flightId)
     {
+        // TODO: Make it so that if the list is null return 204
         List<Seat?>? listOfSeats = seatLogic.GetSeatsFromFlight(flightId);
-        if (listOfSeats.IsNullOrEmpty()) return new StatusCodeResult(500);
+        if (listOfSeats.IsNullOrEmpty()) return new StatusCodeResult(204);
         return Ok(listOfSeats);
     }
 
