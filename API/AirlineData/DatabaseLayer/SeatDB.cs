@@ -11,10 +11,13 @@ public class SeatDB : ISeatDB
     public List<Seat?>? GetAllSeats()
     {
 
-        string sql = @"SELECT * FROM Seat 
-                    JOIN Flight ON flight_id_FK = flight_id 
-                    JOIN Airplane ON airplane_id_FK = airplane_id 
-                    JOIN Flight_Route ON flight_route_id_FK = flight_route_id";
+        // string sql = @"SELECT * FROM Seat 
+        //             JOIN Passenger ON passport_no_FK = passport_no
+        //             JOIN Flight ON flight_id_FK = flight_id 
+        //             JOIN Airplane ON airplane_id_FK = airplane_id 
+        //             JOIN Flight_Route ON flight_route_id_FK = flight_route_id";
+
+        string sql = ""
 
         using SqlConnection con = new(_connectionString);
         con.Open();
@@ -52,8 +55,6 @@ public class SeatDB : ISeatDB
         }
 
         return seats;
-
-        // throw new NotImplementedException();
     }
 
     public Seat? GetSeat(int seatId)
@@ -83,20 +84,26 @@ public class SeatDB : ISeatDB
         throw new NotImplementedException();
     }
 
-    private Seat CreateSeatFromReader(IDataReader reader)
+    private Flight CreateFlightFromReader(int flight_id)
     {
+        string sql = "SELECT * FROM Flight WHERE flight_id = @Flight_id";
+
+        using SqlConnection con = new(_connectionString);
+
+        var reader = con.ExecuteReader(sql, new { Flight_id = flight_id });
+
         int flightRouteId = (int)reader["flight_route_id"];
 
         Tuple<Airport, Airport> airports = FindAirports(flightRouteId);
 
-        Airport airportStart = airports.Item1;
-        Airport airportEnd = airports.Item2;
+        Airport start = airports.Item1;
+        Airport end = airports.Item2;
 
         FlightRoute flightRoute = new()
         {
             FlightRouteId = (int)reader["flight_route_id"],
-            StartDestination = airportStart,
-            EndDestination = airportEnd
+            StartDestination = start,
+            EndDestination = end
         };
 
         Airplane airplane = new()
@@ -112,16 +119,20 @@ public class SeatDB : ISeatDB
             FlightId = (int)reader["flight_id"],
             Departure = (DateTime)reader["datetime"],
             Airplane = airplane,
-            Route = flightRoute
+            Route = flightRoute,
+            Seats = new List<Seat?>
         };
 
+        return flight;
+    }
+
+    private Seat CreateSeatFromReader(IDataReader reader)
+    {
         Seat seat = new()
         {
             SeatId = (int)reader["seat_id"],
-            SeatName = (string)reader["seat_name"],
-            IsBooked = (bool)reader["is_booked"],
-            Flight = flight
-        };
+            SeatName = (string)reader["seat_name"]
+        }
 
         return seat;
     }
@@ -136,7 +147,7 @@ public class SeatDB : ISeatDB
         using SqlConnection con = new(_connectionString);
 
         string startIcaoSql = $"SELECT start_destination_FK FROM Flight_Route WHERE flight_route_id = @id";
-        string endIcaoSql = $"SELECT end_destination_FK FROM Flight_Route WHERE flight_route_id = @id";
+        string endIcaoSql = $"SELECT end_destination_FK FROM Flight_Route WHERE flight_route_id = ";
 
         startIcao = con.Query<string>(startIcaoSql).FirstOrDefault();
         endIcao = con.Query<string>(endIcaoSql).FirstOrDefault();
@@ -175,6 +186,5 @@ public class SeatDB : ISeatDB
         }
 
         return Tuple.Create(airports[0], airports[1]);
-
     }
 }
