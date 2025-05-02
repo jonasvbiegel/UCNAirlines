@@ -30,10 +30,7 @@ namespace AirlineData.DatabaseLayer
             _connectionString = inConnectionString;
         }
 
-        public FlightDatabaseAccess()
-        {
-        }
-
+      
         public bool CreateFlight(Flight flight)
         {
 
@@ -71,7 +68,7 @@ namespace AirlineData.DatabaseLayer
         SELECT 
             seat_id, 
             seat_name, 
-            is_booked 
+            passport_no_FK 
         FROM Seat 
         WHERE flight_id_FK = @FlightId";
 

@@ -49,7 +49,7 @@ public class SeatsController : ControllerBase
 
         if (foundSeat != null)
         {
-            foundSeat.IsBooked = true;
+           // foundSeat.IsBooked = true;
             return Ok(foundSeat);
         }
 

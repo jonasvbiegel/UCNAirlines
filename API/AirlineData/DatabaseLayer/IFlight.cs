@@ -13,5 +13,6 @@ namespace AirlineData.DatabaseLayer
         bool CreateFlight(Flight flight);
         bool UpdateFlight(Flight flight);
         bool DeleteFlightById(int id);
+        
     }
 }

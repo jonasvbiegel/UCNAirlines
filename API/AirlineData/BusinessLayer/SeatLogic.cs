@@ -21,7 +21,7 @@ public class SeatLogic
 		{
 			if (s.Flight == flight && s.SeatName == seatName)
 			{
-				s.IsBooked = newValue;
+				//s.IsBooked = newValue;
 				return s;
 			}
 		}
