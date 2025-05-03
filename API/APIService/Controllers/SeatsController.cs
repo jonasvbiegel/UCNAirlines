@@ -51,7 +51,7 @@ public class SeatsController : ControllerBase
     // PUT /api/seats/{seatId}, passport number in query
     // if passportNo is "null", sets the passportNo to null in database
     [HttpPut("{seatId}")]
-    public ActionResult<Seat> UpdateSeat(int seatId, [FromQuery] string passportNo)
+    public ActionResult<Seat> UpdateSeat(int seatId, [FromBody] string passportNo)
     {
         bool updated = _seatLogic.UpdateSeat(seatId, passportNo);
 

@@ -19,55 +19,50 @@ public class SeatControllerTest
     public async void Test_GetSeats()
     {
         //Arrange
-        // List<Seat>? listOfSeats;
+        List<Seat>? listOfSeats;
 
         //Act
-        // listOfSeats = await client.GetFromJsonAsync<List<Seat>>(baseUri);
+        listOfSeats = await client.GetFromJsonAsync<List<Seat>>(baseUri);
 
         //Assert
-        // Assert.NotEmpty(listOfSeats);
+        Assert.NotEmpty(listOfSeats);
     }
 
     [Fact]
     public async void Test_GetSeatsFromFlight()
     {
         //Arrange
-        // int expectedFlightId = 1;
-        // List<Seat>? listOfSeats;
-        // string url = $"{baseUri}flightId?flightId={expectedFlightId}";
+        int flightId = 1;
+        List<Seat>? listOfSeats;
+        string expectedPassportNo = "12345678";
+        string url = $"{baseUri}flightId?flightId={flightId}";
 
 
         //Act
-        // listOfSeats = await client.GetFromJsonAsync<List<Seat>>(url);
+        listOfSeats = await client.GetFromJsonAsync<List<Seat>>(url);
 
         //Assert
-        // Assert.NotEmpty(listOfSeats);
-        // Assert.True(listOfSeats.FindAll(s => s.Flight.FlightId == expectedFlightId).TrueForAll(s => s.Flight.FlightId == expectedFlightId));
+        Assert.NotEmpty(listOfSeats);
+        Assert.Equal(expectedPassportNo, listOfSeats.First().Passenger.PassportNo);
+
     }
 
-    [Fact]
-    public async void Test_PutSeatStatus()
-    {
-        //Arrange
-        // Seat returnedSeat = new();
+    // TODO: change PUT to take a Seat object :(
 
-        // SeatDatabaseAccess sdb = new();
-
-        // Flight? flightToUpdate = sdb.Flights.Find(f => f.Airplane.AirplaneId == "CES123");
-        // Seat? seatToPut = sdb.Seats.Find(s => s.SeatName == "1A" && s.Flight.Airplane.AirplaneId == flightToUpdate.Airplane.AirplaneId);
-        // seatToPut.IsBooked = true;
-
-        // string json = JsonSerializer.Serialize(seatToPut);
-        //Act
-        // HttpResponseMessage response = await client.PutAsync(baseUri, new StringContent(json, UnicodeEncoding.UTF8, "application/json"));
-
-        // if (response.IsSuccessStatusCode)
-        // {
-        //     returnedSeat = await response.Content.ReadFromJsonAsync<Seat>();
-        // }
-
-        //Assert
-        // Assert.Equal("CES123", returnedSeat.Flight.Airplane.AirplaneId);
-        // Assert.True(returnedSeat.IsBooked);
-    }
+    // [Fact]
+    // public async void Test_PutSeatStatus()
+    // {
+    //     //Arrange
+    //     bool expectedValue = true;
+    //     int flightId = 1;
+    //     string expectedPassportNo = "12345678";
+    //
+    //     string url = $"{baseUri}{flightId}";
+    //
+    //     //Act
+    //     var responseMessage = await client.PutAsync(url, new StringContent(expectedPassportNo));
+    //     string actualValue = await responseMessage.Content.ReadAsStringAsync();
+    //     //Assert
+    //     Assert.Equal(expectedValue, Boolean.Parse(actualValue));
+    // }
 }
