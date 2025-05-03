@@ -13,10 +13,32 @@ namespace DesktopClientUCNFlight.GuiLayer
 {
     public partial class Form3 : Form
     {
+        private readonly string _departure;
+        private readonly string _arrival;
+        private readonly string _persons;
+        private readonly string _date;
+        private readonly Flight _selectedFlight;
+
         public Form3(string departure, string arrival, string persons, string date, Flight selectedFlight)
         {
             InitializeComponent();
-            // Gem værdierne eller vis dem i labels
+
+            _departure = departure;
+            _arrival = arrival;
+            _persons = persons;
+            _date = date;
+            _selectedFlight = selectedFlight;
+
+            SetFlightInfoLabel();
+        }
+
+        private void SetFlightInfoLabel()
+        {
+            labelFlightInfo.Text = $"From: {_departure}\n" +
+                                   $"To: {_arrival}\n" +
+                                   $"Passengers: {_persons}\n" +
+                                   $"Date: {_date}\n" +
+                                   $"Time: {_selectedFlight.Departure.ToShortTimeString()}";
         }
     }
 }

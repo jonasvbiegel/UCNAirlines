@@ -33,9 +33,6 @@
             listViewFlights = new ListView();
             buttonBack = new Button();
             buttonNext2 = new Button();
-            buttonSelect1 = new Button();
-            buttonSelect2 = new Button();
-            buttonSelect3 = new Button();
             SuspendLayout();
             // 
             // labelInfo
@@ -44,9 +41,9 @@
             labelInfo.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelInfo.Location = new Point(29, 60);
             labelInfo.Name = "labelInfo";
-            labelInfo.Size = new Size(160, 31);
+            labelInfo.Size = new Size(328, 31);
             labelInfo.TabIndex = 0;
-            labelInfo.Text = "Her vises info";
+            labelInfo.Text = "Information is displayed here";
             // 
             // label1
             // 
@@ -54,9 +51,9 @@
             label1.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.Location = new Point(316, 192);
             label1.Name = "label1";
-            label1.Size = new Size(663, 54);
+            label1.Size = new Size(720, 54);
             label1.TabIndex = 1;
-            label1.Text = "Ledige flytider på den valgte dato";
+            label1.Text = "Available flights on the selected date";
             // 
             // listViewFlights
             // 
@@ -92,51 +89,18 @@
             buttonNext2.UseVisualStyleBackColor = true;
             buttonNext2.Click += buttonNext2_Click;
             // 
-            // buttonSelect1
-            // 
-            buttonSelect1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            buttonSelect1.Location = new Point(884, 290);
-            buttonSelect1.Name = "buttonSelect1";
-            buttonSelect1.Size = new Size(86, 26);
-            buttonSelect1.TabIndex = 5;
-            buttonSelect1.Text = "SELECT";
-            buttonSelect1.UseVisualStyleBackColor = true;
-            // 
-            // buttonSelect2
-            // 
-            buttonSelect2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            buttonSelect2.Location = new Point(884, 322);
-            buttonSelect2.Name = "buttonSelect2";
-            buttonSelect2.Size = new Size(86, 30);
-            buttonSelect2.TabIndex = 6;
-            buttonSelect2.Text = "SELECT";
-            buttonSelect2.UseVisualStyleBackColor = true;
-            // 
-            // buttonSelect3
-            // 
-            buttonSelect3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            buttonSelect3.Location = new Point(884, 358);
-            buttonSelect3.Name = "buttonSelect3";
-            buttonSelect3.Size = new Size(86, 28);
-            buttonSelect3.TabIndex = 7;
-            buttonSelect3.Text = "SELECT";
-            buttonSelect3.UseVisualStyleBackColor = true;
-            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1282, 729);
-            Controls.Add(buttonSelect3);
-            Controls.Add(buttonSelect2);
-            Controls.Add(buttonSelect1);
             Controls.Add(buttonNext2);
             Controls.Add(buttonBack);
             Controls.Add(listViewFlights);
             Controls.Add(label1);
             Controls.Add(labelInfo);
             Name = "Form2";
-            Text = "UCN Airline";
+            Text = "UCN Airlines";
             ResumeLayout(false);
             PerformLayout();
         }
@@ -148,8 +112,5 @@
         private ListView listViewFlights;
         private Button buttonBack;
         private Button buttonNext2;
-        private Button buttonSelect1;
-        private Button buttonSelect2;
-        private Button buttonSelect3;
     }
 }
