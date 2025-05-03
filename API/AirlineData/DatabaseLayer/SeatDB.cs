@@ -23,7 +23,7 @@ public class SeatDB : ISeatDB
 
         while (reader.Read())
         {
-            Seat s = CreateSeatFromReader(reader);
+            Seat? s = CreateSeatFromReader(reader);
 
             seats.Add(s);
         }
