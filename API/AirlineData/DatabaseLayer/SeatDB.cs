@@ -69,31 +69,6 @@ public class SeatDB : ISeatDB
         return seats;
     }
 
-
-
-    // public bool SetPassportNoSeat(int seatId, string passportNo)
-    // {
-    //     string sql = @"UPDATE Seat
-    //         SET passport_no_FK = @PassportNo
-    //         WHERE seat_id = @SeatId";
-    //
-    //     using SqlConnection con = new(_connectionString);
-    //     // using var reader = con.ExecuteReader(sql, new
-    //     // {
-    //     //     PassportNo = passportNo,
-    //     //     SeatId = seatId
-    //     // });
-    //
-    //     int rowsChanged = con.Execute(sql, new
-    //     {
-    //         PassportNo = passportNo,
-    //         SeatId = seatId
-    //     });
-    //
-    //     if (rowsChanged == 0) return false;
-    //     return true;
-    // }
-
     // TODO: Concurrency issue here
 
     public bool UpdateSeat(int seatId, string passportNo)
@@ -105,9 +80,13 @@ public class SeatDB : ISeatDB
 
         using SqlConnection con = new(_connectionString);
 
+        string? actualPassport = passportNo;
+
+        if (passportNo == "null") actualPassport = (string?)null;
+
         int rowsChanged = con.Execute(sql, new
         {
-            PassportNo = passportNo,
+            PassportNo = actualPassport,
             SeatId = seatId
         });
 

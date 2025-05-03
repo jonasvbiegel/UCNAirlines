@@ -7,28 +7,34 @@ namespace APIService.BusinessLayer;
 
 public class SeatLogic : ISeatLogic
 {
-    private readonly ISeatDB seatDB = new SeatDB();
+
+    private readonly ISeatDB _seatDB;
+
+    public SeatLogic(ISeatDB seatDB)
+    {
+        _seatDB = seatDB;
+    }
 
     public List<Seat?>? GetSeats()
     {
-        return seatDB.GetAllSeats() ?? null;
+        return _seatDB.GetAllSeats() ?? null;
     }
 
     public List<Seat?>? GetSeatsFromFlight(int flightId)
     {
-        return seatDB.GetSeatsFromFlight(flightId) ?? null;
+        return _seatDB.GetSeatsFromFlight(flightId) ?? null;
     }
 
     public Seat? GetSeat(int seatId)
     {
-        return seatDB.GetSeat(seatId) ?? null;
+        return _seatDB.GetSeat(seatId) ?? null;
     }
 
     public bool UpdateSeat(int seatId, string passportNo)
     {
         try
         {
-            seatDB.UpdateSeat(seatId, passportNo);
+            _seatDB.UpdateSeat(seatId, passportNo);
         }
         catch (SqlException)
         {

@@ -10,14 +10,21 @@ namespace APIService.Controllers;
 [ApiController]
 public class SeatsController : ControllerBase
 {
-    private readonly SeatLogic seatLogic = new();
+    // private readonly SeatLogic seatLogic = new();
+
+    private readonly ISeatLogic _seatLogic;
+
+    public SeatsController(ISeatLogic seatLogic)
+    {
+        _seatLogic = seatLogic;
+    }
 
     // Returns all seats
     // GET /api/seats/
     [HttpGet]
     public ActionResult<List<Seat>> GetSeats()
     {
-        return Ok(seatLogic.GetSeats());
+        return Ok(_seatLogic.GetSeats());
     }
 
     // Returns seats from a specific flight
@@ -25,7 +32,7 @@ public class SeatsController : ControllerBase
     [HttpGet("flightId")]
     public ActionResult<List<Seat>> GetSeatsFromAirplane(int flightId)
     {
-        List<Seat?>? listOfSeats = seatLogic.GetSeatsFromFlight(flightId);
+        List<Seat?>? listOfSeats = _seatLogic.GetSeatsFromFlight(flightId);
         if (listOfSeats.IsNullOrEmpty()) return new StatusCodeResult(204);
         return Ok(listOfSeats);
     }
@@ -35,17 +42,18 @@ public class SeatsController : ControllerBase
     [HttpGet("{seatId}")]
     public ActionResult<Seat> GetSeat(int seatId)
     {
-        Seat? seat = seatLogic.GetSeat(seatId);
+        Seat? seat = _seatLogic.GetSeat(seatId);
         if (seat == null) return new StatusCodeResult(204);
         return Ok(seat);
     }
 
     // Updates the passport number of the given seat
     // PUT /api/seats/{seatId}, passport number in query
+    // if passportNo is "null", sets the passportNo to null in database
     [HttpPut("{seatId}")]
     public ActionResult<Seat> UpdateSeat(int seatId, [FromQuery] string passportNo)
     {
-        bool updated = seatLogic.UpdateSeat(seatId, passportNo);
+        bool updated = _seatLogic.UpdateSeat(seatId, passportNo);
 
         if (!updated) return new StatusCodeResult(500);
 
