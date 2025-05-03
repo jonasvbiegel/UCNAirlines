@@ -57,12 +57,13 @@
             groupBox1.Controls.Add(comboBoxPersons);
             groupBox1.Controls.Add(comboBoxArrival);
             groupBox1.Controls.Add(comboBoxDeparture);
+            groupBox1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             groupBox1.Location = new Point(278, 315);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(781, 399);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
-            groupBox1.Text = "Fly";
+            groupBox1.Text = "Book Flight";
             // 
             // labelPerson
             // 
@@ -70,9 +71,9 @@
             labelPerson.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelPerson.Location = new Point(59, 209);
             labelPerson.Name = "labelPerson";
-            labelPerson.Size = new Size(80, 28);
+            labelPerson.Size = new Size(113, 28);
             labelPerson.TabIndex = 6;
-            labelPerson.Text = "Person:";
+            labelPerson.Text = "Passenger:";
             // 
             // labelTo
             // 
@@ -152,7 +153,7 @@
             buttonLogIn.Name = "buttonLogIn";
             buttonLogIn.Size = new Size(151, 37);
             buttonLogIn.TabIndex = 2;
-            buttonLogIn.Text = "Log ind";
+            buttonLogIn.Text = "Log in";
             buttonLogIn.UseVisualStyleBackColor = true;
             // 
             // buttonFindReservation
@@ -207,7 +208,7 @@
             Controls.Add(pictureBox1);
             Controls.Add(groupBox1);
             Name = "Form1";
-            Text = "UCN Airline";
+            Text = "UCN Airlines";
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();

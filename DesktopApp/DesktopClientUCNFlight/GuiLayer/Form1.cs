@@ -1,4 +1,5 @@
 using DesktopClientUCNFlight.Properties;
+using DesktopClientUCNFlight.ServiceLayer;
 
 namespace DesktopClientUCNFlight
 {
@@ -34,6 +35,7 @@ namespace DesktopClientUCNFlight
 
             monthCalendar1.ShowToday = true;
             monthCalendar1.ShowTodayCircle = true;
+            monthCalendar1.MinDate = DateTime.Today;
         }
 
         private void comboBoxDeparture_SelectedIndexChanged(object sender, EventArgs e)
@@ -95,7 +97,6 @@ namespace DesktopClientUCNFlight
             string arrival = comboBoxArrival.SelectedItem.ToString();
             string persons = comboBoxPersons.SelectedItem.ToString();
             string date = monthCalendar1.SelectionStart.ToShortDateString();
-
 
             Form2 form2 = new Form2(departure, arrival, persons, date);
             form2.Show();

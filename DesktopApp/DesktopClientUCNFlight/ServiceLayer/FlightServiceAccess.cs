@@ -7,7 +7,7 @@ using DesktopClientUCNFlight.ModelLayer;
 
 namespace DesktopClientUCNFlight.ServiceLayer
 {
-    public class FlightServiceAccess
+    public class FlightServiceAccess : IFlightServiceAccess
     {
         public List<Flight> GetFlightsByDate(DateTime date)
         {
@@ -16,7 +16,7 @@ namespace DesktopClientUCNFlight.ServiceLayer
             var airplane = new Airplane
             {
                 AirplaneId = "ABC123",
-                Airline = "UCN",
+                Airline = "UCN Airlines",
                 SeatRows = 30,
                 SeatColumns = 6
             };
