@@ -28,7 +28,7 @@ namespace DesktopClientUCNFlight
 
             labelInfo.Text = "From: " + _departure + "\nTo: " + _arrival + "\nPassengers: " + _persons + "\nDate: " + _date;
 
-            InitializeListView(); // Initialize list view layout
+            InitializeListView();
             LoadFlights(); // Load flights data
         }
 
@@ -41,7 +41,7 @@ namespace DesktopClientUCNFlight
             listViewFlights.View = View.Details;
         }
 
-        // Load flights based on selected date
+        //Konventerer dato til datetime og kalder derefter metoden i businesslogic
         private void LoadFlights()
         {
             DateTime selectedDate;
@@ -56,7 +56,7 @@ namespace DesktopClientUCNFlight
             listViewFlights.Items.Clear();
             listViewFlights.Font = new Font("Segoe UI", 14);
 
-            List<Flight> flights = _flightLogic.GetFlightsByDate(selectedDate); // Call Business Logic
+            List<Flight> flights = _flightLogic.GetFlightsByDate(selectedDate); // Kalder Business Logic
 
             if (flights == null || flights.Count == 0)
             {
@@ -64,7 +64,7 @@ namespace DesktopClientUCNFlight
                 return;
             }
 
-            LoadFlightItems(flights); // Load flights into ListView
+            LoadFlightItems(flights);
         }
 
         private void HandleNoFlights()
@@ -82,6 +82,7 @@ namespace DesktopClientUCNFlight
         {
             foreach (Flight flight in flights)
             {
+                //sætter en default ind, ellers får man nullReferenceException
                 string airlineName = "Unknown";
 
                 if (flight.Airplane != null)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DesktopClientUCNFlight.ServiceLayer
 {
-    internal interface IBookingServiceAccess
+    public interface IBookingServiceAccess
     {
     }
 }
