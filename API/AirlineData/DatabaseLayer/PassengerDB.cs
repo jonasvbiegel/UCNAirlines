@@ -16,14 +16,16 @@ public class PassengerDB : IPassengerDB
 
         using SqlConnection con = new(_connectionString);
 
-        Passenger? p = con.Query<Passenger>(sql).FirstOrDefault();
+        var reader = con.ExecuteReader(sql, new { PassportNo = passportNo });
+
+        Passenger? p = CreatePassengerFromReader(reader);
 
         return p;
     }
 
     public Passenger CreatePassenger(Passenger passenger)
     {
-        string sql = "INSERT INTO Passenger VALUES (@PassportNo, @FirstName, @LastName, @DateOfBirth)";
+        string sql = "INSERT INTO Passenger VALUES (@PassportNo, @FirstName, @LastName, @BirthDate)";
 
         using SqlConnection con = new(_connectionString);
 
@@ -32,11 +34,26 @@ public class PassengerDB : IPassengerDB
             PassportNo = passenger.PassportNo,
             FirstName = passenger.FirstName,
             LastName = passenger.LastName,
-            DateOfBirth = passenger.BirthDate
+            BirthDate = passenger.BirthDate.ToString()
         });
 
         if (rows != 1) return null;
 
         return passenger;
+    }
+
+    private Passenger CreatePassengerFromReader(IDataReader reader)
+    {
+        Passenger? p = new();
+
+        while (reader.Read())
+        {
+            p.FirstName = (string)reader["first_name"];
+            p.LastName = (string)reader["last_name"];
+            p.BirthDate = DateOnly.FromDateTime((DateTime)reader["birth_date"]);
+            p.PassportNo = (string)reader["passport_no"];
+        }
+
+        return p;
     }
 }

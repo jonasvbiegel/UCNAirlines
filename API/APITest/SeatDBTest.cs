@@ -10,7 +10,7 @@ namespace APITest;
 // This is done to make sure the tests run in sequential order
 
 [Collection("Sequential")]
-public class DatabaseTest
+public class SeatDBTest
 {
     // SeatDB sdb = new();
 
