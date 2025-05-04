@@ -21,7 +21,7 @@ public class PassengersController : ControllerBase
     {
         Passenger? p = _passengerLogic.GetPassenger(passportNo);
 
-        if (p == null) return new StatusCodeResult(404);
+        if (p == null) return new StatusCodeResult(204);
         return Ok(p);
     }
 
@@ -36,7 +36,7 @@ public class PassengersController : ControllerBase
         }
         catch
         {
-            return new StatusCodeResult(404);
+            return new StatusCodeResult(500);
         }
 
         return Ok(p);
