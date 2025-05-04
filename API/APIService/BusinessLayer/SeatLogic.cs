@@ -30,11 +30,11 @@ public class SeatLogic : ISeatLogic
         return _seatDB.GetSeat(seatId) ?? null;
     }
 
-    public bool UpdateSeat(int seatId, string passportNo)
+    public bool UpdateSeat(Seat seat)
     {
         try
         {
-            _seatDB.UpdateSeat(seatId, passportNo);
+            _seatDB.UpdateSeat(seat);
         }
         catch (SqlException)
         {

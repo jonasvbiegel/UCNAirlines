@@ -71,23 +71,26 @@ public class SeatDB : ISeatDB
 
     // TODO: Concurrency issue here
 
-    public bool UpdateSeat(int seatId, string passportNo)
+    public bool UpdateSeat(Seat seat)
     {
-
         string sql = @"UPDATE Seat
             SET passport_no_FK = @PassportNo
             WHERE seat_id = @SeatId";
 
         using SqlConnection con = new(_connectionString);
 
-        string? actualPassport = passportNo;
+        string actualPassport;
 
-        if (passportNo == "null") actualPassport = (string?)null;
+        if (seat.Passenger == null) actualPassport = (string?)null;
+        else
+        {
+            actualPassport = seat.Passenger.PassportNo;
+        }
 
         int rowsChanged = con.Execute(sql, new
         {
             PassportNo = actualPassport,
-            SeatId = seatId
+            SeatId = seat.SeatId
         });
 
         return rowsChanged != 0;

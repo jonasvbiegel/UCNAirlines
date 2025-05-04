@@ -48,12 +48,12 @@ public class SeatsController : ControllerBase
     }
 
     // Updates the passport number of the given seat
-    // PUT /api/seats/{seatId}, passport number in query
+    // PUT /api/seats/, Seat object in body of request
     // if passportNo is "null", sets the passportNo to null in database
-    [HttpPut("{seatId}")]
-    public ActionResult<Seat> UpdateSeat(int seatId, [FromBody] string passportNo)
+    [HttpPut]
+    public ActionResult<Seat> UpdateSeat([FromBody] Seat seat)
     {
-        bool updated = _seatLogic.UpdateSeat(seatId, passportNo);
+        bool updated = _seatLogic.UpdateSeat(seat);
 
         if (!updated) return new StatusCodeResult(500);
 

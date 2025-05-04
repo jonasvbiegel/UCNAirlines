@@ -7,6 +7,9 @@ using System.Text;
 
 namespace APITest;
 
+// This is done to make sure the tests run in sequential order
+
+[Collection("Sequential")]
 public class DatabaseTest
 {
     // SeatDB sdb = new();
@@ -26,9 +29,6 @@ public class DatabaseTest
         listOfSeats = _seatDB.GetAllSeats();
 
         //Assert
-        // Assert.NotEmpty(listOfSeats);
-        // Assert.Equal(expectedIcaoCode, listOfSeats.First().Flight.Route.StartDestination.IcaoCode);
-        // Assert.True(listOfSeats.FindAll(s => s.Flight.FlightId == 1).TrueForAll(s => s.Flight.Route.StartDestination.IcaoCode == expectedIcaoCode));
 
         Assert.NotEmpty(listOfSeats);
         Assert.Equal(expectedPassportNo, listOfSeats.First().Passenger.PassportNo);
@@ -66,37 +66,39 @@ public class DatabaseTest
         Assert.Equal(expectedPassportNo, seat.Passenger.PassportNo);
     }
 
+
     [Fact]
     public void DBTest_UpdateSeatPassenger()
     {
-        // Arrange
-        bool expectedValue = true;
-        string passportNo = "12345678";
-        int flightId = 1;
+        //Arrange
+        Seat? seat = _seatDB.GetSeat(1);
+        Passenger? passenger = seat.Passenger;
 
-        // Act 
-        bool actualValue = _seatDB.UpdateSeat(flightId, passportNo);
-        string actualPassportNo = _seatDB.GetSeat(flightId).Passenger.PassportNo;
+        Seat? seatToPut = _seatDB.GetSeat(3);
+        seatToPut.Passenger = passenger;
 
-        // Assert
-        Assert.Equal(expectedValue, actualValue);
-        Assert.Equal(passportNo, actualPassportNo);
+        //Act
+        bool success = _seatDB.UpdateSeat(seatToPut);
+        Seat? updatedSeat = _seatDB.GetSeat(3);
+
+        //Assert
+        Assert.True(success);
+        Assert.Equal(seatToPut.Passenger.PassportNo, updatedSeat.Passenger.PassportNo);
     }
 
     [Fact]
     public void DBTest_UpdateSeatToNull()
     {
         //Arrange
-        bool expectedValue = true;
-        string passportNo = "null";
-        int flightId = 1;
+        Seat? seat = _seatDB.GetSeat(3);
+        seat.Passenger = null;
 
         //Act
-        bool actualValue = _seatDB.UpdateSeat(flightId, passportNo);
-        Passenger passenger = _seatDB.GetSeat(flightId).Passenger;
+        bool success = _seatDB.UpdateSeat(seat);
+        Seat? updatedSeat = _seatDB.GetSeat(3);
 
         //Assert
-        Assert.Equal(expectedValue, actualValue);
-        Assert.Null(passenger);
+        Assert.True(success);
+        Assert.Null(updatedSeat.Passenger);
     }
 }

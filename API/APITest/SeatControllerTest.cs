@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace APITest;
 
+[Collection("Sequential")]
 public class SeatControllerTest
 {
     // I have chosen to integration test the controllers instead of unit testing them. Integration testing tests that the api actually works, and that is what is important for the controller.
@@ -29,6 +30,22 @@ public class SeatControllerTest
     }
 
     [Fact]
+    public async void Test_GetSeat()
+    {
+        //Arrange
+        Seat seat;
+        int seatId = 1;
+        string url = $"{baseUri}{seatId}";
+
+        //Act
+        seat = await client.GetFromJsonAsync<Seat>(url);
+
+        //Assert
+        Assert.NotNull(seat);
+        Assert.Equal(seatId, seat.SeatId);
+    }
+
+    [Fact]
     public async void Test_GetSeatsFromFlight()
     {
         //Arrange
@@ -36,7 +53,6 @@ public class SeatControllerTest
         List<Seat>? listOfSeats;
         string expectedPassportNo = "12345678";
         string url = $"{baseUri}flightId?flightId={flightId}";
-
 
         //Act
         listOfSeats = await client.GetFromJsonAsync<List<Seat>>(url);
@@ -47,22 +63,66 @@ public class SeatControllerTest
 
     }
 
-    // TODO: change PUT to take a Seat object :(
+    [Fact]
+    public async void Test_PutSeat()
+    {
+        //Arrange
+        Seat? seatToUpdate;
+        Seat? updatedSeat;
+        int seatToUpdateId = 1;
+        int updatedSeatId = 3;
 
-    // [Fact]
-    // public async void Test_PutSeatStatus()
-    // {
-    //     //Arrange
-    //     bool expectedValue = true;
-    //     int flightId = 1;
-    //     string expectedPassportNo = "12345678";
-    //
-    //     string url = $"{baseUri}{flightId}";
-    //
-    //     //Act
-    //     var responseMessage = await client.PutAsync(url, new StringContent(expectedPassportNo));
-    //     string actualValue = await responseMessage.Content.ReadAsStringAsync();
-    //     //Assert
-    //     Assert.Equal(expectedValue, Boolean.Parse(actualValue));
-    // }
+        string urlPut = $"{baseUri}{seatToUpdateId}";
+        string urlUpdated = $"{baseUri}{updatedSeatId}";
+
+        //Act
+        seatToUpdate = await client.GetFromJsonAsync<Seat>(urlPut);
+
+        seatToUpdate.SeatId = updatedSeatId;
+
+        string jsonObject = JsonSerializer.Serialize(seatToUpdate);
+
+        var httpContent = new StringContent(jsonObject, Encoding.UTF8, "application/json");
+        var response = await client.PutAsync(baseUri, httpContent);
+
+        var responseBody = await response.Content.ReadAsStringAsync();
+
+        updatedSeat = await client.GetFromJsonAsync<Seat>(urlUpdated);
+
+        //Assert
+        Assert.Equal("true", responseBody);
+        Assert.Equal(seatToUpdate.Passenger.PassportNo, updatedSeat.Passenger.PassportNo);
+    }
+
+    [Fact]
+    public async void Test_PutSeatNull()
+    {
+        //Arrange
+        Seat? seatToUpdate;
+        Seat? updatedSeat;
+        int seatToUpdateId = 1;
+        int updatedSeatId = 3;
+
+        string urlPut = $"{baseUri}{seatToUpdateId}";
+        string urlUpdated = $"{baseUri}{updatedSeatId}";
+
+        //Act
+        seatToUpdate = await client.GetFromJsonAsync<Seat>(urlPut);
+
+        seatToUpdate.SeatId = updatedSeatId;
+        seatToUpdate.Passenger = null;
+
+        string jsonObject = JsonSerializer.Serialize(seatToUpdate);
+
+        var httpContent = new StringContent(jsonObject, Encoding.UTF8, "application/json");
+        var response = await client.PutAsync(baseUri, httpContent);
+
+        var responseBody = await response.Content.ReadAsStringAsync();
+
+        updatedSeat = await client.GetFromJsonAsync<Seat>(urlUpdated);
+
+        //Assert
+        Assert.Equal("true", responseBody);
+        Assert.Null(updatedSeat.Passenger);
+    }
 }
