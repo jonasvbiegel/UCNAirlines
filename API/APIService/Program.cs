@@ -10,6 +10,9 @@ builder.Services.AddControllers();
 builder.Services.AddSingleton<ISeatDB, SeatDB>();
 builder.Services.AddSingleton<ISeatLogic, SeatLogic>();
 
+builder.Services.AddSingleton<IPassengerDB, PassengerDB>();
+builder.Services.AddSingleton<IPassengerLogic, PassengerLogic>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
