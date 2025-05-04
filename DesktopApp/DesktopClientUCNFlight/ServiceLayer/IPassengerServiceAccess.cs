@@ -7,9 +7,8 @@ using DesktopClientUCNFlight.ModelLayer;
 
 namespace DesktopClientUCNFlight.ServiceLayer
 {
-    public interface IFlightServiceAccess
+    public interface IPassengerServiceAccess
     {
-        List<Flight> GetFlightsByDate(DateTime date);
-        void SelectSeatsForFlight(Flight flight, List<Seat> seats);
+        Passenger SavePassenger(Passenger passenger);
     }
 }
