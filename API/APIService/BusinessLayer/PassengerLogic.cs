@@ -6,20 +6,20 @@ namespace APIService.BusinessLayer;
 public class PassengerLogic : IPassengerLogic
 {
 
-    private readonly IPassengerLogic _passengerLogic;
+    private readonly IPassengerDB _passengerDB;
 
-    public PassengerLogic(IPassengerLogic passengerLogic)
+    public PassengerLogic(IPassengerDB passengerDB)
     {
-        _passengerLogic = passengerLogic;
+        _passengerDB = passengerDB;
     }
 
     public Passenger? GetPassenger(string passportNo)
     {
-        return _passengerLogic.GetPassenger(passportNo);
+        return _passengerDB.GetPassenger(passportNo);
     }
 
     public Passenger? CreatePassenger(Passenger passenger)
     {
-        return _passengerLogic.CreatePassenger(passenger);
+        return _passengerDB.CreatePassenger(passenger);
     }
 }
