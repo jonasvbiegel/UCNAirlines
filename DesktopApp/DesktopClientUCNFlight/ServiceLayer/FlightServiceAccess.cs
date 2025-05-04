@@ -9,64 +9,139 @@ namespace DesktopClientUCNFlight.ServiceLayer
 {
     public class FlightServiceAccess : IFlightServiceAccess
     {
-        public List<Flight> GetFlightsByDate(DateTime date)
-        {
-            var allFlights = new List<Flight>();
+        //ALT i denne klasse skal skiftes til API kald!!! Anna
 
-            var airplane = new Airplane
+        private List<Flight> flights;
+
+        public FlightServiceAccess()
+        {
+            // Vi opretter dummy-data i konstruktøren
+            flights = new List<Flight>();
+            CreateDummyFlights();
+        }
+
+        // Opret nogle flyvninger fra Aalborg til Nuuk med sæder
+        private void CreateDummyFlights()
+        {
+            // Lav flyet
+            Airplane airplane = new Airplane
             {
                 AirplaneId = "ABC123",
                 Airline = "UCN Airlines",
-                SeatRows = 30,
-                SeatColumns = 6
+                SeatRows = 2,
+                SeatColumns = 3
             };
 
-            var airport1 = new Airport
+            // Lav start- og slut-lufthavne
+            Airport aalborg = new Airport
             {
-                IcaoCode = "DK123",
+                IcaoCode = "AAL",
                 AirportName = "Aalborg Airport",
                 City = "Aalborg",
                 Country = "Denmark"
             };
 
-            var airport2 = new Airport
+            Airport nuuk = new Airport
             {
-                IcaoCode = "GL123",
+                IcaoCode = "GOH",
                 AirportName = "Nuuk Airport",
                 City = "Nuuk",
                 Country = "Greenland"
             };
 
-            var route = new FlightRoute
+            FlightRoute route = new FlightRoute
             {
                 FlightRouteId = 1,
-                StartDestination = airport1,
-                EndDestination = airport2
+                StartDestination = aalborg,
+                EndDestination = nuuk
             };
 
-            // Generér flyvninger for hele ugen
+            // Opret flyvninger for 23.-28. juni 2025
             DateTime startDate = new DateTime(2025, 6, 23);
             DateTime endDate = new DateTime(2025, 6, 28);
 
-            for (DateTime currentDate = startDate; currentDate <= endDate; currentDate = currentDate.AddDays(1))
-            {
-                for (int i = 0; i < 3; i++)
-                {
-                    var departureTime = currentDate.Date.AddHours(8 + (i * 5)).AddMinutes(15 + (i * 30));
+            int flightIdCounter = 1;
 
-                    allFlights.Add(new Flight
+            while (startDate <= endDate)
+            {
+                // Lav 3 flyvninger per dag: kl. 08:00, 13:00 og 18:00
+                List<DateTime> departureTimes = new List<DateTime>
+                {
+                    startDate.AddHours(8),
+                    startDate.AddHours(13),
+                    startDate.AddHours(18)
+                };
+
+                foreach (DateTime departure in departureTimes)
+                {
+                    Flight flight = new Flight
                     {
-                        FlightId = int.Parse($"{currentDate:yyyyMMdd}{i + 1}"),
-                        Departure = departureTime,
+                        FlightId = flightIdCounter,
+                        Departure = departure,
                         Airplane = airplane,
                         Route = route,
-                        Seats = new List<Seat>()
-                    });
+                        Seats = CreateSeats()
+                    };
+
+                    flights.Add(flight);
+                    flightIdCounter = flightIdCounter + 1;
+                }
+
+                startDate = startDate.AddDays(1);
+            }
+        }
+
+        // Opret sæder til flyet
+        private List<Seat> CreateSeats()
+        {
+            List<Seat> seats = new List<Seat>();
+
+            // Vi laver sæderne 1A, 1B, 1C, 2A, 2B, 2C
+            seats.Add(new Seat { SeatId = 1, SeatName = "1A", Passenger = null });
+            seats.Add(new Seat { SeatId = 2, SeatName = "1B", Passenger = null });
+            seats.Add(new Seat { SeatId = 3, SeatName = "1C", Passenger = null });
+            seats.Add(new Seat { SeatId = 4, SeatName = "2A", Passenger = null });
+            seats.Add(new Seat { SeatId = 5, SeatName = "2B", Passenger = null });
+            seats.Add(new Seat { SeatId = 6, SeatName = "2C", Passenger = null });
+
+            return seats;
+        }
+
+        // Returner alle flyvninger på en bestemt dato
+        public List<Flight> GetFlightsByDate(DateTime date)
+        {
+            List<Flight> flightsOnDate = new List<Flight>();
+
+            foreach (Flight flight in flights)
+            {
+                if (flight.Departure.Date == date.Date)
+                {
+                    flightsOnDate.Add(flight);
                 }
             }
 
-            // Filtrer flyvninger, så kun dem på den ønskede dato returneres
-            return allFlights.Where(f => f.Departure.Date == date.Date).ToList();
+            return flightsOnDate;
+        }
+
+        // Gem valgte sæder (f.eks. fra Form3)
+        public void SelectSeatsForFlight(Flight flight, List<Seat> selectedSeats)
+        {
+            foreach (Flight f in flights)
+            {
+                if (f.FlightId == flight.FlightId)
+                {
+                    foreach (Seat selected in selectedSeats)
+                    {
+                        foreach (Seat seat in f.Seats)
+                        {
+                            if (seat.SeatId == selected.SeatId)
+                            {
+                                seat.Passenger = selected.Passenger;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
