@@ -111,10 +111,10 @@
             // labelFlightInfo
             // 
             labelFlightInfo.AutoSize = true;
-            labelFlightInfo.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelFlightInfo.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelFlightInfo.Location = new Point(35, 33);
             labelFlightInfo.Name = "labelFlightInfo";
-            labelFlightInfo.Size = new Size(290, 28);
+            labelFlightInfo.Size = new Size(261, 25);
             labelFlightInfo.TabIndex = 0;
             labelFlightInfo.Text = "Information is displayed here";
             // 
@@ -936,10 +936,10 @@
             // labelPassengerInfo
             // 
             labelPassengerInfo.AutoSize = true;
-            labelPassengerInfo.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelPassengerInfo.Location = new Point(219, 198);
+            labelPassengerInfo.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelPassengerInfo.Location = new Point(210, 182);
             labelPassengerInfo.Name = "labelPassengerInfo";
-            labelPassengerInfo.Size = new Size(160, 23);
+            labelPassengerInfo.Size = new Size(174, 25);
             labelPassengerInfo.TabIndex = 5;
             labelPassengerInfo.Text = "labelPassengerInfo";
             // 

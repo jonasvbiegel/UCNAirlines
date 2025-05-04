@@ -9,7 +9,7 @@ namespace DesktopClientUCNFlight.ServiceLayer
 {
     public class FlightServiceAccess : IFlightServiceAccess
     {
-        //ALT i denne klasse skal skiftes til API kald!!! Anna
+        //ALT i denne klasse skal skiftes til API kald
 
         private List<Flight> flights;
 
@@ -20,10 +20,10 @@ namespace DesktopClientUCNFlight.ServiceLayer
             CreateDummyFlights();
         }
 
-        // Opret nogle flyvninger fra Aalborg til Nuuk med sæder
+        // Oprettet nogle flyvninger fra Aalborg til Nuuk med sæder
         private void CreateDummyFlights()
         {
-            // Lav flyet
+            // flyet
             Airplane airplane = new Airplane
             {
                 AirplaneId = "ABC123",
@@ -32,7 +32,7 @@ namespace DesktopClientUCNFlight.ServiceLayer
                 SeatColumns = 3
             };
 
-            // Lav start- og slut-lufthavne
+            // start- og slut-lufthavne
             Airport aalborg = new Airport
             {
                 IcaoCode = "AAL",
@@ -56,7 +56,7 @@ namespace DesktopClientUCNFlight.ServiceLayer
                 EndDestination = nuuk
             };
 
-            // Opret flyvninger for 23.-28. juni 2025
+            // flyvninger for 23.-28. juni 2025
             DateTime startDate = new DateTime(2025, 6, 23);
             DateTime endDate = new DateTime(2025, 6, 28);
 
@@ -64,7 +64,7 @@ namespace DesktopClientUCNFlight.ServiceLayer
 
             while (startDate <= endDate)
             {
-                // Lav 3 flyvninger per dag: kl. 08:00, 13:00 og 18:00
+                // 3 flyvninger per dag: kl. 08:00, 13:00 og 18:00
                 List<DateTime> departureTimes = new List<DateTime>
                 {
                     startDate.AddHours(8),
@@ -123,7 +123,7 @@ namespace DesktopClientUCNFlight.ServiceLayer
             return flightsOnDate;
         }
 
-        // Gem valgte sæder (f.eks. fra Form3)
+        // Gem valgte sæder
         public void SelectSeatsForFlight(Flight flight, List<Seat> selectedSeats)
         {
             foreach (Flight f in flights)

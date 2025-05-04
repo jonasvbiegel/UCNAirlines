@@ -18,15 +18,14 @@ namespace DesktopClientUCNFlight.GuiLayer
         private string _arrival;
         private string _persons;
         private string _date;
-        private Flight _selectedFlight;
 
+        private Flight _selectedFlight;
         private PassengerLogic _passengerLogic;
         private FlightLogic _flightLogic;
-
         private List<Seat> _selectedSeats;
+
         private int _totalPassengers;
         private int _currentPassengerIndex;
-
         private Seat _selectedSeatForCurrentPassenger;
 
         public Form3(string departure, string arrival, string persons, string date, Flight selectedFlight)
@@ -119,10 +118,10 @@ namespace DesktopClientUCNFlight.GuiLayer
             _selectedSeatForCurrentPassenger.Passenger = passenger;
             _selectedSeats.Add(_selectedSeatForCurrentPassenger);
 
-            // Disable used seat
+            // Fjerner knappen for de buttons der er valgt
             DisableSeatButton(_selectedSeatForCurrentPassenger.SeatName);
 
-            // Reset for next passenger
+            // Reset for næste passager
             _selectedSeatForCurrentPassenger = null;
             ClearPassengerInputs();
 

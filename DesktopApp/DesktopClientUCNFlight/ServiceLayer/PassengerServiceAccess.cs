@@ -16,7 +16,6 @@ namespace DesktopClientUCNFlight.ServiceLayer
             // Dummy: Gemmer passageren i en liste som "falsk database"
             _passengerDatabase.Add(passenger);
 
-            // Returnér samme passager som bekræftelse
             return passenger;
         }
     }

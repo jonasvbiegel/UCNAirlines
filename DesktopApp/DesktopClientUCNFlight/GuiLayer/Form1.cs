@@ -25,9 +25,10 @@ namespace DesktopClientUCNFlight
             comboBoxArrival.Items.Add("Kangerlussuaq, GL");
             comboBoxArrival.SelectedIndex = 0;
 
+            //Kalder en metode nedenunder for at registrere afrejsevalg
             comboBoxDeparture.SelectedIndexChanged += comboBoxDeparture_SelectedIndexChanged;
 
-            for (int i = 0; i <= 10; i++)
+            for (int i = 1; i <= 10; i++)
             {
                 comboBoxPersons.Items.Add(i.ToString());
             }
@@ -38,6 +39,7 @@ namespace DesktopClientUCNFlight
             monthCalendar1.MinDate = DateTime.Today;
         }
 
+        //Sørger for at samme by ikke kan vælges som både afrejse og ankomst - og nulstiller hvis der vælges det samme
         private void comboBoxDeparture_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selectedDeparture = comboBoxDeparture.SelectedItem.ToString();
@@ -92,7 +94,7 @@ namespace DesktopClientUCNFlight
                 MessageBox.Show("Please select the number of persons");
                 return;
             }
-
+            //konverterer objektet til en læsbar streng-repræsentation
             string departure = comboBoxDeparture.SelectedItem.ToString();
             string arrival = comboBoxArrival.SelectedItem.ToString();
             string persons = comboBoxPersons.SelectedItem.ToString();
