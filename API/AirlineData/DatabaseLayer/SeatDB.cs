@@ -17,7 +17,7 @@ public class SeatDB : ISeatDB
         //             JOIN Airplane ON airplane_id_FK = airplane_id 
         //             JOIN Flight_Route ON flight_route_id_FK = flight_route_id";
 
-        string sql = ""
+        string sql = "";
 
         using SqlConnection con = new(_connectionString);
         con.Open();
@@ -120,7 +120,7 @@ public class SeatDB : ISeatDB
             Departure = (DateTime)reader["datetime"],
             Airplane = airplane,
             Route = flightRoute,
-            Seats = new List<Seat?>
+            Seats = new List<Seat?>()
         };
 
         return flight;
@@ -132,7 +132,7 @@ public class SeatDB : ISeatDB
         {
             SeatId = (int)reader["seat_id"],
             SeatName = (string)reader["seat_name"]
-        }
+        };
 
         return seat;
     }

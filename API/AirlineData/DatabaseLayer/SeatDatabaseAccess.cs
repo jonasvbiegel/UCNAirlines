@@ -16,17 +16,17 @@ namespace AirlineData.DatabaseLayer
 
             Flights = new() { f1, f2 };
 
-            Seat s1 = new() { SeatName = "1A", IsBooked = false, Flight = f1 };
-            Seat s2 = new() { SeatName = "1B", IsBooked = false, Flight = f1 };
-            Seat s3 = new() { SeatName = "2A", IsBooked = false, Flight = f1 };
-            Seat s4 = new() { SeatName = "2B", IsBooked = false, Flight = f1 };
+            //Seat s1 = new() { SeatName = "1A", IsBooked = false, Flight = f1 };
+            //Seat s2 = new() { SeatName = "1B", IsBooked = false, Flight = f1 };
+            //Seat s3 = new() { SeatName = "2A", IsBooked = false, Flight = f1 };
+            //Seat s4 = new() { SeatName = "2B", IsBooked = false, Flight = f1 };
 
-            Seat s5 = new() { SeatName = "1A", IsBooked = false, Flight = f2 };
-            Seat s6 = new() { SeatName = "1B", IsBooked = false, Flight = f2 };
-            Seat s7 = new() { SeatName = "2A", IsBooked = false, Flight = f2 };
-            Seat s8 = new() { SeatName = "2B", IsBooked = false, Flight = f2 };
+            //Seat s5 = new() { SeatName = "1A", IsBooked = false, Flight = f2 };
+            //Seat s6 = new() { SeatName = "1B", IsBooked = false, Flight = f2 };
+            //Seat s7 = new() { SeatName = "2A", IsBooked = false, Flight = f2 };
+            //Seat s8 = new() { SeatName = "2B", IsBooked = false, Flight = f2 };
 
-            Seats = new() { s1, s2, s3, s4, s5, s6, s7, s8 };
+            //Seats = new() { s1, s2, s3, s4, s5, s6, s7, s8 };
         }
     }
 }
