@@ -21,11 +21,6 @@ namespace UCNAirlinesWebpage.Controllers
             DateTime departure2 = DateTime.Today.AddHours(22);
 
             
-            List<Flight> flights = new List<Flight>
-                {
-                    new Flight(route1, airplane1,departure1),
-                    new Flight(route2, airplane2, departure2)
-                };
             
         // List <Flight> getSortedFlight(DateTime Departuretime)
             return View();
@@ -37,7 +32,7 @@ namespace UCNAirlinesWebpage.Controllers
             return View(model);
         }
 
-        public IActionResult SelectFlight(string from, string to, DateOnly date, string passenger)
+        public IActionResult SelectFlight(string from, string to, DateOnly date, int passenger)
         {
             var model = new FlightSearchModel
             {
@@ -46,8 +41,9 @@ namespace UCNAirlinesWebpage.Controllers
                 Date = date,
                 Passenger = passenger
             };
+            TempData["Passenger"] = passenger;
+            TempData.Keep("Passenger");
             InsertData(model);
-            TempData["selectedflight"] = model;
 
             return View(model);
         }
@@ -68,19 +64,33 @@ namespace UCNAirlinesWebpage.Controllers
             DateTime departure3 = DateTime.Parse("02/05/2025 20:00");
             DateTime departure4 = DateTime.Parse("04/05/2025 20:00");   
 
-            Flight flight1 = new Flight(route1, airplane1, departure4);
-            Flight flight2 = new Flight(route2, airplane2, departure3);
-            Flight flight3 = new Flight(route1, airplane1, departure1);
-            Flight flight4 = new Flight(route2, airplane2, departure2);
+            Flight flight1 = new Flight(1, route1, airplane1, departure4);
+            Flight flight2 = new Flight(1, route2, airplane2, departure3);
+            Flight flight3 = new Flight(1,route1, airplane1, departure1);
+            Flight flight4 = new Flight(2, route2, airplane2, departure2);
             List<Flight> flights = new() { flight1, flight2, flight3, flight4 };
 
             //model.Flights.Add(flight1);
             //model.Flights.Add(flight2);
 
-            model.Flights = flights.FindAll(f => DateOnly.FromDateTime(f.Departure) == model.Date);
+            model.Flights = flights.FindAll(f => DateOnly.FromDateTime(f.Departure)  == model.Date);
         }
-      
-       
+
+        public class BookingController : Controller
+        {
+            public IActionResult SelectSeat(FlightSearchModel model)
+            {
+                int passengers = model.Passenger;
+                var newmodel = new BookingCreationModel
+                {
+                    Passengers = passengers,
+                };
+
+
+                return View(newmodel);
+            }
+
+        }
 
     }
 

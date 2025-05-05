@@ -1,12 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using UCNAirlinesWebpage.Models;
 
 namespace UCNAirlinesWebpage.Controllers
 {
     public class BookingController : Controller
     {
-        public IActionResult SelectSeat()
+        public IActionResult SelectSeat(FlightSearchModel model, int SelectedFlight)
         {
-            return View();
+            TempData["SelectedFlight"] = SelectedFlight;
+
+            var newmodel = new BookingCreationModel
+            {
+            };
+
+
+            return View(newmodel);
         }
+
     }
 }
