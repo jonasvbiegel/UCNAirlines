@@ -84,7 +84,7 @@ INNER JOIN Airport ea ON r.end_destination_FK = ea.icao_code;  -- Join with Airp
 CREATE VIEW FlightRouteAirplane AS
 SELECT 
     f.flight_id AS FlightId, 
-    f.datetime AS Departure, 
+    f.departure AS Departure,
     a.airplane_id AS AirplaneId, 
     a.airline AS Airline, 
     a.seat_rows AS SeatRows, 

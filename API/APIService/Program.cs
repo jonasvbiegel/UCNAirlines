@@ -1,7 +1,5 @@
 using AirlineData.DatabaseLayer;
 using APIService.BusinessLayer;
-using AirlineData.DatabaseLayer;
-using APIService.BusinessLogicLayer;
 
 var builder = WebApplication.CreateBuilder(args);
 
