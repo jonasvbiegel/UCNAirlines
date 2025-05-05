@@ -45,10 +45,10 @@ namespace APIService.ModelConversion
                     Departure = flightDto.Departure_time_and_date,
                     Airplane = flightDto.Airplane,
                     Route = flightDto.Route,
-                    ListOfSeats = flightDto.Seats
+                    Seats = flightDto.Seats
                 };
             }
-            
+
             return flight;
         }
 
