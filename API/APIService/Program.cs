@@ -1,5 +1,7 @@
 using AirlineData.DatabaseLayer;
 using APIService.BusinessLayer;
+using AirlineData.DatabaseLayer;
+using APIService.BusinessLogicLayer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,8 @@ builder.Services.AddSingleton<IPassengerLogic, PassengerLogic>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<IFlightLogic, FlightLogic>();
+builder.Services.AddSingleton<IFlight, FlightDatabaseAccess>();
 
 var app = builder.Build();
 
