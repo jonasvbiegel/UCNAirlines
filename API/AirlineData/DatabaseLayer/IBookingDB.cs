@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AirlineData.ModelLayer;
+﻿using AirlineData.ModelLayer;
 
 namespace AirlineData.DatabaseLayer
 {
-    internal class IBookingDB
+    public interface IBookingDB
     {
-        public List<Booking?>? GetAllBooking();
-        public List<Booking?>? GetBookingFromFlight(int flightRouteId);
-        public Booking? GetBooking(int bookingId);
+        public List<Booking?>? GetAllBookings();
+        public List<Booking?>? GetBookingFromFlightId(int flightRouteId);
+        public Booking? GetBookingFromId(int bookingId);
         public Booking? UpdateBooking(BookingDatabaseAccess booking);
     }
 }
