@@ -3,7 +3,7 @@ using AirlineData.ModelLayer;
 using APIService.DTOs;
 using APIService.ModelConversion;
 
-namespace APIService.BusinessLogicLayer
+namespace APIService.BusinessLayer
 {
     public class FlightLogic : IFlightLogic
     {
@@ -73,5 +73,5 @@ namespace APIService.BusinessLogicLayer
     }
 }
 
- 
-    
+
+

@@ -1,6 +1,6 @@
 ﻿using AirlineData.DatabaseLayer;
 using AirlineData.ModelLayer;
-using APIService.BusinessLogicLayer;
+using APIService.BusinessLayer;
 using APIService.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -19,13 +19,13 @@ namespace APIService.Controllers
         }
 
         // GET: api/<FlightsController>
-        [HttpGet,Route("{date}")]
+        [HttpGet, Route("{date}")]
         public ActionResult<List<FlightDTO>> GetAllFlights(DateOnly date)
         {
 
             ActionResult<List<FlightDTO>> foundFlights;
             List<FlightDTO?>? flightsDto = _businessLogic.GetByDate(date);
-            if (!(flightsDto==null))
+            if (!(flightsDto == null))
             {
                 if (flightsDto.Count > 0)
                 {
@@ -43,6 +43,6 @@ namespace APIService.Controllers
             return foundFlights;
         }
 
-        
+
     }
 }
