@@ -1,0 +1,186 @@
+﻿@model UCNAirlinesWebpage.Models.Booking
+<style>
+    .btn-success {
+        background-color: green;
+        color: white;
+    }
+
+    .btn-secondary {
+        background-color: gray;
+        color: white;
+        cursor: not-allowed;
+    }
+</style>
+<h1>Flight Booking</h1>
+
+<h3>Flight Details</h3>
+<table border="1">
+    <tr>
+        <th>From</th>
+        <th>To</th>
+        <th>Departure</th>
+    </tr>
+    <tr>
+        <td>@Model.Flight.Route.StartDestination</td>
+        <td>@Model.Flight.Route.EndDestination</td>
+        <td>@Model.Flight.Departure.ToString("yyyy-MM-dd HH:mm")</td>
+    </tr>
+</table>
+
+<h3>Available Seats</h3>
+<table>
+    <tr>
+        <th>Seat Name</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+    @foreach (var seat in Model.Flight.Seats)
+    {
+        <tr>
+            <td>@seat.SeatName</td>
+            <td>
+                @if (seat.Passenger != null)
+                {
+                    <span style="color: gray;">Occupied</span>
+                }
+                else
+                {
+                    <span style="color: green;">Available</span>
+                }
+            </td>
+            <td>
+                @if (seat.Passenger != null)
+                {
+                    <!-- Disabled button for occupied seats -->
+                    <button disabled style="background-color: gray; color: white;">Select</button>
+                }
+                else
+                {
+                    <!-- Enabled button for available seats -->
+                    <form method="post" asp-action="SelectSeat">
+                        <input type="hidden" name="SeatId" value="@seat.SeatId" />
+                        <button style="background-color: green; color: white;">Select</button>
+                    </form>
+                }
+            </td>
+        </tr>
+    }
+</table>
+
+@* <div style="display: flex; flex-direction: column; align-items: center;">
+    <h1>Flight Booking</h1>
+
+    <!-- Current Passenger Form -->
+    <div id="passenger-form">
+        <h2>Enter Passenger Information</h2>
+        <label for="passengerName">Passenger Name:</label>
+        <input type="text" id="passengerName" placeholder="Enter passenger name" style="margin-right: 10px;" />
+        <button id="assignSeatBtn" style="background-color: blue; color: white; padding: 5px 10px; border: none; cursor: pointer;">Assign Seat</button>
+    </div>
+
+    <!-- Seats Table -->
+    <h2>Seats</h2>
+    <table style="border-collapse: collapse; margin: 20px; text-align: center; width: 50%; border: 1px solid #ccc;">
+        <thead>
+            <tr style="background-color: #f2f2f2;">
+                <th style="padding: 10px; border: 1px solid #ddd;">Seat Name</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Passenger</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Action</th>
+            </tr>
+        </thead>
+        <tbody id="seatsTable">
+            @foreach (var seat in Model.Flight.Seats)
+            {
+                <tr id="seatRow-@seat.SeatId">
+                    <td style="padding: 10px; border: 1px solid #ddd;">@seat.SeatName</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;" id="passengerCell-@seat.SeatId">
+                        @if (seat.Passenger != null)
+                        {
+                            <span style="color: gray;">@seat.Passenger.FirstName</span>
+                        }
+                    </td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">
+                        @if (seat.Passenger == null)
+                        {
+                            <button type="button" class="select-seat-btn" data-seat-id="@seat.SeatId" style="background-color: green; color: white; padding: 5px 10px; border: none; cursor: pointer;">Select</button>
+                        }
+                        else
+                        {
+                            <button disabled style="background-color: gray; color: white; padding: 5px 10px; border: none; cursor: not-allowed;">Occupied</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+ *@ <h3>Enter Passenger Details</h3>
+@if (TempData["Passenger"] != null && int.TryParse(TempData["Passenger"].ToString(), out int passengerCount) && passengerCount > 0)
+{
+    <form method="post" action="/Booking/Confirm">
+        @for (int i = 1; i <= passengerCount; i++)
+        {
+            <div>
+                <label for="Passenger_@i">Passenger @i Name:</label>
+                <input type="text" name="Passengers[@(i - 1)].Name" id="Passenger_@i" required />
+            </div>
+        }
+        <button type="submit">Confirm Booking</button>
+    </form>
+}
+else
+{
+    <p>No passengers to add. Please return to the previous step and provide passenger details.</p>
+} 
+@* 
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        let currentPassenger = ""; // Variable to hold the current passenger's name
+        const passengerInput = document.getElementById("passengerName");
+        const assignSeatBtn = document.getElementById("assignSeatBtn");
+        const seatsTable = document.getElementById("seatsTable");
+
+        // Function to handle seat selection
+        const handleSeatSelection = (event) => {
+            const button = event.target;
+            const seatId = button.getAttribute("data-seat-id");
+
+            // Assign the passenger to the seat
+            if (currentPassenger !== "") {
+                const passengerCell = document.getElementById(`passengerCell-${seatId}`);
+                passengerCell.textContent = currentPassenger; // Update passenger name in the UI
+
+                // Disable the button and change its appearance
+                button.disabled = true;
+                button.style.backgroundColor = "gray";
+                button.style.cursor = "not-allowed";
+                button.textContent = "Occupied";
+
+                // Clear the passenger input and move to the next passenger
+                passengerInput.value = "";
+                currentPassenger = "";
+                alert("Seat assigned! Enter the next passenger.");
+            } else {
+                alert("Please enter a passenger name before selecting a seat.");
+            }
+        };
+
+        // Add event listeners to all seat selection buttons
+        seatsTable.addEventListener("click", (event) => {
+            if (event.target.classList.contains("select-seat-btn")) {
+                handleSeatSelection(event);
+            }
+        });
+
+        // Assign passenger to the current session
+        assignSeatBtn.addEventListener("click", () => {
+            const name = passengerInput.value.trim();
+            if (name === "") {
+                alert("Please enter a valid passenger name.");
+                return;
+            }
+            currentPassenger = name;
+            alert(`Passenger "${currentPassenger}" is ready to assign a seat.`);
+        });
+    });
+</script> *@

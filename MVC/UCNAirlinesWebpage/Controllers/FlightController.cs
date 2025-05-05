@@ -23,8 +23,8 @@ namespace UCNAirlinesWebpage.Controllers
             
             List<Flight> flights = new List<Flight>
                 {
-                    new Flight(route1, airplane1,departure1),
-                    new Flight(route2, airplane2, departure2)
+                    new Flight(1,route1, airplane1,departure1),
+                    new Flight(2,route2, airplane2, departure2)
                 };
             
         // List <Flight> getSortedFlight(DateTime Departuretime)
@@ -47,7 +47,7 @@ namespace UCNAirlinesWebpage.Controllers
                 Passenger = passenger
             };
             InsertData(model);
-
+            TempData["Passenger"] = passenger;
             return View(model);
         }
         public IActionResult SelectSeat()
@@ -70,8 +70,8 @@ namespace UCNAirlinesWebpage.Controllers
             DateTime departure3 = DateTime.Parse("02/05/2025 20:00");
             DateTime departure4 = DateTime.Parse("04/05/2025 20:00");   
 
-            Flight flight1 = new Flight(route1, airplane1, departure4);
-            Flight flight2 = new Flight(route2, airplane2, departure3);
+            Flight flight1 = new Flight(1,route1, airplane1, departure4);
+            Flight flight2 = new Flight(2,route2, airplane2, departure3);
             List<Flight> flights = new() { flight1, flight2 };
             //model.Flights.Add(flight1);
             //model.Flights.Add(flight2);

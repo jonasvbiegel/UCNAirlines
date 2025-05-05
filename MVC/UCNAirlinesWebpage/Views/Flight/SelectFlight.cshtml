@@ -80,7 +80,7 @@
                         <td>@flight.Departure.ToString("HH:mm")</td>
 
                         <td>
-                            <a asp-controller="Flight" asp-action="SelectSeat" asp-route-FlightName="@flight.Airplane.AirplaneId" target="_blank">
+                            <a asp-controller="Booking" asp-action="CreateBooking" asp-route-id="@flight.FlightId" target="_blank">
                                 <button>Select</button>
                             </a>
                         </td>
