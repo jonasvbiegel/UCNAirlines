@@ -100,9 +100,9 @@ namespace DesktopClientUCNFlight.ServiceLayer
             seats.Add(new Seat { SeatId = 1, SeatName = "1A", Passenger = null });
             seats.Add(new Seat { SeatId = 2, SeatName = "1B", Passenger = null });
             seats.Add(new Seat { SeatId = 3, SeatName = "1C", Passenger = null });
-            seats.Add(new Seat { SeatId = 4, SeatName = "2A", Passenger = null });
-            seats.Add(new Seat { SeatId = 5, SeatName = "2B", Passenger = null });
-            seats.Add(new Seat { SeatId = 6, SeatName = "2C", Passenger = null });
+            seats.Add(new Seat { SeatId = 4, SeatName = "1D", Passenger = null });
+            seats.Add(new Seat { SeatId = 5, SeatName = "2E", Passenger = null });
+            seats.Add(new Seat { SeatId = 6, SeatName = "2F", Passenger = null });
 
             return seats;
         }
