@@ -16,15 +16,15 @@ namespace DesktopClientUCNFlight.BusinesslogicLayer
             _flightServiceAccess = new FlightServiceAccess();
         }
 
-        public List<Flight> GetFlightsByDate(DateTime date)
+        public async Task<List<Flight>?> GetFlightsByDate(DateOnly date)
         {
-            return _flightServiceAccess.GetFlightsByDate(date);
+            return await _flightServiceAccess.GetFlightsByDate(date);
         }
 
-        public void SelectSeatsForFlight(Flight flight, List<Seat> seats)
-        {
-            _flightServiceAccess.SelectSeatsForFlight(flight, seats);
-        }
+        //public void SelectSeatsForFlight(Flight flight, List<Seat> seats)
+        //{
+        //    _flightServiceAccess.SelectSeatsForFlight(flight, seats);
+        //}
 
         public void UpdateSeatWithPassenger(Seat seat, Passenger passenger)
         {

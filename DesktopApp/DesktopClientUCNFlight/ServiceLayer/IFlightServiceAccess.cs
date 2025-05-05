@@ -9,7 +9,7 @@ namespace DesktopClientUCNFlight.ServiceLayer
 {
     public interface IFlightServiceAccess
     {
-        List<Flight> GetFlightsByDate(DateTime date);
-        void SelectSeatsForFlight(Flight flight, List<Seat> seats);
+        Task<List<Flight>?> GetFlightsByDate(DateOnly date);
+        //void SelectSeatsForFlight(Flight flight, List<Seat> seats);
     }
 }
