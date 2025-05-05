@@ -58,7 +58,7 @@
             button3A = new Button();
             button3B = new Button();
             button3C = new Button();
-            button16 = new Button();
+            button4A = new Button();
             button4B = new Button();
             button4C = new Button();
             button3D = new Button();
@@ -77,7 +77,7 @@
             button8B = new Button();
             button8C = new Button();
             button9A = new Button();
-            button35 = new Button();
+            button9B = new Button();
             button9C = new Button();
             button10A = new Button();
             button10B = new Button();
@@ -250,7 +250,7 @@
             tableLayoutPanel1.Controls.Add(button3A, 0, 2);
             tableLayoutPanel1.Controls.Add(button3B, 1, 2);
             tableLayoutPanel1.Controls.Add(button3C, 2, 2);
-            tableLayoutPanel1.Controls.Add(button16, 0, 3);
+            tableLayoutPanel1.Controls.Add(button4A, 0, 3);
             tableLayoutPanel1.Controls.Add(button4B, 1, 3);
             tableLayoutPanel1.Controls.Add(button4C, 2, 3);
             tableLayoutPanel1.Controls.Add(button3D, 4, 2);
@@ -269,7 +269,7 @@
             tableLayoutPanel1.Controls.Add(button8B, 1, 7);
             tableLayoutPanel1.Controls.Add(button8C, 2, 7);
             tableLayoutPanel1.Controls.Add(button9A, 0, 8);
-            tableLayoutPanel1.Controls.Add(button35, 1, 8);
+            tableLayoutPanel1.Controls.Add(button9B, 1, 8);
             tableLayoutPanel1.Controls.Add(button9C, 2, 8);
             tableLayoutPanel1.Controls.Add(button10A, 0, 9);
             tableLayoutPanel1.Controls.Add(button10B, 1, 9);
@@ -481,15 +481,15 @@
             button3C.Text = "3C";
             button3C.UseVisualStyleBackColor = true;
             // 
-            // button16
+            // button4A
             // 
-            button16.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button16.Location = new Point(3, 153);
-            button16.Name = "button16";
-            button16.Size = new Size(65, 29);
-            button16.TabIndex = 21;
-            button16.Text = "4A";
-            button16.UseVisualStyleBackColor = true;
+            button4A.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button4A.Location = new Point(3, 153);
+            button4A.Name = "button4A";
+            button4A.Size = new Size(65, 29);
+            button4A.TabIndex = 21;
+            button4A.Text = "4A";
+            button4A.UseVisualStyleBackColor = true;
             // 
             // button4B
             // 
@@ -671,16 +671,16 @@
             button9A.Text = "9A";
             button9A.UseVisualStyleBackColor = true;
             // 
-            // button35
+            // button9B
             // 
-            button35.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button35.Location = new Point(74, 403);
-            button35.Name = "button35";
-            button35.RightToLeft = RightToLeft.No;
-            button35.Size = new Size(65, 29);
-            button35.TabIndex = 40;
-            button35.Text = "9B";
-            button35.UseVisualStyleBackColor = true;
+            button9B.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button9B.Location = new Point(74, 403);
+            button9B.Name = "button9B";
+            button9B.RightToLeft = RightToLeft.No;
+            button9B.Size = new Size(65, 29);
+            button9B.TabIndex = 40;
+            button9B.Text = "9B";
+            button9B.UseVisualStyleBackColor = true;
             // 
             // button9C
             // 
@@ -1060,7 +1060,7 @@
         private Button button13;
         private Button button14;
         private Button button15;
-        private Button button16;
+        private Button button4A;
         private Button button17;
         private Button button18;
         private Button button49;
@@ -1080,7 +1080,7 @@
         private Button button32;
         private Button button33;
         private Button button34;
-        private Button button35;
+        private Button button9B;
         private Button button36;
         private Button button37;
         private Button button38;

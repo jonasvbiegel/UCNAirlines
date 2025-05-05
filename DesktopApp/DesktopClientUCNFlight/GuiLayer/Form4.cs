@@ -57,8 +57,8 @@ namespace DesktopClientUCNFlight.GuiLayer
 
         private void buttonConfirm_Click(object sender, EventArgs e)
         {
-            Form5 confirmationForm = new Form5();
-            confirmationForm.Show();
+            Form5 bookForm = new Form5();
+            bookForm.Show();
             this.Hide();
         }
     }
