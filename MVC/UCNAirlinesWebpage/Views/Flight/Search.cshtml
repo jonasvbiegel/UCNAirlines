@@ -1,0 +1,32 @@
+﻿@using UCNAirlinesWebpage.Models
+@model FlightSearchModel
+
+<h2> Search Flights</h2>
+
+<form asp-action="Search" method="post">
+    <label for="From">From:</label>
+    <input type="text" asp-for="From" />
+
+    <label for="To">To:</label>
+    <input type="text" asp-for="To" />
+
+    <label for="Date">Date:</label>
+    <input type="text" asp-for="Date" />
+
+    <label for="Passenger">Passenger:</label>
+    <input type="text" asp-for="Passenger" />
+
+    <button type="submit">Search</button>
+</form>
+
+@if (Model != null)
+{
+    <div>
+        <h3>Search Criteria</h3>
+        <p>From: @Model.From</p>
+        <p>To: @Model.To</p>
+        <p>Date: @Model.Date</p>
+        <p>Passenger: @Model.Passenger</p>
+    </div>
+}
+
