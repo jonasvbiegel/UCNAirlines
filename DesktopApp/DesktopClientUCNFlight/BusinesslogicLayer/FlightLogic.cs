@@ -21,11 +21,6 @@ namespace DesktopClientUCNFlight.BusinesslogicLayer
             return await _flightServiceAccess.GetFlightsByDate(date);
         }
 
-        //public void SelectSeatsForFlight(Flight flight, List<Seat> seats)
-        //{
-        //    _flightServiceAccess.SelectSeatsForFlight(flight, seats);
-        //}
-
         public void UpdateSeatWithPassenger(Seat seat, Passenger passenger)
         {
             seat.Passenger = passenger;

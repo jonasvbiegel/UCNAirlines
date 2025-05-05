@@ -7,8 +7,8 @@ using DesktopClientUCNFlight.ModelLayer;
 
 namespace DesktopClientUCNFlight.ServiceLayer
 {
-    public interface IPassengerServiceAccess
+    internal interface ISeatServiceAccess
     {
-        Task<Passenger> PostPassenger(Passenger passenger);
+        Task<List<Seat>?> GetSeatsForFlight(int flightId);
     }
 }

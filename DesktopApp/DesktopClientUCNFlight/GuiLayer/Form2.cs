@@ -42,7 +42,7 @@ namespace DesktopClientUCNFlight
         }
 
         //Konventerer dato til datetime og kalder derefter metoden i businesslogic
-        private void LoadFlights()
+        private async void LoadFlights()
         {
             DateTime selectedDate;
             bool isDateValid = DateTime.TryParse(_date, out selectedDate);
@@ -56,7 +56,11 @@ namespace DesktopClientUCNFlight
             listViewFlights.Items.Clear();
             listViewFlights.Font = new Font("Segoe UI", 14);
 
-            List<Flight> flights = _flightLogic.GetFlightsByDate(selectedDate); // Kalder Business Logic
+            // Konverterer DateTime til DateOnly
+            DateOnly selectedDateOnly = DateOnly.FromDateTime(selectedDate);
+
+            // Kalder den asynkrone metode i din business logic
+            List<Flight>? flights = await _flightLogic.GetFlightsByDate(selectedDateOnly);
 
             if (flights == null || flights.Count == 0)
             {

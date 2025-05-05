@@ -9,13 +9,10 @@ using Newtonsoft.Json;
 
 namespace DesktopClientUCNFlight.ServiceLayer
 {
-    //<add key="ServiceUrlToUse" value="https://localhost:xxxx/api/flights/" />
-
-    //: ServiceConnection, IFlightServiceAccess
     public class FlightServiceAccess : ServiceConnection, IFlightServiceAccess
     {
         public HttpStatusCode CurrentHttpStatusCode { get; private set; }
-        public FlightServiceAccess() : base("https://localhost:7254/api/flights/")
+        public FlightServiceAccess() : base("https://localhost:7184/api/flights/")
         {
         }
         public async Task<List<Flight>?> GetFlightsByDate(DateOnly date)
