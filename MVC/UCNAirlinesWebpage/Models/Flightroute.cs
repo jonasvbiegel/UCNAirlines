@@ -1,11 +1,14 @@
-﻿namespace UCNAirlinesWebpage.Models
+﻿using Newtonsoft.Json;
+
+namespace UCNAirlinesWebpage.Models
 {
     public class Flightroute
     {
-        public string StartDestination { get; set; }
-        public string EndDestination { get; set; }
-
-        public Flightroute(string startDestination, string endDestination)
+        public int FlightRouteId { get; set; }
+        public Airport? StartDestination { get; set; }
+        public Airport? EndDestination { get; set; }
+    
+        public Flightroute(Airport startDestination, Airport endDestination)
         {
             if(startDestination == endDestination)
             {
@@ -16,4 +19,6 @@
         }
 
     }
+
+    
 }
