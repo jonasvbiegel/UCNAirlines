@@ -47,13 +47,11 @@ namespace UCNAirlinesWebpage.Controllers
                 Passenger = passenger
             };
             InsertData(model);
+            TempData["selectedflight"] = model;
 
             return View(model);
         }
-        public IActionResult SelectSeat()
-        {
-            return View();
-        }
+ 
         public void InsertData(FlightSearchModel model)
         {
             model.Flights = new List<Flight>();
@@ -72,7 +70,10 @@ namespace UCNAirlinesWebpage.Controllers
 
             Flight flight1 = new Flight(route1, airplane1, departure4);
             Flight flight2 = new Flight(route2, airplane2, departure3);
-            List<Flight> flights = new() { flight1, flight2 };
+            Flight flight3 = new Flight(route1, airplane1, departure1);
+            Flight flight4 = new Flight(route2, airplane2, departure2);
+            List<Flight> flights = new() { flight1, flight2, flight3, flight4 };
+
             //model.Flights.Add(flight1);
             //model.Flights.Add(flight2);
 

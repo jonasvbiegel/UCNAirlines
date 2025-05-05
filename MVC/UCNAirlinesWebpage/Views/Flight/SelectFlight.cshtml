@@ -65,8 +65,7 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model != null)
-            {
+            
 
 
                 @foreach (var flight in Model.Flights)
@@ -80,7 +79,7 @@
                         <td>@flight.Departure.ToString("HH:mm")</td>
 
                         <td>
-                            <a asp-controller="Flight" asp-action="SelectSeat" asp-route-FlightName="@flight.Airplane.AirplaneId" target="_blank">
+                            <a asp-controller="Flight" asp-action="SelectSeat" asp-route-id="@flight.Airplane.AirplaneId" target="_blank">
                                 <button>Select</button>
                             </a>
                         </td>
@@ -88,7 +87,7 @@
                 }
             
               
-            }
+            
            
         
         </tbody>
