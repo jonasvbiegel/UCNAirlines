@@ -182,7 +182,7 @@ namespace AirlineData.DatabaseLayer
                 Departure = fra.Departure,
                 Airplane = airplane,
                 Route = route,
-                ListOfSeats = GetSeatsForFlight(fra.FlightId)
+                Seats = GetSeatsForFlight(fra.FlightId)
             };
             return flight;
         }
