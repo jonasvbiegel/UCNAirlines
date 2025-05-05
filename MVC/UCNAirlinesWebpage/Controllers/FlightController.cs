@@ -3,34 +3,25 @@ using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using UCNAirlinesWebpage.Models;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using UCNAirlinesWebpage.ServiceLayer;
 
 namespace UCNAirlinesWebpage.Controllers
 {
+
     public class FlightController : Controller
     {
-        [HttpGet]
-        public IActionResult Index()
+    
+            [HttpGet]
+            public IActionResult Index()
         {
-            Airplane airplane1 = new Airplane("NotBoeingA");
-            Airplane airplane2 = new Airplane("NotBoeingB");
-
-            Flightroute route1 = new Flightroute("Aalborg", "Nuuk");
-            Flightroute route2 = new Flightroute("Aalborg", "Nuuk");
-
-            DateTime departure1 = DateTime.Today.AddHours(10);
-            DateTime departure2 = DateTime.Today.AddHours(22);
-
-            
-            
-        // List <Flight> getSortedFlight(DateTime Departuretime)
-            return View();
-        }
-
+                return View();
+            }
         [HttpPost]
         public IActionResult Search(FlightSearchModel model)
         {
             return View(model);
         }
+
 
         public IActionResult SelectFlight(string from, string to, DateOnly date, int passenger)
         {
@@ -85,7 +76,7 @@ namespace UCNAirlinesWebpage.Controllers
                 {
                     Passengers = passengers,
                 };
-
+               
 
                 return View(newmodel);
             }
