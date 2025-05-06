@@ -1,4 +1,4 @@
-﻿ using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using UCNAirlinesWebpage.Models;
@@ -15,9 +15,11 @@ namespace UCNAirlinesWebpage.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            FlightServiceAccess fac=new FlightServiceAccess();
-            DateOnly flightDate = new DateOnly(2025, 5, 6);
-            List<Flight> fls= await fac.GetFlights(flightDate);
+            SeatServiceAccess fac=new SeatServiceAccess();
+            int id = 1;
+            List<Seat> fls= await fac.GetSeats(1);
+            
+     
             return View(fls);
         }
 
