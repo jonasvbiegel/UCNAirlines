@@ -13,12 +13,12 @@ namespace TestUCNAirlineWebpage
         public void Test_NoFlights()
         {
             //Arrange
-            Flights = new List<Flight>
-                  {
-                    new Flight(route1, null,departure1),
-                    new Flight(route2, null, departure2),
-                    new Flight(route3, null, departure1)
-                };
+            //Flights = new List<Flight>
+            //      {
+            //        new Flight(route1, null,departure1),
+            //        new Flight(route2, null, departure2),
+            //        new Flight(route3, null, departure1)
+            //    };
 
             //Act
 
