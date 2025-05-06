@@ -78,8 +78,8 @@
                         <td>@flight.Departure.ToString("yyyy-MM-dd")</td>
                         <td>@flight.Departure.ToString("HH:mm")</td>
                         <td>
-                        <form method="post" asp-controller="Booking" asp-action="SelectSeat" target="_blank">
-                            <button type="submit" name="SelectedFlight" value=@flight.FlightId>
+                        <form method="post" asp-controller="Booking" asp-action="SelectSeat" target="_blank" >
+                            <button type="submit" name="SelectedFlight" value="@flight.FlightId">
                                 Select 
                             </button>
                               

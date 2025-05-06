@@ -1,6 +1,9 @@
 ﻿using AirlineData.DatabaseLayer;
 using AirlineData.ModelLayer;
+using APIService.BusinessLayer;
+using APIService.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace APIService.Controllers
 {
@@ -8,40 +11,38 @@ namespace APIService.Controllers
     [ApiController]
     public class FlightsController : ControllerBase
     {
-        private FlightDatabaseAccess flightDatabaseAccess;
+        private readonly IFlightLogic _businessLogic;
+
+        public FlightsController(IFlightLogic businessLogic)
+        {
+            _businessLogic = businessLogic;
+        }
 
         // GET: api/<FlightsController>
-        [HttpGet]
-        public ActionResult<List<Flight>> GetAllFlights()
+        [HttpGet, Route("{date}")]
+        public ActionResult<List<FlightDTO>> GetAllFlights(string date)
         {
-            flightDatabaseAccess = new FlightDatabaseAccess();
-            var flights = flightDatabaseAccess.Get();
-            return Ok(flights);
+            DateOnly dato=DateOnly.Parse(date);
+            ActionResult<List<FlightDTO>> foundFlights;
+            List<FlightDTO?>? flightsDto = _businessLogic.GetByDate(dato);
+            if (!(flightsDto == null))
+            {
+                if (flightsDto.Count > 0)
+                {
+                    foundFlights = Ok(flightsDto);
+                }
+                else
+                {
+                    foundFlights = new StatusCodeResult(204);
+                }
+            }
+            else
+            {
+                foundFlights = new StatusCodeResult(500);
+            }
+            return foundFlights;
         }
 
-        // GET api/<FlightsController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
 
-        // POST api/<FlightsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<FlightsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<FlightsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
