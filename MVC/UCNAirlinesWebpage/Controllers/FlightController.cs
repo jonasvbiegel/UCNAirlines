@@ -1,4 +1,4 @@
-﻿ using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using UCNAirlinesWebpage.Models;
@@ -12,10 +12,10 @@ namespace UCNAirlinesWebpage.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            FlightServiceAccess fac=new FlightServiceAccess();
-            DateOnly flightDate = new DateOnly(2025, 5, 6);
-            List<Flight> fls= await fac.GetFlights(flightDate);
-            //Airplane airplane1 = new Airplane("NotBoeingA");
+            SeatServiceAccess fac=new SeatServiceAccess();
+            int id = 1;
+            List<Seat> fls= await fac.GetSeats(1);
+            
             //Airplane airplane2 = new Airplane("NotBoeingB");
 
             //Flightroute route1 = new Flightroute("Aalborg", "Nuuk");
@@ -24,14 +24,14 @@ namespace UCNAirlinesWebpage.Controllers
             //DateTime departure1 = DateTime.Today.AddHours(10);
             //DateTime departure2 = DateTime.Today.AddHours(22);
 
-            
+
             //List<Flight> flights = new List<Flight>
             //    {
             //        new Flight(route1, airplane1,departure1),
             //        new Flight(route2, airplane2, departure2)
             //    };
-            
-        // List <Flight> getSortedFlight(DateTime Departuretime)
+
+            // List <Flight> getSortedFlight(DateTime Departuretime)
             return View(fls);
         }
 
@@ -71,7 +71,7 @@ namespace UCNAirlinesWebpage.Controllers
             //DateTime departure1 = DateTime.Today.AddHours(10);
             //DateTime departure2 = DateTime.Today.AddHours(22);
 
-            //DateTime departure3 = DateTime.Parse("02/05/2025 20:00");
+            //datetime departure3 = datetime.parse("02/05/2025 20:00");
             //DateTime departure4 = DateTime.Parse("04/05/2025 20:00");   
 
             //Flight flight1 = new Flight(route1, airplane1, departure4);

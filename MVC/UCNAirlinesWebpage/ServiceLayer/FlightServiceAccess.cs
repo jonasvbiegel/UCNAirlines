@@ -5,16 +5,16 @@ using Newtonsoft.Json;
 using System.Net;
 namespace UCNAirlinesWebpage.ServiceLayer
 {
-    public class FlightServiceAccess : ServiceConnection, IFlightAccess
+    public class FlightServiceAccess : ServiceConnection
     {
         public FlightServiceAccess() : base("https://localhost:7184/api/flights/")
         {
         }
-        public async Task<List<Flight>?> GetFlights(DateOnly date)
+        public async Task<List<Flight>?> GetFlights(string date)
         {
             List<Flight> flights = new List<Flight>();
             UseUrl = BaseUrl;
-            UseUrl += date.ToString("yyyy-MM-dd");
+            UseUrl += date;
 
             var serviceResponse = await base.CallServiceGet();
             // if success (200-299)
@@ -27,9 +27,12 @@ namespace UCNAirlinesWebpage.ServiceLayer
                  
 
                     flights = JsonConvert.DeserializeObject<List<Flight>>(responseData);
+                    foreach (var flight in flights.Take(1)) // Inspect the first flight
+                    {
+                        Console.WriteLine($"Flight Info: ID={flight.FlightId}, Date={flight.Departure}");
+                    }
 
                 }
-
 
             }
             return flights;
