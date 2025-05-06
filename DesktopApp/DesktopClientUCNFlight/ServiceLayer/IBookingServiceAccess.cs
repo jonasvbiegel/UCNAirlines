@@ -9,6 +9,6 @@ namespace DesktopClientUCNFlight.ServiceLayer
 {
     public interface IBookingServiceAccess
     {
-        Task<bool> SaveBooking(Flight flight, List<Seat> seats);
+        Task<bool> CreateBooking(Flight flight, List<Passenger> passengers);
     }
 }

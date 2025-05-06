@@ -194,9 +194,18 @@ namespace DesktopClientUCNFlight.GuiLayer
 
             if (isPassengerCreated)
             {
+                // Opdater sæde med passageren
+                bool isSeatUpdated = await _seatLogic.UpdateSeat(_selectedSeatForCurrentPassenger);
+
+                if (!isSeatUpdated)
+                {
+                    MessageBox.Show("Passenger saved, but failed to update seat. Please check backend.");
+                    return;
+                }
+
                 _selectedSeats.Add(_selectedSeatForCurrentPassenger);
 
-                // Deaktiverer knappen for det valgte sæde
+                // Deaktiver knappen for det valgte sæde
                 DisableSeatButton(_selectedSeatForCurrentPassenger.SeatName);
 
                 // Reset for næste passager
@@ -210,14 +219,12 @@ namespace DesktopClientUCNFlight.GuiLayer
                 {
                     MessageBox.Show("All passengers registered!\nProceeding to confirmation.");
 
-                    // Skift til bekræftelsesformular
                     Form4 form4 = new Form4(_selectedFlight, _selectedSeats);
                     form4.Show();
                     this.Hide();
                 }
                 else
                 {
-                    // Opdater label for næste passager
                     UpdatePassengerLabel();
                 }
             }

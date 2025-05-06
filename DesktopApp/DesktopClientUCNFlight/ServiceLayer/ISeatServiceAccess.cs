@@ -10,5 +10,6 @@ namespace DesktopClientUCNFlight.ServiceLayer
     internal interface ISeatServiceAccess
     {
         Task<List<Seat>?> GetSeatsForFlight(int flightId);
+        Task<bool> UpdateSeat(Seat seatToUpdate);
     }
 }

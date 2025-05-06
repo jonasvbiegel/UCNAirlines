@@ -11,7 +11,6 @@ namespace DesktopClientUCNFlight.ServiceLayer
 {
     public class FlightServiceAccess : ServiceConnection, IFlightServiceAccess
     {
-        public HttpStatusCode CurrentHttpStatusCode { get; private set; }
         public FlightServiceAccess() : base("https://localhost:7184/api/flights/")
         {
         }
@@ -19,32 +18,29 @@ namespace DesktopClientUCNFlight.ServiceLayer
         {
             List<Flight>? flightsFromService = null;
 
-            UseUrl = BaseUrl + date.ToString("yyyy-MM-dd");
+            UseUrl = BaseUrl + date.ToString();
 
             try
             {
                 var serviceResponse = await CallServiceGet();
-
-                // Gem statuskode hvis nødvendigt
-                CurrentHttpStatusCode = serviceResponse != null ? serviceResponse.StatusCode : HttpStatusCode.BadRequest;
 
                 if (serviceResponse != null && serviceResponse.IsSuccessStatusCode)
                 {
                     var content = await serviceResponse.Content.ReadAsStringAsync();
                     flightsFromService = JsonConvert.DeserializeObject<List<Flight>>(content);
                 }
-                else if (serviceResponse != null && serviceResponse.StatusCode == HttpStatusCode.NoContent)
+                else if (serviceResponse != null && serviceResponse.StatusCode == System.Net.HttpStatusCode.NoContent)
                 {
-                    flightsFromService = new List<Flight>();
+                    flightsFromService = new List<Flight>(); // Ingen fly fundet
                 }
                 else
                 {
-                    flightsFromService = null;
+                    flightsFromService = null; // Anden fejl
                 }
             }
             catch
             {
-                flightsFromService = null;
+                flightsFromService = null; // Exception, fx netværksfejl
             }
 
             return flightsFromService;
