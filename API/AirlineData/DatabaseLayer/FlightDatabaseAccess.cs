@@ -102,47 +102,14 @@ namespace AirlineData.DatabaseLayer
         }
 
 
-        private FlightRoute getFlightRoute(int id)
-        {
-            FlightRoute route = null;
-            Airport airportStart = null;
-            Airport airportEnd = null;
-            string query = "SELECT *FROM RouteWithAirports WHERE FlightRouteId=@id";
-            using (SqlConnection connection = new SqlConnection(_connectionString))
-            {
-                RouteWithAirports? detailed = connection.QueryFirstOrDefault<RouteWithAirports>(query, new { id = id });
-                if (detailed != null)
-                {
-                    airportStart = new()
-                    {
-                        IcaoCode = detailed.StartAirportCode,
-                        AirportName = detailed.StartAirportName
-
-                    };
-                    airportEnd = new()
-                    {
-                        IcaoCode = detailed.EndAirportCode,
-                        AirportName = detailed.EndAirportName
-                    };
-                    route = new()
-                    {
-                        FlightRouteId = detailed.FlightRouteId,
-                        StartDestination = airportStart,
-                        EndDestination = airportEnd
-                    };
-                }
-                return route;
-            }
-
-        }
 
         public List<Flight> GetFlight_s(int id = -1)
         {
             List<Flight> flight_s = new List<Flight>();
             FlightRoute route = null;
             Airplane airplane = null;
-            string query = "SELECT* FROM FlightRouteAirplane WHERE FlightId=@id";
-            string query1 = "SELECT *FROM FlightRouteAirplane";
+            string query = "SELECT * FROM FlightRouteAirplane WHERE FlightId=@id";
+            string query1 = "SELECT * FROM FlightRouteAirplane";
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
 
@@ -166,6 +133,44 @@ namespace AirlineData.DatabaseLayer
 
         }
 
+        private FlightRoute getFlightRoute(int id)
+        {
+            FlightRoute route = null;
+            Airport airportStart = null;
+            Airport airportEnd = null;
+            string query = "SELECT * FROM RouteWithAirports WHERE FlightRouteId = @id";
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                RouteWithAirports? detailed = connection.QueryFirstOrDefault<RouteWithAirports>(query, new { id = id });
+                if (detailed != null)
+                {
+                    airportStart = new()
+                    {
+                        IcaoCode = detailed.StartAirportCode,
+                        AirportName = detailed.StartAirportName,
+                        City = detailed.StartAirportCity,
+                        Country = detailed.StartAirportCountry,
+                        Zipcode = detailed.StartAirportZipCode
+                    };
+                    airportEnd = new()
+                    {
+                        IcaoCode = detailed.EndAirportCode,
+                        AirportName = detailed.EndAirportName,
+                        City = detailed.EndAirportCity,
+                        Zipcode = detailed.EndAirportZipCode,
+                        Country = detailed.EndAirportCountry
+                    };
+                    route = new()
+                    {
+                        FlightRouteId = detailed.FlightRouteId,
+                        StartDestination = airportStart,
+                        EndDestination = airportEnd
+                    };
+                }
+                return route;
+            }
+        }
+
         private Flight PopulateObjectsBasedOnQueryView(FlightRouteAirplane fra)
         {
             FlightRoute route = getFlightRoute(fra.FlightRouteId);
@@ -186,7 +191,6 @@ namespace AirlineData.DatabaseLayer
             };
             return flight;
         }
-
     }
 }
 

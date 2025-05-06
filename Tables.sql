@@ -1,6 +1,6 @@
 USE UCNAirlines;
 
--- DROP VIEW IF EXISTS FlightRouteAirplane, RouteWithAirports;
+DROP VIEW IF EXISTS FlightRouteAirplane, RouteWithAirports;
 
 DROP TABLE IF EXISTS PassengerBooking, Seat, Passenger, Booking, Flight, Flight_Route, Airport, Airplane, City_Zip_Code, Country;
 
@@ -68,18 +68,36 @@ CREATE TABLE PassengerBooking (
     passport_no_FK VARCHAR(128) NOT NULL FOREIGN KEY REFERENCES Passenger(passport_no)
 )
 
+CREATE VIEW AirportZipCountry AS
+SELECT
+    airport.icao_code AS icaoCode,
+    airport.airport_name AS airportName,
+    airport.zipcode_FK AS airportZipcode,
+    cityzip.city AS airportCity,
+    country.country AS airportCountry
+FROM Airport airport
+         JOIN City_Zip_Code cityzip ON airport.zipcode_FK = cityzip.zipcode
+         JOIN Country country ON cityzip.country_id_FK = country.country_id
+
 CREATE VIEW RouteWithAirports AS
-SELECT 
+SELECT
     r.flight_route_id AS FlightRouteId,
     r.start_destination_FK AS StartAirportCode,       -- Code from FlightRoute for the start airport
-    sa.airport_name AS StartAirportName,
-	sa.zipcode_FK AS StartZipCode,-- Name from the Airport table for the start airport
     r.end_destination_FK AS EndAirportCode,          -- Code from FlightRoute for the end airport
-    ea.airport_name AS EndAirportName,
-	ea.zipcode_FK AS EndZipCode-- Name from the Airport table for the end airport
+
+    sa.airportName AS StartAirportName,
+    sa.airportZipcode AS StartAirportZipcode,
+    sa.airportCity AS StartAirportCity,
+    sa.airportCountry AS StartAirportCountry,
+
+    ea.airportName AS EndAirportName,
+    ea.airportZipcode AS EndAirportZipcode,
+    ea.airportCity AS EndAirportCity,
+    ea.airportCountry AS EndAirportCountry
+
 FROM Flight_Route r
-INNER JOIN Airport sa ON r.start_destination_FK = sa.icao_code  -- Join with Airport table for start airport
-INNER JOIN Airport ea ON r.end_destination_FK = ea.icao_code;  -- Join with Airport table for end airport
+         JOIN AirportZipCountry sa ON r.start_destination_FK = sa.icaoCode
+         JOIN AirportZipCountry ea ON r.end_destination_FK = ea.icaoCode
 
 CREATE VIEW FlightRouteAirplane AS
 SELECT 
