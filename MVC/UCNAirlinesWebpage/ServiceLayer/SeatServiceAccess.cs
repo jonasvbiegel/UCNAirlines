@@ -58,35 +58,6 @@ namespace UCNAirlinesWebpage.ServiceLayer
 
         }
     }
-//     public async Task<int> SavePerson(Person personToSave)
-//        {
-//            int insertedPersonId = -1;
 
-//            UseUrl = BaseUrl;
-//            try
-//            {
-//                string personJson = JsonConvert.SerializeObject(personToSave);
-//                var httpContent = new StringContent(personJson, Encoding.UTF8, "application/json");
-//                // Call service
-//                var serviceResponse = await base.CallServicePost(httpContent);
-//                // If success 200-299
-//                if (serviceResponse is not null && serviceResponse.IsSuccessStatusCode)
-//                {
-//                    string idString = await serviceResponse.Content.ReadAsStringAsync();
-//                    bool idNumOk = int.TryParse(idString, out insertedPersonId);
-//                    if (!idNumOk)
-//                    {
-//                        insertedPersonId = -2;
-//                    }
-//                }
-//            }
-//            catch
-//            {
-//                insertedPersonId = -3;
-//            }
-//            return insertedPersonId;
-//        }
-//    }
-//}
 
 }
