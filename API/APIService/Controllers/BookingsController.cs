@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace APIService.Controllers
 {
-    [Route("api/booking")]
+    [Route("api/[controller]")]
     [ApiController]
 
     public class BookingController : ControllerBase
@@ -17,6 +17,7 @@ namespace APIService.Controllers
         //{
         //    _bookingDatabaseAccess = bookingDatabaseAccess;
         //}
+
 
         // GET /api/bookings
         [HttpGet]
@@ -44,8 +45,17 @@ namespace APIService.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] Booking booking)
         {
-            return Ok();
+            if (booking == null)
+            {
+                return new StatusCodeResult(500);
+            }
+
+            _bookingDatabaseAccess.bookings.Add(booking);
+            //_bookingDatabaseAccess.SaveChanges();
+
+            return CreatedAtAction(nameof(Create), booking);
         }
+
 
         
         [HttpPut("{bookingId}")]
@@ -58,7 +68,11 @@ namespace APIService.Controllers
         [HttpDelete("{bookingId}")]
         public void Delete(int bookingId)
         {
+            var booking = _bookingDatabaseAccess.bookings.Find(booking => booking.BookingId == bookingId);
+            
+            _bookingDatabaseAccess.bookings.Remove(booking);
 
+            //_bookingDatabaseAccess.SaveChanges();
         }
     }
 
