@@ -37,19 +37,20 @@ namespace DesktopClientUCNFlight.ServiceLayer
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             // Brug API URL til at sende POST-anmodningen
-            UseUrl = BaseUrl + "booking";
+            UseUrl = BaseUrl + "booking"; // Sørg for, at denne URL er korrekt for dit API
 
             try
             {
-                var serviceResponse = await CallServicePost(content);
+                var serviceResponse = await CallServicePost(content); // Kald API'en via baseklassen
 
                 if (serviceResponse != null && serviceResponse.IsSuccessStatusCode)
                 {
                     savedOk = true;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine("Error creating booking: " + ex.Message);
                 savedOk = false;
             }
 

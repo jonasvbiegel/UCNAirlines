@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DesktopClientUCNFlight.BusinesslogicLayer;
 using DesktopClientUCNFlight.ModelLayer;
 
 namespace DesktopClientUCNFlight.GuiLayer
@@ -15,6 +16,7 @@ namespace DesktopClientUCNFlight.GuiLayer
     {
         private Flight _selectedFlight;
         private List<Seat> _selectedSeats;
+        private BookingLogic _bookingLogic;
 
         public Form4(Flight selectedFlight, List<Seat> selectedSeats)
         {
@@ -22,6 +24,7 @@ namespace DesktopClientUCNFlight.GuiLayer
 
             _selectedFlight = selectedFlight;
             _selectedSeats = selectedSeats;
+            _bookingLogic = new BookingLogic();
 
             ShowPassengerOverview();
         }
@@ -55,11 +58,35 @@ namespace DesktopClientUCNFlight.GuiLayer
             textBoxOverview.Text = overview.ToString();
         }
 
-        private void buttonConfirm_Click(object sender, EventArgs e)
+        private async void buttonConfirm_Click(object sender, EventArgs e)
         {
-            Form5 bookForm = new Form5();
-            bookForm.Show();
-            this.Hide();
+            // Opret en booking baseret på de valgte sæder og flyvningen
+            Booking booking = new Booking
+            {
+                Flight = _selectedFlight,
+                Passengers = new List<Passenger>()
+            };
+
+            foreach (Seat seat in _selectedSeats)
+            {
+                if (seat.Passenger != null) // kun tilføj passagerer der har et sæde
+                {
+                    booking.Passengers.Add(seat.Passenger);
+                }
+            }
+
+            bool bookingSaved = await _bookingLogic.SaveBooking(_selectedFlight, _selectedSeats);
+
+            if (bookingSaved)
+            {
+                Form5 form5 = new Form5();
+                form5.Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Failed to save booking. Please try again.");
+            }
         }
     }
-}
+ }
