@@ -1,3 +1,4 @@
+
 USE UCNAirlines;
 INSERT INTO Country VALUES ('Denmark');
 INSERT INTO Country VALUES ('Greenland');
@@ -39,8 +40,3 @@ INSERT INTO SEAT VALUES ('2B', null, 1);
 
 INSERT INTO PassengerBooking VALUES (1, '12345678');
 INSERT INTO PassengerBooking VALUES (1, '87654321');
-
-
-
-
-

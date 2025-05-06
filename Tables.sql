@@ -67,7 +67,7 @@ CREATE TABLE PassengerBooking (
     booking_id_FK INT NOT NULL FOREIGN KEY REFERENCES Booking(booking_id),
     passport_no_FK VARCHAR(128) NOT NULL FOREIGN KEY REFERENCES Passenger(passport_no)
 )
-
+go
 CREATE VIEW RouteWithAirports AS
 SELECT 
     r.flight_route_id AS FlightRouteId,
@@ -80,11 +80,11 @@ SELECT
 FROM Flight_Route r
 INNER JOIN Airport sa ON r.start_destination_FK = sa.icao_code  -- Join with Airport table for start airport
 INNER JOIN Airport ea ON r.end_destination_FK = ea.icao_code;  -- Join with Airport table for end airport
-
+go
 CREATE VIEW FlightRouteAirplane AS
 SELECT 
     f.flight_id AS FlightId, 
-    f.datetime AS Departure, 
+    f.departure AS Departure, 
     a.airplane_id AS AirplaneId, 
     a.airline AS Airline, 
     a.seat_rows AS SeatRows, 
