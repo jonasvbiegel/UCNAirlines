@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,40 +10,50 @@ using Newtonsoft.Json;
 
 namespace DesktopClientUCNFlight.ServiceLayer
 {
-    public class BookingServiceAccess : IBookingServiceAccess
+    public class BookingServiceAccess : ServiceConnection, IBookingServiceAccess
     {
-        private readonly HttpClient _httpClient;
-        private readonly string _baseUrl = "https://localhost:7184/api/booking/";  // API URL
-
-        public BookingServiceAccess()
+        public BookingServiceAccess() : base(ConfigurationManager.AppSettings.Get("ServiceUrlToUse"))
         {
-            _httpClient = new HttpClient();
         }
-
-        public async Task<bool> SaveBooking(Flight flight, List<Seat> seats)
+        public async Task<bool> CreateBooking(Flight flight, List<Passenger> passengers)
         {
-            var passengers = seats.Select(seat => new
-            {
-                FirstName = seat.Passenger.FirstName,
-                LastName = seat.Passenger.LastName,
-                PassportNo = seat.Passenger.PassportNo,
-                BirthDate = seat.Passenger.BirthDate,
-                SeatName = seat.SeatName
-            });
+            bool savedOk = false;
 
-            var bookingObject = new
+            // Opret bookinganmodning med flight og passagerer
+            var bookingRequest = new
             {
                 FlightId = flight.FlightId,
-                Passengers = passengers
+                Passengers = passengers.Select(p => new
+                {
+                    PassportNo = p.PassportNo,
+                    FirstName = p.FirstName,
+                    LastName = p.LastName,
+                    BirthDate = p.BirthDate.ToString("yyyy-MM-dd") // Konverterer dato til korrekt format
+                }).ToList()
             };
 
-            var json = JsonConvert.SerializeObject(bookingObject);
+            // Serialiser anmodningen til JSON
+            var json = JsonConvert.SerializeObject(bookingRequest);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            // Asynkron POST-anmodning til booking API
-            var response = await _httpClient.PostAsync(_baseUrl, content);
+            // Brug API URL til at sende POST-anmodningen
+            UseUrl = BaseUrl + "booking";
 
-            return response.IsSuccessStatusCode;
+            try
+            {
+                var serviceResponse = await CallServicePost(content);
+
+                if (serviceResponse != null && serviceResponse.IsSuccessStatusCode)
+                {
+                    savedOk = true;
+                }
+            }
+            catch
+            {
+                savedOk = false;
+            }
+
+            return savedOk;
         }
     }
 }

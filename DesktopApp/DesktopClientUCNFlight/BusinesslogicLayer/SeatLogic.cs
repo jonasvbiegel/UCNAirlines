@@ -17,8 +17,28 @@ namespace DesktopClientUCNFlight.BusinesslogicLayer
         }
         public async Task<List<Seat>?> GetSeatsForFlight(int flightId)
         {
-            // Kalder servicen for at hente sæderne
-            return await _seatServiceAccess.GetSeatsForFlight(flightId);
+            List<Seat>? seats;
+            try
+            {
+                seats = await _seatServiceAccess.GetSeatsForFlight(flightId);
+            }
+            catch
+            {
+                seats = null;
+            }
+
+            return seats;
+        }
+        public async Task<bool> UpdateSeat(Seat seat)
+        {
+            try
+            {
+                return await _seatServiceAccess.UpdateSeat(seat);
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

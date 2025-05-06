@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,35 +9,36 @@ using Newtonsoft.Json;
 
 namespace DesktopClientUCNFlight.ServiceLayer
 {
-    public class PassengerServiceAccess : IPassengerServiceAccess
+    public class PassengerServiceAccess : ServiceConnection, IPassengerServiceAccess
     {
-        private readonly HttpClient _httpClient;
-        private readonly string _baseUrl = "https://localhost:7184/api/passengers/";  // API URL
-
-        public PassengerServiceAccess()
+        public PassengerServiceAccess() : base(ConfigurationManager.AppSettings.Get("ServiceUrlToUse"))
         {
-            _httpClient = new HttpClient();
         }
 
         // Asynkron metode til at oprette en passager
-        public async Task<Passenger> PostPassenger(Passenger passenger)
+        public async Task<Passenger?> PostPassenger(Passenger passenger)
         {
-            var json = JsonConvert.SerializeObject(passenger);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            int newPassengerId = null;
+            UseUrl = BaseUrl + "passenger";
 
-            // Asynkron POST-anmodning til API
-            var response = await _httpClient.PostAsync(_baseUrl, content);
+            try
+            {
+                var json = JsonConvert.SerializeObject(passenger);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            if (response.IsSuccessStatusCode)
-            {
-                var result = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<Passenger>(result);
+                var serviceResponse = await CallServicePost(content);
+                if (serviceResponse != null && serviceResponse.IsSuccessStatusCode)
+                {
+                    var responseContent = await serviceResponse.Content.ReadAsStringAsync();
+                    newPassengerId = JsonConvert.DeserializeObject<int>(responseContent);
+                }
             }
-            else
+            catch
             {
-                // Hvis noget går galt, returneres null
-                return null;
+                newPassengerId = null;
             }
+
+            return newPassengerId;
         }
     }
 }

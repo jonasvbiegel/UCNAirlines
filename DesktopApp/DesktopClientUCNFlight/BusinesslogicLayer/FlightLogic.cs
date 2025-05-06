@@ -18,12 +18,18 @@ namespace DesktopClientUCNFlight.BusinesslogicLayer
 
         public async Task<List<Flight>?> GetFlightsByDate(DateOnly date)
         {
-            return await _flightServiceAccess.GetFlightsByDate(date);
-        }
+            List<Flight>? foundFlights;
+            try
+            {
+                foundFlights = await _flightServiceAccess.GetFlightsByDate(date);
+            }
+            catch
+            {
+                foundFlights = null;
+            }
 
-        public void UpdateSeatWithPassenger(Seat seat, Passenger passenger)
-        {
-            seat.Passenger = passenger;
+            return foundFlights;
         }
     }
 }
+

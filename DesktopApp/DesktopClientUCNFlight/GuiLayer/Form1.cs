@@ -10,29 +10,29 @@ namespace DesktopClientUCNFlight
             InitializeComponent();
 
             comboBoxDeparture.Items.Add("Departure Airport");
-            comboBoxDeparture.Items.Add("Aalborg, DK");
-            comboBoxDeparture.Items.Add("Billund, DK");
-            comboBoxDeparture.Items.Add("Nuuk, GL");
-            comboBoxDeparture.Items.Add("Ilulissat, GL");
-            comboBoxDeparture.Items.Add("Kangerlussuaq, GL");
+            comboBoxDeparture.Items.Add("Aalborg Airport");
+            comboBoxDeparture.Items.Add("Billund Airport");
+            comboBoxDeparture.Items.Add("Nuuk Airport");
+            comboBoxDeparture.Items.Add("Ilulissat Airport");
+            comboBoxDeparture.Items.Add("Kangerlussuaq Airport");
             comboBoxDeparture.SelectedIndex = 0;
 
             comboBoxArrival.Items.Add("Arrival Airport");
-            comboBoxArrival.Items.Add("Aalborg, DK");
-            comboBoxArrival.Items.Add("Billund, DK");
-            comboBoxArrival.Items.Add("Nuuk, GL");
-            comboBoxArrival.Items.Add("Ilulissat, GL");
-            comboBoxArrival.Items.Add("Kangerlussuaq, GL");
+            comboBoxArrival.Items.Add("Aalborg Airport");
+            comboBoxArrival.Items.Add("Billund Airport");
+            comboBoxArrival.Items.Add("Nuuk Airport");
+            comboBoxArrival.Items.Add("Ilulissat Airport");
+            comboBoxArrival.Items.Add("Kangerlussuaq Airport");
             comboBoxArrival.SelectedIndex = 0;
 
             //Kalder en metode nedenunder for at registrere afrejsevalg
             comboBoxDeparture.SelectedIndexChanged += comboBoxDeparture_SelectedIndexChanged;
 
-            for (int i = 1; i <= 10; i++)
+            for (int i = 0; i <= 10; i++)
             {
                 comboBoxPersons.Items.Add(i.ToString());
             }
-            comboBoxPersons.SelectedIndex = 0;
+            comboBoxPersons.SelectedIndex = 1;
 
             monthCalendar1.ShowToday = true;
             monthCalendar1.ShowTodayCircle = true;
@@ -44,17 +44,19 @@ namespace DesktopClientUCNFlight
         {
             string selectedDeparture = comboBoxDeparture.SelectedItem.ToString();
             string selectedArrival = comboBoxArrival.SelectedItem?.ToString();
+           
+            
 
             comboBoxArrival.Items.Clear();
             comboBoxArrival.Items.Add("Arrival Airport");
 
             List<string> destinations = new List<string>
             {
-                "Aalborg, DK",
-                "Billund, DK",
-                "Nuuk, GL",
-                "Ilulissat, GL",
-                "Kangerlussuaq, GL"
+                "Aalborg Airport",
+                "Billund Airport",
+                "Nuuk Airport",
+                "Ilulissat Airport",
+                "Kangerlussuaq Airport"
             };
 
             foreach (string destination in destinations)

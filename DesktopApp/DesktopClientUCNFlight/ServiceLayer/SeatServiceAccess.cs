@@ -41,5 +41,32 @@ namespace DesktopClientUCNFlight.ServiceLayer
 
             return null;
         }
+
+        public async Task<bool> UpdateSeat(Seat seatToUpdate)
+        {
+            bool updateOk = false;
+
+            // Brug base URL og tilføj evt. seat ID hvis nødvendigt
+            UseUrl = BaseUrl + seatToUpdate.SeatId;
+
+            try
+            {
+                var json = JsonConvert.SerializeObject(seatToUpdate);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var serviceResponse = await CallServicePut(content);  // OBS: Sørg for at CallServicePut findes i ServiceConnection
+
+                if (serviceResponse != null && serviceResponse.IsSuccessStatusCode)
+                {
+                    updateOk = true;
+                }
+            }
+            catch
+            {
+                updateOk = false;
+            }
+
+            return updateOk;
+        }
     }
 }
