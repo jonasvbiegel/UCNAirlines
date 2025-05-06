@@ -101,8 +101,6 @@ namespace AirlineData.DatabaseLayer
             }
         }
 
-
-
         public List<Flight> GetFlight_s(int id = -1)
         {
             List<Flight> flight_s = new List<Flight>();

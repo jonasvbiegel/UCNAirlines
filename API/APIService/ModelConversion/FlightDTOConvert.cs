@@ -29,7 +29,7 @@ namespace APIService.ModelConversion
             FlightDTO? flightDto = null;
             if (flight != null)
             {
-                flightDto = new FlightDTO(flight.Departure, flight.Airplane, flight.Route);
+                flightDto = new FlightDTO(flight.Departure, flight.Airplane, flight.Route, flight.FlightId);
             }
             return flightDto;
         }

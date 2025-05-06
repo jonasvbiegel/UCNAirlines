@@ -20,6 +20,5 @@ namespace AirlineData.ModelViewDatabase
         public string EndAirportZipCode { get; set; }
         public string EndAirportCity { get; set; }
         public string EndAirportCountry { get; set; }
-
     }
 }
