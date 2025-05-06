@@ -1,16 +1,24 @@
 ﻿
+using Newtonsoft.Json;
+
 namespace UCNAirlinesWebpage.Models
 {
     public class Flight
     {
-        public int Id { get; set; }
-        public Flightroute Route { get; set; }
-        public Airplane Airplane { get; set; }
+        [JsonProperty("id")]
+        public int FlightId { get; set; }
+        [JsonProperty("departure_time_and_date")]
         public DateTime Departure { get; set; }
-
+        [JsonProperty]
+        public List<Seat> seats { get; set; }
+        [JsonProperty]
+        public Airplane Airplane { get; set; }
+        [JsonProperty]
+        public Flightroute Route { get; set; }
+        public Flight() { }
         public Flight(int id, Flightroute route, Airplane airplane, DateTime departure)
         {
-            Id = id;
+            FlightId = id;
             Route = route;
             Airplane = airplane;
             Departure = departure;
