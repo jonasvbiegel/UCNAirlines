@@ -28,31 +28,38 @@ namespace DesktopClientUCNFlight.GuiLayer
         private int _currentPassengerIndex;
         private Seat _selectedSeatForCurrentPassenger;
 
+        private List<Seat> _occupiedSeats;
+
         public Form3(string departure, string arrival, string persons, string date, Flight selectedFlight)
         {
             InitializeComponent();
 
+            // Initializing fields from Form2
             _departure = departure;
             _arrival = arrival;
             _persons = persons;
             _date = date;
             _selectedFlight = selectedFlight;
 
+            // Initializing logic layers
             _passengerLogic = new PassengerLogic();
             _seatLogic = new SeatLogic();
 
+            // Initializing lists and variables
             _selectedSeats = new List<Seat>();
+            _occupiedSeats = new List<Seat>();
             _totalPassengers = Convert.ToInt32(persons);
             _currentPassengerIndex = 1;
 
+            // Displaying flight info
             SetFlightInfoLabel();
             UpdatePassengerLabel();
 
-            // Hent og vis de tilgængelige sæder asynkront
+            // Loading seats (without updating database yet)
             LoadSeatsAsync();
         }
 
-        // Viser info om flyvning
+        // Setting the flight info in the UI
         private void SetFlightInfoLabel()
         {
             labelFlightInfo.Text = "From: " + _departure + "\n" +
@@ -62,105 +69,59 @@ namespace DesktopClientUCNFlight.GuiLayer
                                    "Time: " + _selectedFlight.Departure.ToShortTimeString();
         }
 
-        // Opdaterer label for hvilken passager vi er på
+        // Updating passenger label
         private void UpdatePassengerLabel()
         {
             labelPassengerInfo.Text = "Passenger " + _currentPassengerIndex + " of " + _totalPassengers;
         }
 
-        // Hent de tilgængelige sæder for flyvningen asynkront
+        // Async method to load available seats
         private async void LoadSeatsAsync()
         {
-            // Hent de tilgængelige sæder asynkront fra SeatLogic
-            List<Seat> availableSeats = await _seatLogic.GetSeatsForFlight(_selectedFlight.FlightId);
+            var seats = await _seatLogic.GetSeatsForFlight(_selectedFlight.FlightId);
 
-            // Deaktiver knapperne for de valgte sæder
-            foreach (Seat seat in availableSeats)
+            if (seats == null)
+            {
+                MessageBox.Show("Could not load seats from server.");
+                return;
+            }
+
+            _occupiedSeats = seats.FindAll(s => s.Passenger != null); // Only occupied seats
+
+            // Disable buttons for occupied seats
+            foreach (var seat in _occupiedSeats)
             {
                 DisableSeatButton(seat.SeatName);
             }
         }
 
-        // Deaktiverer den knap som hører til det valgte sæde
+        // Disabling seat buttons based on seat name
         private void DisableSeatButton(string seatName)
         {
-            // Deaktiver knappen for det valgte sæde
-            if (seatName == "1A") button1A.Enabled = false;
-            else if (seatName == "1B") button1B.Enabled = false;
-            else if (seatName == "1C") button1C.Enabled = false;
-            else if (seatName == "1D") button1D.Enabled = false;
-            else if (seatName == "1E") button1E.Enabled = false;
-            else if (seatName == "1F") button1F.Enabled = false;
-            else if (seatName == "2A") button2A.Enabled = false;
-            else if (seatName == "2B") button2B.Enabled = false;
-            else if (seatName == "2C") button2C.Enabled = false;
-            else if (seatName == "2D") button2D.Enabled = false;
-            else if (seatName == "2E") button2E.Enabled = false;
-            else if (seatName == "2F") button2F.Enabled = false;
-            else if (seatName == "3A") button3A.Enabled = false;
-            else if (seatName == "3B") button3B.Enabled = false;
-            else if (seatName == "3C") button3C.Enabled = false;
-            else if (seatName == "3D") button3D.Enabled = false;
-            else if (seatName == "3E") button3E.Enabled = false;
-            else if (seatName == "3F") button3F.Enabled = false;
-            else if (seatName == "4A") button4A.Enabled = false;
-            else if (seatName == "4B") button4B.Enabled = false;
-            else if (seatName == "4C") button4C.Enabled = false;
-            else if (seatName == "4D") button4D.Enabled = false;
-            else if (seatName == "4E") button4E.Enabled = false;
-            else if (seatName == "4F") button4F.Enabled = false;
-            else if (seatName == "5A") button5A.Enabled = false;
-            else if (seatName == "5B") button5B.Enabled = false;
-            else if (seatName == "5C") button5C.Enabled = false;
-            else if (seatName == "5D") button5D.Enabled = false;
-            else if (seatName == "5E") button5E.Enabled = false;
-            else if (seatName == "5F") button5F.Enabled = false;
-            else if (seatName == "6A") button6A.Enabled = false;
-            else if (seatName == "6B") button6B.Enabled = false;
-            else if (seatName == "6C") button6C.Enabled = false;
-            else if (seatName == "6D") button6D.Enabled = false;
-            else if (seatName == "6E") button6E.Enabled = false;
-            else if (seatName == "6F") button6F.Enabled = false;
-            else if (seatName == "7A") button7A.Enabled = false;
-            else if (seatName == "7B") button7B.Enabled = false;
-            else if (seatName == "7C") button7C.Enabled = false;
-            else if (seatName == "7D") button7D.Enabled = false;
-            else if (seatName == "7E") button7E.Enabled = false;
-            else if (seatName == "7F") button7F.Enabled = false;
-            else if (seatName == "8A") button8A.Enabled = false;
-            else if (seatName == "8B") button8B.Enabled = false;
-            else if (seatName == "8C") button8C.Enabled = false;
-            else if (seatName == "8D") button8D.Enabled = false;
-            else if (seatName == "8E") button8E.Enabled = false;
-            else if (seatName == "8F") button8F.Enabled = false;
-            else if (seatName == "9A") button9A.Enabled = false;
-            else if (seatName == "9B") button9B.Enabled = false;
-            else if (seatName == "9C") button9C.Enabled = false;
-            else if (seatName == "9D") button9D.Enabled = false;
-            else if (seatName == "9E") button9E.Enabled = false;
-            else if (seatName == "9F") button9F.Enabled = false;
-            else if (seatName == "10A") button10A.Enabled = false;
-            else if (seatName == "10B") button10B.Enabled = false;
-            else if (seatName == "10C") button10C.Enabled = false;
-            else if (seatName == "10D") button10D.Enabled = false;
-            else if (seatName == "10E") button10E.Enabled = false;
-            else if (seatName == "10F") button10F.Enabled = false;
+            Control[] controls = this.Controls.Find("button" + seatName, true);
+            if (controls.Length > 0 && controls[0] is Button btn)
+            {
+                btn.Enabled = false;
+            }
         }
 
-        // Håndterer klik på et sæde (kun sæder, der ikke er valgt)
+        // When a seat button is clicked, select that seat for the current passenger
         private void SeatButton_Click(object sender, EventArgs e)
         {
             Button clickedButton = (Button)sender;
             string seatName = clickedButton.Text;
 
-            Seat newSeat = new Seat();
-            newSeat.SeatName = seatName;
+            Seat newSeat = new Seat
+            {
+                SeatName = seatName
+            };
 
             _selectedSeatForCurrentPassenger = newSeat;
 
             MessageBox.Show("Selected seat: " + seatName + "\nClick 'Next' to continue.");
         }
 
+        // Handle next button click for passenger registration
         private async void buttonNext2_Click(object sender, EventArgs e)
         {
             if (_selectedSeatForCurrentPassenger == null)
@@ -169,72 +130,59 @@ namespace DesktopClientUCNFlight.GuiLayer
                 return;
             }
 
-            if (textBoxPassport.Text == "" || textBoxFirstName.Text == "" || textBoxLastName.Text == "")
+            if (string.IsNullOrWhiteSpace(textBoxPassport.Text) ||
+                string.IsNullOrWhiteSpace(textBoxFirstName.Text) ||
+                string.IsNullOrWhiteSpace(textBoxLastName.Text))
             {
                 MessageBox.Show("Please fill in all passenger information.");
                 return;
             }
 
-            DateOnly selectedBirthDate = DateOnly.FromDateTime(dateTimePickerBirth.Value);
+            var birthDate = DateOnly.FromDateTime(dateTimePickerBirth.Value);
 
-            // Opretter passager
+            // Create new passenger object
             Passenger passenger = new Passenger
             {
                 PassportNo = textBoxPassport.Text,
                 FirstName = textBoxFirstName.Text,
                 LastName = textBoxLastName.Text,
-                BirthDate = selectedBirthDate
+                BirthDate = birthDate
             };
 
-            // Tildeler passager til sæde
+            // Assign passenger to selected seat
             _selectedSeatForCurrentPassenger.Passenger = passenger;
 
-            // Gem passageren via PassengerLogic asynkront
-            bool isPassengerCreated = await _passengerLogic.CreatePassenger(passenger);
+            // Temporarily save passenger (without updating DB yet)
+            _selectedSeats.Add(_selectedSeatForCurrentPassenger);
 
-            if (isPassengerCreated)
+            // Disable the selected seat button
+            DisableSeatButton(_selectedSeatForCurrentPassenger.SeatName);
+
+            // Reset the selected seat
+            _selectedSeatForCurrentPassenger = null;
+
+            // Clear input fields
+            ClearPassengerInputs();
+
+            // Move to the next passenger
+            _currentPassengerIndex++;
+
+            // Check if all passengers are registered
+            if (_currentPassengerIndex > _totalPassengers)
             {
-                // Opdater sæde med passageren
-                bool isSeatUpdated = await _seatLogic.UpdateSeat(_selectedSeatForCurrentPassenger);
-
-                if (!isSeatUpdated)
-                {
-                    MessageBox.Show("Passenger saved, but failed to update seat. Please check backend.");
-                    return;
-                }
-
-                _selectedSeats.Add(_selectedSeatForCurrentPassenger);
-
-                // Deaktiver knappen for det valgte sæde
-                DisableSeatButton(_selectedSeatForCurrentPassenger.SeatName);
-
-                // Reset for næste passager
-                _selectedSeatForCurrentPassenger = null;
-                ClearPassengerInputs();
-
-                // Opdaterer passagerens info
-                _currentPassengerIndex++;
-
-                if (_currentPassengerIndex > _totalPassengers)
-                {
-                    MessageBox.Show("All passengers registered!\nProceeding to confirmation.");
-
-                    Form4 form4 = new Form4(_selectedFlight, _selectedSeats);
-                    form4.Show();
-                    this.Hide();
-                }
-                else
-                {
-                    UpdatePassengerLabel();
-                }
+                MessageBox.Show("All passengers registered!\nProceeding to confirmation.");
+                Form4 form4 = new Form4(_selectedFlight, _selectedSeats);
+                form4.Show();
+                this.Hide();
             }
             else
             {
-                MessageBox.Show("Failed to create passenger. Please try again.");
+                // Update passenger label for the next passenger
+                UpdatePassengerLabel();
             }
         }
 
-        // Rydder felterne i passager-input til næste passager
+        // Clear the input fields after registering a passenger
         private void ClearPassengerInputs()
         {
             textBoxPassport.Text = "";

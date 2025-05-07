@@ -17,14 +17,14 @@ namespace DesktopClientUCNFlight.BusinesslogicLayer
             _bookingServiceAccess = new BookingServiceAccess();
         }
 
-        public async Task<bool> SaveBooking(Flight flight, List<Seat> seats)
+        public async Task<bool> SaveBooking(Flight flight, List<Seat> seat)
         {
             bool wasSaved = false;
 
             try
             {
                 // Her vil du kalde på din service til at gemme bookingen
-                wasSaved = await _bookingServiceAccess.CreateBooking(flight, seats);
+                wasSaved = await _bookingServiceAccess.CreateBooking(flight, seat);
             }
             catch (Exception ex)
             {
