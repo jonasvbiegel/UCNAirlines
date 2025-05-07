@@ -43,7 +43,7 @@ namespace AirlineData.DatabaseLayer
                 con.Open();
                 int rowsAffected = con.Execute(cmd, new { AirplaneId = flight.Airplane.AirplaneId, Departure = flight.Departure, FlightRouteId = flight.Route.FlightRouteId });
 
-                // Return true if at least one row is deleted; otherwise, false
+                
                 return rowsAffected > 0;
             }
         }
