@@ -1,5 +1,36 @@
-﻿
- @{
+﻿@using UCNAirlinesWebpage.Models
+@model List<Flight>
+
+<h1>Available Flights</h1>
+
+@if (Model != null && Model.Any())
+{
+	<table>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Departure</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var flight in Model)
+			{
+				<tr>
+					<td>@flight.Airplane.AirplaneId</td>
+					<td>@flight.Route.StartDestination</td>
+					<td>@flight.Departure</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+else
+{
+	<p>No flights found for the selected date.</p>
+}
+@*
+@{
+	Layout = "_layout";
 }
 
 <h1 style="text-align: center; margin-top: auto">Book Your Trip</h1>
@@ -45,7 +76,17 @@
 		<option value="9">9</option>
 		<option value="10">10</option>
 	</select>
-
+	@foreach (var flight in Model)
+	{
+		<tr>
+			<td>@flight.Id</td>
+			<td>@flight.Route</td>
+			<td>@flight.Airplane</td>
+			<td>@flight.Departure</td>
+		</tr>
+	}
+	</tbody>
+	</table>
 <br />
 <br />
 	
@@ -78,4 +119,4 @@
 				}
 			}
 	}
-</script>
+</script>  *@
