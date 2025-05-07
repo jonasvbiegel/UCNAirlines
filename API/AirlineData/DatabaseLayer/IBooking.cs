@@ -9,6 +9,6 @@ namespace AirlineData.DatabaseLayer
 {
     public interface IBooking
     {
-        public bool CreateBooking(Booking booking);
+       bool CreateBooking(Booking booking);
     }
 }
