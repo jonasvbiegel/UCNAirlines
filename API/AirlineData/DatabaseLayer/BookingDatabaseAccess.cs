@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace AirlineData.DatabaseLayer
 {
-   public class BookingDatabaseAccess
+   public class BookingDatabaseAccess:IBooking
     {
         private readonly string? _connectionString;
 
