@@ -66,7 +66,7 @@ namespace DesktopClientUCNFlight.GuiLayer
                                    "To: " + _arrival + "\n" +
                                    "Passengers: " + _persons + "\n" +
                                    "Date: " + _date + "\n" +
-                                   "Time: " + _selectedFlight.Departure.ToShortTimeString();
+                                   "Time: " + _selectedFlight.Departure_time_and_date.ToShortTimeString();
         }
 
         // Updating passenger label

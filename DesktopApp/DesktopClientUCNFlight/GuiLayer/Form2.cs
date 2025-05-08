@@ -61,14 +61,26 @@ namespace DesktopClientUCNFlight
 
             // Kalder den asynkrone metode i din business logic
             List<Flight>? flights = await _flightLogic.GetFlightsByDate(selectedDateOnly);
-
-            if (flights == null || flights.Count == 0)
+            List<Flight>? flightReturn = new List<Flight>();
+            
             {
-                HandleNoFlights();
-                return;
-            }
+                foreach (Flight flight in flights)
+                {
 
-            LoadFlightItems(flights);
+                    if (flight.Route.StartDestination.AirportName.Equals(_departure) && flight.Route.EndDestination.AirportName.Equals(_arrival))
+                    {
+
+                        flightReturn.Add(flight);
+                    }
+                    if (flightReturn.Count == 0)
+                    {
+                        HandleNoFlights();
+                        return;
+                    }
+                }
+
+                LoadFlightItems(flightReturn);
+            }
         }
 
         private void HandleNoFlights()
@@ -98,8 +110,8 @@ namespace DesktopClientUCNFlight
                 }
 
                 ListViewItem item = new ListViewItem(airlineName);
-                item.SubItems.Add(flight.Departure.ToShortDateString());
-                item.SubItems.Add(flight.Departure.ToShortTimeString());
+                item.SubItems.Add(flight.Departure_time_and_date.ToShortDateString());
+                item.SubItems.Add(flight.Departure_time_and_date.ToShortTimeString());
                 item.SubItems.Add("SELECT");
                 item.Tag = flight;
 

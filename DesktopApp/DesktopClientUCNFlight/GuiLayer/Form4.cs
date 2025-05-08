@@ -40,8 +40,8 @@ namespace DesktopClientUCNFlight.GuiLayer
 
             overview.AppendLine("Flight from " + _selectedFlight.Route.StartDestination.AirportName +
                                 " to " + _selectedFlight.Route.EndDestination.AirportName);
-            overview.AppendLine("Date: " + _selectedFlight.Departure.ToShortDateString());
-            overview.AppendLine("Time: " + _selectedFlight.Departure.ToShortTimeString());
+            overview.AppendLine("Date: " + _selectedFlight.Departure_time_and_date.ToShortDateString());
+            overview.AppendLine("Time: " + _selectedFlight.Departure_time_and_date.ToShortTimeString());
             overview.AppendLine();
 
             int passengerNumber = 1;
