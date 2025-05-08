@@ -83,7 +83,7 @@ public class SeatDB : ISeatDB
             SET passport_no_FK = @PassportNo
                 OUTPUT inserted.seat_id INTO @key(seat_id)
             WHERE seat_id = @SeatId
-                AND row_version = (SELECT row_version FROM Seat WHERE seat_id = @SeatId);
+                AND row_version = @rv
             IF (SELECT COUNT(*) FROM @key) = 0
                 BEGIN
                     RAISERROR ('error changing row with seat_id = %d'
