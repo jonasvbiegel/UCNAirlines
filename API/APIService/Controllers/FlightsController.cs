@@ -22,7 +22,7 @@ namespace APIService.Controllers
         [HttpGet, Route("{date}")]
         public ActionResult<List<FlightDTO>> GetAllFlights(string date)
         {
-            DateOnly dato = DateOnly.Parse(date);
+            DateOnly dato=DateOnly.Parse(date);
             ActionResult<List<FlightDTO>> foundFlights;
             List<FlightDTO?>? flightsDto = _businessLogic.GetByDate(dato);
             if (!(flightsDto == null))

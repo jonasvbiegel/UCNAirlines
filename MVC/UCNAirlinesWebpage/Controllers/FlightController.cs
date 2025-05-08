@@ -1,8 +1,5 @@
-﻿ using System.Linq.Expressions;
-using System.Reflection;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using UCNAirlinesWebpage.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using UCNAirlinesWebpage.ServiceLayer;
 
 namespace UCNAirlinesWebpage.Controllers
@@ -10,12 +7,14 @@ namespace UCNAirlinesWebpage.Controllers
 
     public class FlightController : Controller
     {
-    
-            [HttpGet]
-            public IActionResult Index()
+        private readonly AirportServiceAccess _airportServiceAccess;
+        [HttpGet]
+        public IActionResult Index()
         {
-                return View();
-            }
+            _airportServiceAccess = new AirportServiceAccess();
+            List<string> airports = Task.Run(() => _airportServiceAccess.GetAirports()).Result;
+            return View();
+        }
         [HttpPost]
         public IActionResult Search(FlightSearchModel model)
         {
