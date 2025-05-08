@@ -11,7 +11,8 @@ builder.Services.AddSingleton<ISeatDB, SeatDB>();
 builder.Services.AddSingleton<ISeatLogic, SeatLogic>();
 builder.Services.AddSingleton<IBooking, BookingDatabaseAccess>();
 builder.Services.AddSingleton<IBookingLogic, BookingLogic>();
-
+builder.Services.AddSingleton<IAirport, AirportDatabaseAccess>();
+builder.Services.AddSingleton<IAirportLogic, AirportLogic>();
 builder.Services.AddSingleton<IPassengerDB, PassengerDB>();
 builder.Services.AddSingleton<IPassengerLogic, PassengerLogic>();
 

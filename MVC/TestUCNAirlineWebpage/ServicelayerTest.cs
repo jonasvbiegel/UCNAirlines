@@ -64,5 +64,14 @@ namespace Testservicelayer
             BookingServiceAccess bsa = new BookingServiceAccess();
             bsa.InsertBooking(booking);
         }
+
+        [Fact]
+        public async void TestGetAirports()
+        {
+            List<string> airports= new List<string>();
+            AirportServiceAccess air= new AirportServiceAccess();
+            airports = await air.GetAirports();
+            Assert.Equal(5, airports.Count);
+        }
     }
 }
