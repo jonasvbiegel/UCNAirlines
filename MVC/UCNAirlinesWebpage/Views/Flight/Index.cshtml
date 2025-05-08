@@ -42,15 +42,15 @@ else
 	<label>From:</label>
 	<select id="fromSelect" name="from" onchange="updateToOptions()" required>
 		<option value="">-- selected Departure --</option>
-		<option value="Aalborg Airport">Aalborg Airport</option>
-		<option value="Nuuk Airport">Nuuk Airport</option>
+		<option value="Aalborg">Aalborg</option>
+		<option value="Nuuk">Nuuk</option>
 	</select>
 
 	<label>To:</label>
 	<select id="toSelect" name="to" required>
 		<option value="">-- selected Arrival --</option>
-		<option value="Aalborg Airport">Aalborg Airport</option>
-		<option value="Nuuk Airport">Nuuk Airport</option>
+		<option value="Aalborg">Aalborg</option>
+		<option value="Nuuk">Nuuk</option>
 	</select>
 
 <br />
@@ -102,8 +102,8 @@ else
 		var selectedFrom = fromSelect.value;
 
 		var allOptions = [
-			{ value: "Aalborg Airport", text: "Aalborg Airport"},
-			{ value: "Nuuk Airport", text: "Nuuk Airport"}
+			{ value: "Aalborg", text: "Aalborg"},
+			{ value: "Nuuk", text: "Nuuk"}
 		];
 
 		toSelect.innerHTML = '<option value="">--select Destination--</option>';
