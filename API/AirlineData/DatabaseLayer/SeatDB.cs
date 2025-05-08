@@ -70,13 +70,11 @@ public class SeatDB : ISeatDB
     }
 
     // TODO: Concurrency issue here
+    // Documentation for row version and concurrency control found here:
+    // https://learn.microsoft.com/en-us/sql/t-sql/data-types/rowversion-transact-sql?view=sql-server-ver16
 
     public bool UpdateSeat(Seat seat)
     {
-        // string sql = @"UPDATE Seat
-        //     SET passport_no_FK = @PassportNo
-        //     WHERE seat_id = @SeatId";
-
         string sql =
             @"declare @rv TABLE (seat_id int);
             UPDATE Seat
