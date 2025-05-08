@@ -1,6 +1,6 @@
-﻿using DesktopClientUCNFlight.ModelLayer;
+﻿using UCNAirlinesWebpage.Models;
 
-namespace DesktopClientUCNFlight.ServiceLayer
+namespace UCNAirlinesWebpage.ServiceLayer
 {
     public interface IFlightAccess
     {

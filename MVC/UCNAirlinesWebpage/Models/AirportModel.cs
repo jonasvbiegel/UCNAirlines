@@ -2,10 +2,10 @@
 {
     public class AirportModel
     {
-        List<string> Airports { get; set; }
-        public AirportModel(List<string> airports)
+        public List<string> Airports { get; set; }
+        
+        public AirportModel()
         {
-            Airports = airports;
         }
     }
 }

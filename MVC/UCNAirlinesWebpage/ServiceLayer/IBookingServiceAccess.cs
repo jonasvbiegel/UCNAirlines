@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DesktopClientUCNFlight.ModelLayer;
+using UCNAirlinesWebpage.Models;
 
-namespace DesktopClientUCNFlight.ServiceLayer
+namespace UCNAirlinesWebpage.ServiceLayer
 {
     public interface IBookingServiceAccess
     {

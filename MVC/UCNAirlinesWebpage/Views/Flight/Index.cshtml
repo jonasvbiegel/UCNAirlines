@@ -9,15 +9,20 @@
 	<label>From:</label>
 	<select id="fromSelect" name="from" onchange="updateToOptions()" required>
 		<option value="">-- selected Departure --</option>
-		<option value="Aalborg Airport">Aalborg Airport</option>
-		<option value="Nuuk Airport">Nuuk Airport</option>
+		@foreach (var flight in Model.Airports)
+		{
+			<option value="flight">@flight</option>
+		}
+		
 	</select>
 
 	<label>To:</label>
 	<select id="toSelect" name="to" required>
 		<option value="">-- selected Arrival --</option>
-		<option value="Aalborg Airport">Aalborg Airport</option>
-		<option value="Nuuk Airport">Nuuk Airport</option>
+		@foreach (var flight in Model.Airports)
+		{
+			<option value="flight">@flight</option>
+		}
 	</select>
 
 <br />
@@ -59,12 +64,13 @@
 		var selectedFrom = fromSelect.value;
 
 		var allOptions = [
-			{ value: "Aalborg Airport", text: "Aalborg Airport"},
-			{ value: "Nuuk Airport", text: "Nuuk Airport"}
-		];
+	@foreach (var flight in Model.Airports)
+	{
+		@:{ value: "@flight", text: "@flight" },
+	}
+		]
 
 		toSelect.innerHTML = '<option value="">--select Destination--</option>';
-
 		for (var i = 0; i < allOptions.length; i++)
 			{
 				if (allOptions[i].value !== selectedFrom)

@@ -7,13 +7,18 @@ namespace UCNAirlinesWebpage.Controllers
 
     public class FlightController : Controller
     {
-        private readonly AirportServiceAccess _airportServiceAccess;
+       
         [HttpGet]
         public IActionResult Index()
         {
-            _airportServiceAccess = new AirportServiceAccess();
-            List<string> airports = Task.Run(() => _airportServiceAccess.GetAirports()).Result;
-            return View();
+            AirportServiceAccess ars = new AirportServiceAccess();
+
+            List<string> airports = Task.Run(() => ars.GetAirports()).Result;
+            AirportModel model = new()
+            {
+                Airports = airports
+            };
+            return View(model);
         }
         [HttpPost]
         public IActionResult Search(FlightSearchModel model)

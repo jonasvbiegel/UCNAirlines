@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System.Net;
-using DesktopClientUCNFlight.ModelLayer;
+using UCNAirlinesWebpage.Models;
 
-namespace DesktopClientUCNFlight.ServiceLayer
+namespace UCNAirlinesWebpage.ServiceLayer
 {
     public class AirportServiceAccess : ServiceConnection, IAirportAccess
     {
