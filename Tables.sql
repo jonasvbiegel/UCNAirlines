@@ -1,6 +1,6 @@
 USE UCNAirlines;
 
-DROP VIEW IF EXISTS FlightRouteAirplane, RouteWithAirports;
+DROP VIEW IF EXISTS AirportZipCountry, FlightRouteAirplane, RouteWithAirports;
 
 DROP TABLE IF EXISTS PassengerBooking, Seat, Passenger, Booking, Flight, Flight_Route, Airport, Airplane, City_Zip_Code, Country;
 
@@ -55,11 +55,19 @@ CREATE TABLE Passenger (
     birth_date DATE NOT NULL,
 );
 
+-- CREATE TABLE Seat (
+--     seat_id INT IDENTITY(1,1) PRIMARY KEY,
+--     seat_name VARCHAR(128) NOT NULL,
+--     passport_no_FK VARCHAR(128) FOREIGN KEY REFERENCES Passenger(passport_no),
+--     flight_id_FK INT NOT NULL FOREIGN KEY REFERENCES Flight(flight_id),
+-- );
+
 CREATE TABLE Seat (
     seat_id INT IDENTITY(1,1) PRIMARY KEY,
     seat_name VARCHAR(128) NOT NULL,
     passport_no_FK VARCHAR(128) FOREIGN KEY REFERENCES Passenger(passport_no),
     flight_id_FK INT NOT NULL FOREIGN KEY REFERENCES Flight(flight_id),
+    row_version rowversion
 );
 
 CREATE TABLE PassengerBooking (
@@ -78,6 +86,7 @@ SELECT
 FROM Airport airport
          JOIN City_Zip_Code cityzip ON airport.zipcode_FK = cityzip.zipcode
          JOIN Country country ON cityzip.country_id_FK = country.country_id;
+GO;
 
 CREATE VIEW RouteWithAirports AS
 SELECT
@@ -98,6 +107,7 @@ SELECT
 FROM Flight_Route r
          JOIN AirportZipCountry sa ON r.start_destination_FK = sa.icaoCode
          JOIN AirportZipCountry ea ON r.end_destination_FK = ea.icaoCode;
+GO;
 
 CREATE VIEW FlightRouteAirplane AS
 SELECT 
@@ -111,3 +121,4 @@ SELECT
 FROM Flight f
 INNER JOIN Airplane a ON f.airplane_id_FK = a.airplane_id
 INNER JOIN Flight_Route fr ON f.flight_route_id_FK = fr.flight_route_id;
+GO;

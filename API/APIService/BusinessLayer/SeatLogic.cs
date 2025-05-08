@@ -36,8 +36,9 @@ public class SeatLogic : ISeatLogic
         {
             _seatDB.UpdateSeat(seat);
         }
-        catch (SqlException)
+        catch (SqlException e)
         {
+            Console.WriteLine(e.Message);
             return false;
         }
         return true;
