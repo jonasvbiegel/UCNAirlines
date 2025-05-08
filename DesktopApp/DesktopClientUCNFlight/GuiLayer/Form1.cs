@@ -5,17 +5,25 @@ namespace DesktopClientUCNFlight
 {
     public partial class Form1 : Form
     {
+        private readonly AirportServiceAccess _airportServiceAccess;
         public Form1()
         {
+            _airportServiceAccess = new AirportServiceAccess();
+            List<string> airports = Task.Run(() => _airportServiceAccess.GetAirports()).Result;
             InitializeComponent();
-
             comboBoxDeparture.Items.Add("Departure Airport");
-            comboBoxDeparture.Items.Add("Aalborg Airport");
-            comboBoxDeparture.Items.Add("Billund Airport");
-            comboBoxDeparture.Items.Add("Nuuk Airport");
-            comboBoxDeparture.Items.Add("Ilulissat Airport");
-            comboBoxDeparture.Items.Add("Kangerlussuaq Airport");
+            foreach (string airport in airports) {
+                comboBoxDeparture.Items.Add(airport);
+            }
+
             comboBoxDeparture.SelectedIndex = 0;
+            //comboBoxDeparture.Items.Add("Aalborg Airport");
+            //comboBoxDeparture.Items.Add("Billund Airport");
+            //comboBoxDeparture.Items.Add("Nuuk Airport");
+            //comboBoxDeparture.Items.Add("Ilulissat Airport");
+            //comboBoxDeparture.Items.Add("Kangerlussuaq Airport");
+
+            //comboBoxDeparture.SelectedIndex = 0;
 
             comboBoxArrival.Items.Add("Arrival Airport");
             comboBoxArrival.Items.Add("Aalborg Airport");
@@ -106,5 +114,19 @@ namespace DesktopClientUCNFlight
             form2.Show();
             this.Hide();
         }
+
+        //public async Task<List<string>> getairportnamesAsync()
+        //{
+        //    Task.Run(() => _airportServiceAccess.GetAirports());
+        //    return Task.FromResult(new List<string>());
+        //}
+        //static public async Task<List<string>> GetairportnamesAsync()
+
+        //{
+        //    AirportServiceAccess _airportServiceAccess = new AirportServiceAccess();
+
+        //     return Task.Run(() =>  _airportServiceAccess.GetAirports()).Result;
+            
+        //}
     }
 }
