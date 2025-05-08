@@ -77,22 +77,6 @@ public class SeatDB : ISeatDB
             SET passport_no_FK = @PassportNo
             WHERE seat_id = @SeatId";
 
-        // string sql =
-        //     @"declare @rv TABLE (seat_id int);
-        //     UPDATE Seat
-        //     SET passport_no_FK = @PassportNo
-        //         OUTPUT inserted.seat_id INTO @rv(seat_id)
-        //     WHERE seat_id = @SeatId
-        //         AND row_version = (SELECT row_version FROM Seat WHERE seat_id = 3);
-        //     IF (SELECT COUNT(*) FROM @rv) = 0
-        //         BEGIN
-        //             RAISERROR ('error changing row with seat_id = %d
-        //                     , 16
-        //                     , 1
-        //                     , 1)
-        //             END;";
-
-
         using SqlConnection con = new(_connectionString);
 
         string actualPassport;
