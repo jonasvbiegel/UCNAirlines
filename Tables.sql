@@ -55,13 +55,6 @@ CREATE TABLE Passenger (
     birth_date DATE NOT NULL,
 );
 
--- CREATE TABLE Seat (
---     seat_id INT IDENTITY(1,1) PRIMARY KEY,
---     seat_name VARCHAR(128) NOT NULL,
---     passport_no_FK VARCHAR(128) FOREIGN KEY REFERENCES Passenger(passport_no),
---     flight_id_FK INT NOT NULL FOREIGN KEY REFERENCES Flight(flight_id),
--- );
-
 CREATE TABLE Seat (
     seat_id INT IDENTITY(1,1) PRIMARY KEY,
     seat_name VARCHAR(128) NOT NULL,

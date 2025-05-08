@@ -76,19 +76,22 @@ public class SeatDB : ISeatDB
     public bool UpdateSeat(Seat seat)
     {
         string sql =
-            @"declare @rv TABLE (seat_id int);
+            @"
+            DECLARE @rv rowversion = (SELECT row_version FROM Seat WHERE seat_id = @SeatId);
+            DECLARE @key TABLE (seat_id int);
             UPDATE Seat
             SET passport_no_FK = @PassportNo
-                OUTPUT inserted.seat_id INTO @rv(seat_id)
+                OUTPUT inserted.seat_id INTO @key(seat_id)
             WHERE seat_id = @SeatId
-                AND row_version = (SELECT row_version FROM Seat WHERE seat_id = 3);
-            IF (SELECT COUNT(*) FROM @rv) = 0
+                AND row_version = (SELECT row_version FROM Seat WHERE seat_id = @SeatId);
+            IF (SELECT COUNT(*) FROM @key) = 0
                 BEGIN
                     RAISERROR ('error changing row with seat_id = %d'
                             , 16
                             , 1
                             , 1)
-                    END;";
+                    END;
+            ";
 
 
         using SqlConnection con = new(_connectionString);
