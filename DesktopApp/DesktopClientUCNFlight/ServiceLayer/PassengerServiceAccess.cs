@@ -11,14 +11,14 @@ namespace DesktopClientUCNFlight.ServiceLayer
 {
     public class PassengerServiceAccess : ServiceConnection, IPassengerServiceAccess
     {
-        public PassengerServiceAccess() : base(ConfigurationManager.AppSettings.Get("ServiceUrlToUse"))
+        public PassengerServiceAccess() : base("https://localhost:7184/api/airports/")
         {
         }
 
-        // Asynkron metode til at oprette en passager
+        // Asynchronous method to create a passenger
         public async Task<Passenger?> PostPassenger(Passenger passenger)
         {
-            int newPassengerId = null;
+            Passenger? newPassenger = null; // Change from int to Passenger
             UseUrl = BaseUrl + "passenger";
 
             try
@@ -30,15 +30,15 @@ namespace DesktopClientUCNFlight.ServiceLayer
                 if (serviceResponse != null && serviceResponse.IsSuccessStatusCode)
                 {
                     var responseContent = await serviceResponse.Content.ReadAsStringAsync();
-                    newPassengerId = JsonConvert.DeserializeObject<int>(responseContent);
+                    newPassenger = JsonConvert.DeserializeObject<Passenger>(responseContent); // Deserialize to Passenger
                 }
             }
             catch
             {
-                newPassengerId = null;
+                newPassenger = null; // Return null in case of an error
             }
 
-            return newPassengerId;
+            return newPassenger; // Return the Passenger object
         }
     }
 }

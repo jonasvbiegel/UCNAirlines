@@ -15,7 +15,7 @@ public class PassengerDBTest
     // SeatDB sdb = new();
 
     private readonly IPassengerDB _passengerDB = new PassengerDB();
-
+    private readonly string _connectionString = "Data Source = localhost; Initial Catalog = UCNAirlines; Persist Security Info=True; User ID = sa; Password=@12tf56so; Encrypt=False";
     [Fact]
     public void DBTest_GetPassenger()
     {
@@ -60,5 +60,13 @@ public class PassengerDBTest
 
         return finalString;
     }
+    [Fact]
 
+    public void TestAirportDb()
+    {
+
+        AirportDatabaseAccess ada = new AirportDatabaseAccess(_connectionString);
+        List<string> air = ada.GetAllAirports();
+        Assert.Equal(5, air.Count);
+    }
 }
