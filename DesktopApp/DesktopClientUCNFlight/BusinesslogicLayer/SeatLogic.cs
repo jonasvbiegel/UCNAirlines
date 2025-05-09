@@ -18,15 +18,15 @@ namespace DesktopClientUCNFlight.BusinesslogicLayer
         public async Task<List<Seat>?> GetSeatsForFlight(int flightId)
         {
             List<Seat>? seats;
-            
+            try
+            {
                 seats = await _seatServiceAccess.GetSeats(flightId);
-            
-            //catch
-            //{
-            //    //seats = null; 
-            //    seats = 
-                
-            //}
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error retrieving seats: {ex.Message}");
+                seats = null;
+            }
 
             return seats;
         }
@@ -36,8 +36,9 @@ namespace DesktopClientUCNFlight.BusinesslogicLayer
             {
                 return await _seatServiceAccess.UpdateSeat(seat);
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine($"Error updating seat: {ex.Message}");
                 return false;
             }
         }

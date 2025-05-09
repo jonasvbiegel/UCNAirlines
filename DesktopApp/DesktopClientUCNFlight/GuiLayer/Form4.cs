@@ -16,6 +16,7 @@ namespace DesktopClientUCNFlight.GuiLayer
     {
         private Flight _selectedFlight;
         private List<Seat> _selectedSeats;
+
         private BookingLogic _bookingLogic;
         private PassengerLogic _passengerLogic;
         private SeatLogic _seatLogic;
@@ -65,7 +66,6 @@ namespace DesktopClientUCNFlight.GuiLayer
 
         private async void buttonConfirm_Click(object sender, EventArgs e)
         {
-            // 1. Gem alle passagerer
             foreach (Seat seat in _selectedSeats)
             {
                 if (seat.Passenger == null)
@@ -82,7 +82,6 @@ namespace DesktopClientUCNFlight.GuiLayer
                 }
             }
 
-            // 2. Opdater sæder med passagerer
             foreach (Seat seat in _selectedSeats)
             {
                 bool seatUpdated = await _seatLogic.UpdateSeat(seat);
@@ -93,13 +92,19 @@ namespace DesktopClientUCNFlight.GuiLayer
                 }
             }
 
-            // 3. Gem booking
-            //bool bookingSaved = await _bookingLogic.SaveBooking(_selectedFlight, _selectedSeats);
-            //if (!bookingSaved)
-            //{
-            //    MessageBox.Show("Failed to save booking. Please try again.");
-            //    return;
-            //}
+            Booking booking = new Booking
+            {
+                Flight = _selectedFlight,
+                //extracts all passengers from the selected seats, filters out any that are null, and stores the result as a list of passengers
+                Passengers = _selectedSeats.Select(s => s.Passenger).Where(p => p != null).ToList()!
+            };
+
+            bool bookingSaved = await _bookingLogic.SaveBooking(booking);
+            if (!bookingSaved)
+            {
+                MessageBox.Show("Failed to save booking. Please try again.");
+                return;
+            }
 
             Form5 form5 = new Form5();
             form5.Show();

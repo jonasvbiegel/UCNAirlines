@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using DesktopClientUCNFlight.BusinesslogicLayer;
 using DesktopClientUCNFlight.ModelLayer;
 
@@ -20,38 +21,31 @@ namespace DesktopClientUCNFlight.GuiLayer
         private string _date;
 
         private Flight _selectedFlight;
-        private PassengerLogic _passengerLogic;
         private SeatLogic _seatLogic;
 
+        private List<Seat> _availableSeats;
         private List<Seat> _selectedSeats;
         private int _totalPassengers;
         private int _currentPassengerIndex;
         private Seat _selectedSeatForCurrentPassenger;
 
-        private List<Seat> _occupiedSeats;
-
         public Form3(string departure, string arrival, string persons, string date, Flight selectedFlight)
         {
             InitializeComponent();
 
-            // Initializing fields from Form2
             _departure = departure;
             _arrival = arrival;
             _persons = persons;
             _date = date;
             _selectedFlight = selectedFlight;
 
-            // Initializing logic layers
-            _passengerLogic = new PassengerLogic();
             _seatLogic = new SeatLogic();
 
-            // Initializing lists and variables
             _selectedSeats = new List<Seat>();
-            _occupiedSeats = new List<Seat>();
+            _availableSeats = new List<Seat>();
             _totalPassengers = Convert.ToInt32(persons);
             _currentPassengerIndex = 1;
 
-            // Displaying flight info
             SetFlightInfoLabel();
             UpdatePassengerLabel();
             getAvailableSeats();
@@ -78,16 +72,14 @@ namespace DesktopClientUCNFlight.GuiLayer
         {
             comboBoxSelectSeat.Items.Add("-- Select a Seat --");
 
-            List<Seat> seats = Task.Run(() => _seatLogic.GetSeatsForFlight(_selectedFlight.flightId)).Result;
-            if (seats != null)
+            _availableSeats = Task.Run(() => _seatLogic.GetSeatsForFlight(_selectedFlight.flightId)).Result;
+            if (_availableSeats != null)
             {
-                foreach (Seat seat in seats)
+                foreach (Seat seat in _availableSeats)
                 {
-                    comboBoxSelectSeat.Items.Add(seat.SeatName);
-
                     if (seat.Passenger == null)
                     {
-                        comboBoxSelectSeat.Items.Add(seat);
+                        comboBoxSelectSeat.Items.Add(seat.SeatName);
                     }
                 }
             }
@@ -95,50 +87,52 @@ namespace DesktopClientUCNFlight.GuiLayer
             comboBoxSelectSeat.SelectedIndex = 0;
         }
 
-        // Handle next button click for passenger registration
         private async void buttonNext2_Click(object sender, EventArgs e)
         {
-            if (_selectedSeatForCurrentPassenger == null)
-            {
-                MessageBox.Show("Please select a seat first.");
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(textBoxPassport.Text) ||
-                string.IsNullOrWhiteSpace(textBoxFirstName.Text) ||
-                string.IsNullOrWhiteSpace(textBoxLastName.Text))
-            {
-                MessageBox.Show("Please fill in all passenger information.");
-                return;
-            }
-
+            string selectedSeatName = comboBoxSelectSeat.SelectedItem?.ToString();
+            string passportNo = textBoxPassport.Text;
+            string firstName = textBoxFirstName.Text;
+            string lastName = textBoxLastName.Text;
             var birthDate = DateOnly.FromDateTime(dateTimePickerBirth.Value);
 
-            // Create new passenger object
-            Passenger passenger = new Passenger
+            if (string.IsNullOrWhiteSpace(selectedSeatName) || selectedSeatName == "-- Select a Seat --")
             {
-                PassportNo = textBoxPassport.Text,
-                FirstName = textBoxFirstName.Text,
-                LastName = textBoxLastName.Text,
-                BirthDate = birthDate
-            };
+                MessageBox.Show("Please select a valid seat before proceeding.");
+                return; 
+            }
 
-            // Assign passenger to selected seat
-            _selectedSeatForCurrentPassenger.Passenger = passenger;
+            if (InputIsOk(selectedSeatName, passportNo, firstName, lastName))
+            {
+                Passenger passenger = new Passenger
+                {
+                    PassportNo = passportNo,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    BirthDate = birthDate
+                };
 
-            // Temporarily save passenger (without updating DB yet)
-            _selectedSeats.Add(_selectedSeatForCurrentPassenger);
+                //Find through _availableSeats and find the first seat where SeatName matches SelectedSeatName
+                Seat selectedSeat = _availableSeats.Find(s => s.SeatName == selectedSeatName);
 
-            // Reset the selected seat
-            _selectedSeatForCurrentPassenger = null;
+                if (selectedSeat != null)
+                {
+                    selectedSeat.Passenger = passenger;
+                    _selectedSeats.Add(selectedSeat);
+                    comboBoxSelectSeat.Items.Remove(selectedSeatName);
+                    comboBoxSelectSeat.SelectedIndex = 0;
+                }
+                else
+                {
+                    MessageBox.Show("Error: Selected seat not found");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please fill in all passenger information and select a seat.");
+                return;
+            }
 
-            // Clear input fields
-            ClearPassengerInputs();
-
-            // Move to the next passenger
             _currentPassengerIndex++;
-
-            // Check if all passengers are registered
             if (_currentPassengerIndex > _totalPassengers)
             {
                 MessageBox.Show("All passengers registered!\nProceeding to confirmation.");
@@ -148,10 +142,26 @@ namespace DesktopClientUCNFlight.GuiLayer
             }
             else
             {
-                // Update passenger label for the next passenger
                 UpdatePassengerLabel();
+                ClearPassengerInputs();
             }
         }
+
+        private bool InputIsOk(string seat, string passportNo, string firstName, string lastName)
+        {
+            bool isValidInput = false;
+            if (!string.IsNullOrWhiteSpace(seat) &&
+                !string.IsNullOrWhiteSpace(passportNo) &&
+                !string.IsNullOrWhiteSpace(firstName) &&
+                !string.IsNullOrWhiteSpace(lastName)) {
+                if (passportNo.Length > 1 && firstName.Length > 0 && lastName.Length > 0) 
+                {
+                    isValidInput = true;
+                }
+            }
+            return isValidInput;
+        }
+
 
         // Clear the input fields after registering a passenger
         private void ClearPassengerInputs()

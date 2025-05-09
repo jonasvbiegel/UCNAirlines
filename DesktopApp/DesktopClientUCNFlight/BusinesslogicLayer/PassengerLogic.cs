@@ -24,13 +24,13 @@ namespace DesktopClientUCNFlight.BusinesslogicLayer
             try
             {
                 var createdPassenger = await _passengerServiceAccess.InsertPassenger(passenger);
+
                 wasCreated = (createdPassenger!=null);
             }
             catch (Exception ex)
             {
                 wasCreated = false;
             }
-
             return wasCreated;
         }
     }

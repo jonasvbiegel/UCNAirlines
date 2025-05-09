@@ -62,7 +62,7 @@
             buttonConfirm.Name = "buttonConfirm";
             buttonConfirm.Size = new Size(94, 29);
             buttonConfirm.TabIndex = 1;
-            buttonConfirm.Text = "Confirm";
+            buttonConfirm.Text = "Book";
             buttonConfirm.UseVisualStyleBackColor = true;
             buttonConfirm.Click += buttonConfirm_Click;
             // 

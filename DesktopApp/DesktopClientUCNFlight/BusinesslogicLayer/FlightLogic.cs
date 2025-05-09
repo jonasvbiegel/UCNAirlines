@@ -23,8 +23,9 @@ namespace DesktopClientUCNFlight.BusinesslogicLayer
             {
                 foundFlights = await _flightServiceAccess.GetFlights(date);
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine($"Error retrieving flights: {ex.Message}");
                 foundFlights = null;
             }
 
