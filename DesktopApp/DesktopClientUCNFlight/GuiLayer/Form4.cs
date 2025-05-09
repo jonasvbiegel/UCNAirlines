@@ -94,12 +94,12 @@ namespace DesktopClientUCNFlight.GuiLayer
             }
 
             // 3. Gem booking
-            bool bookingSaved = await _bookingLogic.SaveBooking(_selectedFlight, _selectedSeats);
-            if (!bookingSaved)
-            {
-                MessageBox.Show("Failed to save booking. Please try again.");
-                return;
-            }
+            //bool bookingSaved = await _bookingLogic.SaveBooking(_selectedFlight, _selectedSeats);
+            //if (!bookingSaved)
+            //{
+            //    MessageBox.Show("Failed to save booking. Please try again.");
+            //    return;
+            //}
 
             Form5 form5 = new Form5();
             form5.Show();

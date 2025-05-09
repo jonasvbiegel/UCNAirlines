@@ -18,14 +18,15 @@ namespace DesktopClientUCNFlight.BusinesslogicLayer
         public async Task<List<Seat>?> GetSeatsForFlight(int flightId)
         {
             List<Seat>? seats;
-            try
-            {
+            
                 seats = await _seatServiceAccess.GetSeats(flightId);
-            }
-            catch
-            {
-                seats = null;
-            }
+            
+            //catch
+            //{
+            //    //seats = null; 
+            //    seats = 
+                
+            //}
 
             return seats;
         }

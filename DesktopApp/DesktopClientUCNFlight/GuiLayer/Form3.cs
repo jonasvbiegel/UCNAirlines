@@ -54,9 +54,7 @@ namespace DesktopClientUCNFlight.GuiLayer
             // Displaying flight info
             SetFlightInfoLabel();
             UpdatePassengerLabel();
-
-            // Loading seats (without updating database yet)
-            LoadSeatsAsync();
+            getAvailableSeats();
         }
 
         // Setting the flight info in the UI
@@ -66,7 +64,8 @@ namespace DesktopClientUCNFlight.GuiLayer
                                    "To: " + _arrival + "\n" +
                                    "Passengers: " + _persons + "\n" +
                                    "Date: " + _date + "\n" +
-                                   "Time: " + _selectedFlight.Departure_time_and_date.ToShortTimeString();
+                                   "Time: " + _selectedFlight.Departure_time_and_date.ToShortTimeString() + "\n" +
+                                   "Id:" + _selectedFlight.flightId;
         }
 
         // Updating passenger label
@@ -75,50 +74,25 @@ namespace DesktopClientUCNFlight.GuiLayer
             labelPassengerInfo.Text = "Passenger " + _currentPassengerIndex + " of " + _totalPassengers;
         }
 
-        // Async method to load available seats
-        private async void LoadSeatsAsync()
+        private void getAvailableSeats()
         {
-            var seats = await _seatLogic.GetSeatsForFlight(_selectedFlight.FlightId);
+            comboBoxSelectSeat.Items.Add("-- Select a Seat --");
 
-            if (seats == null)
+            List<Seat> seats = Task.Run(() => _seatLogic.GetSeatsForFlight(_selectedFlight.flightId)).Result;
+            if (seats != null)
             {
-                MessageBox.Show("Could not load seats from server.");
-                return;
+                foreach (Seat seat in seats)
+                {
+                    comboBoxSelectSeat.Items.Add(seat.SeatName);
+
+                    if (seat.Passenger == null)
+                    {
+                        comboBoxSelectSeat.Items.Add(seat);
+                    }
+                }
             }
 
-            _occupiedSeats = seats.FindAll(s => s.Passenger != null); // Only occupied seats
-
-            // Disable buttons for occupied seats
-            foreach (var seat in _occupiedSeats)
-            {
-                DisableSeatButton(seat.SeatName);
-            }
-        }
-
-        // Disabling seat buttons based on seat name
-        private void DisableSeatButton(string seatName)
-        {
-            Control[] controls = this.Controls.Find("button" + seatName, true);
-            if (controls.Length > 0 && controls[0] is Button btn)
-            {
-                btn.Enabled = false;
-            }
-        }
-
-        // When a seat button is clicked, select that seat for the current passenger
-        private void SeatButton_Click(object sender, EventArgs e)
-        {
-            Button clickedButton = (Button)sender;
-            string seatName = clickedButton.Text;
-
-            Seat newSeat = new Seat
-            {
-                SeatName = seatName
-            };
-
-            _selectedSeatForCurrentPassenger = newSeat;
-
-            MessageBox.Show("Selected seat: " + seatName + "\nClick 'Next' to continue.");
+            comboBoxSelectSeat.SelectedIndex = 0;
         }
 
         // Handle next button click for passenger registration
@@ -154,9 +128,6 @@ namespace DesktopClientUCNFlight.GuiLayer
 
             // Temporarily save passenger (without updating DB yet)
             _selectedSeats.Add(_selectedSeatForCurrentPassenger);
-
-            // Disable the selected seat button
-            DisableSeatButton(_selectedSeatForCurrentPassenger.SeatName);
 
             // Reset the selected seat
             _selectedSeatForCurrentPassenger = null;
