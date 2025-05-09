@@ -10,7 +10,7 @@ namespace DesktopClientUCNFlight.BusinesslogicLayer
 {
     public class SeatLogic
     {
-        private ISeatServiceAccess _seatServiceAccess;
+        private ISeatAccess _seatServiceAccess;
         public SeatLogic()
         {
             _seatServiceAccess = new SeatServiceAccess();
@@ -20,7 +20,7 @@ namespace DesktopClientUCNFlight.BusinesslogicLayer
             List<Seat>? seats;
             try
             {
-                seats = await _seatServiceAccess.GetSeatsForFlight(flightId);
+                seats = await _seatServiceAccess.GetSeats(flightId);
             }
             catch
             {

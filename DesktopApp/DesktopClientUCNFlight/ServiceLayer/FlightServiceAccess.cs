@@ -1,49 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using DesktopClientUCNFlight.ModelLayer;
-using Newtonsoft.Json;
 
+using System.Net.Http.Json;
+using Newtonsoft.Json;
+using System.Net;
+using DesktopClientUCNFlight.ModelLayer;
 namespace DesktopClientUCNFlight.ServiceLayer
 {
-    public class FlightServiceAccess : ServiceConnection, IFlightServiceAccess
+    public class FlightServiceAccess : ServiceConnection,IFlightAccess
     {
         public FlightServiceAccess() : base("https://localhost:7184/api/flights/")
         {
         }
-        public async Task<List<Flight>?> GetFlightsByDate(DateOnly date)
+        public async Task<List<Flight>?> GetFlights(string date)
         {
-            List<Flight>? flightsFromService = null;
+            List<Flight> flights = new List<Flight>();
+            UseUrl = BaseUrl;
+            UseUrl += date;
 
-            UseUrl = BaseUrl + date.ToString();
-
-            try
+            var serviceResponse = await base.CallServiceGet();
+            // if success (200-299)
+            if (serviceResponse != null && serviceResponse.IsSuccessStatusCode)
             {
-                var serviceResponse = await CallServiceGet();
+               
+                if (serviceResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    string responseData = await serviceResponse.Content.ReadAsStringAsync();
+                 
 
-                if (serviceResponse != null && serviceResponse.IsSuccessStatusCode)
-                {
-                    var content = await serviceResponse.Content.ReadAsStringAsync();
-                    flightsFromService = JsonConvert.DeserializeObject<List<Flight>>(content);
+                    flights = JsonConvert.DeserializeObject<List<Flight>>(responseData);
+     
                 }
-                else if (serviceResponse != null && serviceResponse.StatusCode == System.Net.HttpStatusCode.NoContent)
-                {
-                    flightsFromService = new List<Flight>(); // Ingen fly fundet
-                }
-                else
-                {
-                    flightsFromService = null; // Anden fejl
-                }
-            }
-            catch
-            {
-                flightsFromService = null; // Exception, fx netværksfejl
-            }
 
-            return flightsFromService;
+            }
+            return flights;
+
+
         }
     }
 }

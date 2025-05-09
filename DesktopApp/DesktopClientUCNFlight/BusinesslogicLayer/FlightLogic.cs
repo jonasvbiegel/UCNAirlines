@@ -10,18 +10,18 @@ namespace DesktopClientUCNFlight.BusinesslogicLayer
 {
     public class FlightLogic
     {
-        private readonly IFlightServiceAccess _flightServiceAccess;
+        private readonly IFlightAccess _flightServiceAccess;
         public FlightLogic()
         {
             _flightServiceAccess = new FlightServiceAccess();
         }
 
-        public async Task<List<Flight>?> GetFlightsByDate(DateOnly date)
+        public async Task<List<Flight>?> GetFlightsByDate(string date)
         {
             List<Flight>? foundFlights;
             try
             {
-                foundFlights = await _flightServiceAccess.GetFlightsByDate(date);
+                foundFlights = await _flightServiceAccess.GetFlights(date);
             }
             catch
             {

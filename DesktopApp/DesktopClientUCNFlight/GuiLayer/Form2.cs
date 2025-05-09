@@ -57,7 +57,7 @@ namespace DesktopClientUCNFlight
             listViewFlights.Font = new Font("Segoe UI", 14);
 
             // Konverterer DateTime til DateOnly
-            DateOnly selectedDateOnly = DateOnly.FromDateTime(selectedDate);
+            string selectedDateOnly = DateOnly.FromDateTime(selectedDate).ToString();
 
             // Kalder den asynkrone metode i din business logic
             List<Flight>? flights = await _flightLogic.GetFlightsByDate(selectedDateOnly);

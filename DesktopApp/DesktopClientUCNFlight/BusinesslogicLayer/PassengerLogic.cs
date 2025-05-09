@@ -10,7 +10,7 @@ namespace DesktopClientUCNFlight.BusinesslogicLayer
 {
     public class PassengerLogic
     {
-        private readonly IPassengerServiceAccess _passengerServiceAccess;
+        private readonly IPassengerAccess _passengerServiceAccess;
 
         public PassengerLogic()
         {
@@ -23,8 +23,8 @@ namespace DesktopClientUCNFlight.BusinesslogicLayer
 
             try
             {
-                var createdPassenger = await _passengerServiceAccess.PostPassenger(passenger);
-                wasCreated = (createdPassenger != null);
+                var createdPassenger = await _passengerServiceAccess.InsertPassenger(passenger);
+                wasCreated = (createdPassenger!=null);
             }
             catch (Exception ex)
             {
