@@ -10,14 +10,14 @@
 <form method="get" asp-controller="Flight" asp-action="SelectFlight" asp-for="date">
 	<label>From:</label>
 	<select id="fromSelect" name="from" onchange="updateToOptions()" required>
-		<option value="">-- selected Departure --</option>
+		<option value="">-- Selected Departure --</option>
 		<option value="Aalborg">Aalborg</option>
 		<option value="Nuuk">Nuuk</option>
 	</select>
 
 	<label>To:</label>
 	<select id="toSelect" name="to" required>
-		<option value="">-- selected Arrival --</option>
+		<option value="">-- Selected Arrival --</option>
 		<option value="Aalborg">Aalborg</option>
 		<option value="Nuuk">Nuuk</option>
 	</select>
@@ -33,7 +33,7 @@
 	
 	<label>Passenger:</label>
 	<select name="passenger" required>
-		<option value="">-- select passenger --</option>
+		<option value="">-- Select passenger --</option>
 		<option value="1">1</option>
 		<option value="2">2</option>
 		<option value="3">3</option>
@@ -65,7 +65,7 @@
 			{ value: "Nuuk", text: "Nuuk"}
 		];
 
-		toSelect.innerHTML = '<option value="">--select Destination--</option>';
+		toSelect.innerHTML = '<option value="">--Select Destination--</option>';
 
 		for (var i = 0; i < allOptions.length; i++)
 			{
