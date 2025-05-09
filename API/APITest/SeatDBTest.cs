@@ -180,6 +180,7 @@ public class SeatDBTest
                 })
         );
 
+        Assert.True(success);
         Assert.Equal($"error changing row with seat_id = {seatIdToBeUpdated}", exception.Message);
     }
 }
