@@ -16,18 +16,18 @@ namespace DesktopClientUCNFlight.GuiLayer
     {
         private Flight _selectedFlight;
         private List<Seat> _selectedSeats;
-
+        private List<Passenger> _selectedPassengers;
         private BookingLogic _bookingLogic;
         private PassengerLogic _passengerLogic;
         private SeatLogic _seatLogic;
 
-        public Form4(Flight selectedFlight, List<Seat> selectedSeats)
+        public Form4(Flight selectedFlight, List<Seat> selectedSeats, List<Passenger> passengers)
         {
             InitializeComponent();
 
             _selectedFlight = selectedFlight;
             _selectedSeats = selectedSeats;
-
+            _selectedPassengers = passengers;
             _bookingLogic = new BookingLogic();
             _passengerLogic = new PassengerLogic();
             _seatLogic = new SeatLogic();

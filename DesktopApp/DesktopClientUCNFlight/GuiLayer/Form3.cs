@@ -24,13 +24,14 @@ namespace DesktopClientUCNFlight.GuiLayer
         private List<Button> _btns=new List<Button>();
         private Flight _selectedFlight;
         private SeatLogic _seatLogic;
-
-        private List<Seat> _availableSeats;
+        private List<Passenger> _passengerList;
+        private List<Seat> _updateSeats;
         private List<Seat> _selectedSeats;
         private int _totalPassengers;
         private int _currentPassengerIndex;
         private Seat _selectedSeatForCurrentPassenger;
-
+        private List<Button> _selectedButtons;
+        
         public Form3(string departure, string arrival, string persons, string date, Flight selectedFlight)
         {
             InitializeComponent();
@@ -39,13 +40,13 @@ namespace DesktopClientUCNFlight.GuiLayer
             _persons = persons;
             _date = date;
             _selectedFlight = selectedFlight;
-
+            _selectedButtons = new List<Button>();
             _seatLogic = new SeatLogic();
             tableLayoutPanel1.RowCount = _selectedFlight.Airplane.SeatRows;
             tableLayoutPanel1.ColumnCount = _selectedFlight.Airplane.SeatColumns;
-
+            _passengerList = new List<Passenger>();
             _selectedSeats = new List<Seat>();
-            _availableSeats = new List<Seat>();
+            _updateSeats = new List<Seat>();
             _totalPassengers = Convert.ToInt32(persons);
             _currentPassengerIndex = 1;
 
@@ -71,24 +72,7 @@ namespace DesktopClientUCNFlight.GuiLayer
             labelPassengerInfo.Text = "Passenger " + _currentPassengerIndex + " of " + _totalPassengers;
         }
 
-        //private void getAvailableSeats()
-        //{
-        //    comboBoxSelectSeat.Items.Add("-- Select a Seat --");
-
-        //    _availableSeats = Task.Run(() => _seatLogic.GetSeatsForFlight(_selectedFlight.flightId)).Result;
-        //    if (_availableSeats != null)
-        //    {
-        //        foreach (Seat seat in _availableSeats)
-        //        {
-        //            if (seat.Passenger == null)
-        //            {
-        //                comboBoxSelectSeat.Items.Add(seat.SeatName);
-        //            }
-        //        }
-        //    }
-
-        //    comboBoxSelectSeat.SelectedIndex = 0;
-        //}
+        
         private List<Button> GetAvailableSeats()
         {
 
@@ -103,10 +87,20 @@ namespace DesktopClientUCNFlight.GuiLayer
                     {
                         Text = seat.SeatName,
                         AutoSize = true,
-                        
-
 
                     };
+                    if (seat.Passenger?.PassportNo == null)
+                    {
+                        button.Enabled = true;
+                        button.BackColor = Color.LightGreen; 
+                    }
+                    else
+                    {
+                        button.Enabled = false;
+                        button.BackColor = Color.LightGray; 
+                    }
+                    _selectedSeats.Add(seat);
+                    button.Click+= SeatButton_Click;
                     _btns.Add(button);
                     tableLayoutPanel1.Controls.Add(button);
                 }
@@ -115,9 +109,25 @@ namespace DesktopClientUCNFlight.GuiLayer
             
             return _btns;
         }
+
+        private void SeatButton_Click(object sender,EventArgs e) 
+        {   
+            Button clickedButton = sender as Button;
+            //clickedButton.Enabled = false;
+            string seatName = clickedButton.Text;
+            foreach(Seat s in _selectedSeats)
+            {
+                if(s.SeatName.Equals(seatName))
+                {
+                    _selectedSeatForCurrentPassenger = s;
+                    _selectedButtons.Add(clickedButton);
+                } 
+            }
+            
+        }
         private async void buttonNext2_Click(object sender, EventArgs e)
         {
-            string selectedSeatName = "";
+            string selectedSeatName = _selectedSeatForCurrentPassenger.SeatName;
             string passportNo = textBoxPassport.Text;
             string firstName = textBoxFirstName.Text;
             string lastName = textBoxLastName.Text;
@@ -139,20 +149,11 @@ namespace DesktopClientUCNFlight.GuiLayer
                     BirthDate = birthDate
                 };
 
-                ////Find through _availableSeats and find the first seat where SeatName matches SelectedSeatName
-                //Seat selectedSeat = _availableSeats.Find(s => s.SeatName == selectedSeatName);
-
-                //if (selectedSeat != null)
-                //{
-                //    selectedSeat.Passenger = passenger;
-                //    _selectedSeats.Add(selectedSeat);
-                //    comboBoxSelectSeat.Items.Remove(selectedSeatName);
-                //    comboBoxSelectSeat.SelectedIndex = 0;
-                //}
-                //else
-                //{
-                //    MessageBox.Show("Error: Selected seat not found");
-                //}
+                
+                    _selectedSeatForCurrentPassenger.Passenger = passenger;
+                    _updateSeats.Add(_selectedSeatForCurrentPassenger);
+                    _passengerList.Add(passenger);
+              
             }
             else
             {
@@ -164,12 +165,17 @@ namespace DesktopClientUCNFlight.GuiLayer
             if (_currentPassengerIndex > _totalPassengers)
             {
                 MessageBox.Show("All passengers registered!\nProceeding to confirmation.");
-                Form4 form4 = new Form4(_selectedFlight, _selectedSeats);
+                Form4 form4 = new Form4(_selectedFlight, _updateSeats ,_passengerList);
                 form4.Show();
                 this.Hide();
             }
             else
             {
+                foreach(Button btn in _selectedButtons)
+                {
+                    btn.Enabled = false;
+                    btn.BackColor = Color.LightGray;
+                }
                 UpdatePassengerLabel();
                 ClearPassengerInputs();
             }
