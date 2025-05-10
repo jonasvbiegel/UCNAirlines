@@ -39,10 +39,10 @@
             textBoxFirstName = new TextBox();
             textBoxPassport = new TextBox();
             label1 = new Label();
-            panel1 = new Panel();
             buttonNext2 = new Button();
             labelPassengerInfo = new Label();
-            comboBoxSelectSeat = new ComboBox();
+            panel1 = new Panel();
+            tableLayoutPanel1 = new TableLayoutPanel();
             groupBox1.SuspendLayout();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -147,21 +147,11 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(735, 250);
+            label1.Location = new Point(780, 65);
             label1.Name = "label1";
             label1.Size = new Size(257, 54);
             label1.TabIndex = 2;
             label1.Text = "Select a seat";
-            // 
-            // panel1
-            // 
-            panel1.BackColor = SystemColors.Control;
-            panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Controls.Add(comboBoxSelectSeat);
-            panel1.Location = new Point(568, 338);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(577, 176);
-            panel1.TabIndex = 3;
             // 
             // buttonNext2
             // 
@@ -184,13 +174,34 @@
             labelPassengerInfo.TabIndex = 5;
             labelPassengerInfo.Text = "labelPassengerInfo";
             // 
-            // comboBoxSelectSeat
+            // panel1
             // 
-            comboBoxSelectSeat.FormattingEnabled = true;
-            comboBoxSelectSeat.Location = new Point(172, 69);
-            comboBoxSelectSeat.Name = "comboBoxSelectSeat";
-            comboBoxSelectSeat.Size = new Size(251, 28);
-            comboBoxSelectSeat.TabIndex = 0;
+            tableLayoutPanel1.AutoScroll = true;
+            tableLayoutPanel1.AutoSize = true;
+            tableLayoutPanel1.ColumnCount = 2;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel1.Location = new Point(97, 89);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 2;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle());
+            tableLayoutPanel1.RowStyles.Add(new RowStyle());
+            tableLayoutPanel1.Size = new Size(575, 485);
+            tableLayoutPanel1.TabIndex = 6;
+            // 
+            // vScrollBar1
+            // 
+
+            // 
+            // panel1
+            // 
+            panel1.AutoScroll = true;
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(tableLayoutPanel1);
+            panel1.Location = new Point(571, 62);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(703, 591);
+            panel1.TabIndex = 7;
             // 
             // Form3
             // 
@@ -199,15 +210,16 @@
             ClientSize = new Size(1282, 729);
             Controls.Add(labelPassengerInfo);
             Controls.Add(buttonNext2);
-            Controls.Add(panel1);
             Controls.Add(label1);
             Controls.Add(groupBox1);
             Controls.Add(labelFlightInfo);
+            Controls.Add(panel1);
             Name = "Form3";
             Text = "UCN Airlines";
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -225,9 +237,9 @@
         private Label labelFirstName;
         private Label labelPassport;
         private Label label1;
-        private Panel panel1;
         private Button buttonNext2;
         private Label labelPassengerInfo;
-        private ComboBox comboBoxSelectSeat;
+        private Panel panel1;
+        private TableLayoutPanel tableLayoutPanel1;
     }
 }

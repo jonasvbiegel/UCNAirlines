@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using DesktopClientUCNFlight.BusinesslogicLayer;
 using DesktopClientUCNFlight.ModelLayer;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Button = System.Windows.Forms.Button;
 
 namespace DesktopClientUCNFlight.GuiLayer
 {
@@ -19,7 +21,7 @@ namespace DesktopClientUCNFlight.GuiLayer
         private string _arrival;
         private string _persons;
         private string _date;
-
+        private List<Button> _btns=new List<Button>();
         private Flight _selectedFlight;
         private SeatLogic _seatLogic;
 
@@ -32,7 +34,6 @@ namespace DesktopClientUCNFlight.GuiLayer
         public Form3(string departure, string arrival, string persons, string date, Flight selectedFlight)
         {
             InitializeComponent();
-
             _departure = departure;
             _arrival = arrival;
             _persons = persons;
@@ -40,6 +41,8 @@ namespace DesktopClientUCNFlight.GuiLayer
             _selectedFlight = selectedFlight;
 
             _seatLogic = new SeatLogic();
+            tableLayoutPanel1.RowCount = _selectedFlight.Airplane.SeatRows;
+            tableLayoutPanel1.ColumnCount = _selectedFlight.Airplane.SeatColumns;
 
             _selectedSeats = new List<Seat>();
             _availableSeats = new List<Seat>();
@@ -48,7 +51,7 @@ namespace DesktopClientUCNFlight.GuiLayer
 
             SetFlightInfoLabel();
             UpdatePassengerLabel();
-            getAvailableSeats();
+            GetAvailableSeats();
         }
 
         // Setting the flight info in the UI
@@ -68,28 +71,53 @@ namespace DesktopClientUCNFlight.GuiLayer
             labelPassengerInfo.Text = "Passenger " + _currentPassengerIndex + " of " + _totalPassengers;
         }
 
-        private void getAvailableSeats()
+        //private void getAvailableSeats()
+        //{
+        //    comboBoxSelectSeat.Items.Add("-- Select a Seat --");
+
+        //    _availableSeats = Task.Run(() => _seatLogic.GetSeatsForFlight(_selectedFlight.flightId)).Result;
+        //    if (_availableSeats != null)
+        //    {
+        //        foreach (Seat seat in _availableSeats)
+        //        {
+        //            if (seat.Passenger == null)
+        //            {
+        //                comboBoxSelectSeat.Items.Add(seat.SeatName);
+        //            }
+        //        }
+        //    }
+
+        //    comboBoxSelectSeat.SelectedIndex = 0;
+        //}
+        private List<Button> GetAvailableSeats()
         {
-            comboBoxSelectSeat.Items.Add("-- Select a Seat --");
 
-            _availableSeats = Task.Run(() => _seatLogic.GetSeatsForFlight(_selectedFlight.flightId)).Result;
-            if (_availableSeats != null)
+
+            List<Seat> seats = Task.Run(() => _seatLogic.GetSeatsForFlight(_selectedFlight.flightId)).Result;
+            if (seats != null)
             {
-                foreach (Seat seat in _availableSeats)
+                foreach (Seat seat in seats)
                 {
-                    if (seat.Passenger == null)
+
+                    Button button = new()
                     {
-                        comboBoxSelectSeat.Items.Add(seat.SeatName);
-                    }
+                        Text = seat.SeatName,
+                        AutoSize = true,
+                        
+
+
+                    };
+                    _btns.Add(button);
+                    tableLayoutPanel1.Controls.Add(button);
                 }
+
             }
-
-            comboBoxSelectSeat.SelectedIndex = 0;
+            
+            return _btns;
         }
-
         private async void buttonNext2_Click(object sender, EventArgs e)
         {
-            string selectedSeatName = comboBoxSelectSeat.SelectedItem?.ToString();
+            string selectedSeatName = "";
             string passportNo = textBoxPassport.Text;
             string firstName = textBoxFirstName.Text;
             string lastName = textBoxLastName.Text;
@@ -111,20 +139,20 @@ namespace DesktopClientUCNFlight.GuiLayer
                     BirthDate = birthDate
                 };
 
-                //Find through _availableSeats and find the first seat where SeatName matches SelectedSeatName
-                Seat selectedSeat = _availableSeats.Find(s => s.SeatName == selectedSeatName);
+                ////Find through _availableSeats and find the first seat where SeatName matches SelectedSeatName
+                //Seat selectedSeat = _availableSeats.Find(s => s.SeatName == selectedSeatName);
 
-                if (selectedSeat != null)
-                {
-                    selectedSeat.Passenger = passenger;
-                    _selectedSeats.Add(selectedSeat);
-                    comboBoxSelectSeat.Items.Remove(selectedSeatName);
-                    comboBoxSelectSeat.SelectedIndex = 0;
-                }
-                else
-                {
-                    MessageBox.Show("Error: Selected seat not found");
-                }
+                //if (selectedSeat != null)
+                //{
+                //    selectedSeat.Passenger = passenger;
+                //    _selectedSeats.Add(selectedSeat);
+                //    comboBoxSelectSeat.Items.Remove(selectedSeatName);
+                //    comboBoxSelectSeat.SelectedIndex = 0;
+                //}
+                //else
+                //{
+                //    MessageBox.Show("Error: Selected seat not found");
+                //}
             }
             else
             {
