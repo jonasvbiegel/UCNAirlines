@@ -24,7 +24,6 @@ namespace DesktopClientUCNFlight.GuiLayer
         private List<Button> _btns=new List<Button>();
         private Flight _selectedFlight;
         private SeatLogic _seatLogic;
-        private List<Passenger> _passengerList;
         private List<Seat> _updateSeats;
         private List<Seat> _selectedSeats;
         private int _totalPassengers;
@@ -44,7 +43,6 @@ namespace DesktopClientUCNFlight.GuiLayer
             _seatLogic = new SeatLogic();
             tableLayoutPanel1.RowCount = _selectedFlight.Airplane.SeatRows;
             tableLayoutPanel1.ColumnCount = _selectedFlight.Airplane.SeatColumns;
-            _passengerList = new List<Passenger>();
             _selectedSeats = new List<Seat>();
             _updateSeats = new List<Seat>();
             _totalPassengers = Convert.ToInt32(persons);
@@ -152,7 +150,6 @@ namespace DesktopClientUCNFlight.GuiLayer
                 
                     _selectedSeatForCurrentPassenger.Passenger = passenger;
                     _updateSeats.Add(_selectedSeatForCurrentPassenger);
-                    _passengerList.Add(passenger);
               
             }
             else
@@ -165,7 +162,7 @@ namespace DesktopClientUCNFlight.GuiLayer
             if (_currentPassengerIndex > _totalPassengers)
             {
                 MessageBox.Show("All passengers registered!\nProceeding to confirmation.");
-                Form4 form4 = new Form4(_selectedFlight, _updateSeats ,_passengerList);
+                Form4 form4 = new Form4(_selectedFlight, _updateSeats );
                 form4.Show();
                 this.Hide();
             }
