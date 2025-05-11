@@ -129,8 +129,8 @@ namespace DesktopClientUCNFlight.GuiLayer
             string passportNo = textBoxPassport.Text;
             string firstName = textBoxFirstName.Text;
             string lastName = textBoxLastName.Text;
+            //var birthDate = DateOnly.FromDateTime(dateTimePickerBirth.Value);
             var birthDate = DateOnly.FromDateTime(dateTimePickerBirth.Value);
-
             if (string.IsNullOrWhiteSpace(selectedSeatName) || selectedSeatName == "-- Select a Seat --")
             {
                 MessageBox.Show("Please select a valid seat before proceeding.");

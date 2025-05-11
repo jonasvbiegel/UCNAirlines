@@ -53,7 +53,7 @@ namespace DesktopClientUCNFlight.GuiLayer
                 overview.AppendLine("Seat: " + seat.SeatName);
                 overview.AppendLine("Name: " + p.FirstName + " " + p.LastName);
                 overview.AppendLine("Passport No: " + p.PassportNo);
-                overview.AppendLine("Birthdate: " + p.BirthDate.ToString("dd-MM-yyyy"));
+                overview.AppendLine("Birthdate: " + p.BirthDate.ToString());
                 overview.AppendLine("----------------------------");
 
                 passengerNumber++;

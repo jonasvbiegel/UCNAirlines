@@ -1,4 +1,6 @@
-﻿namespace DesktopClientUCNFlight.GuiLayer
+﻿using System.Windows.Forms;
+
+namespace DesktopClientUCNFlight.GuiLayer
 {
     partial class Form3
     {
@@ -121,6 +123,8 @@
             dateTimePickerBirth.Name = "dateTimePickerBirth";
             dateTimePickerBirth.Size = new Size(174, 27);
             dateTimePickerBirth.TabIndex = 3;
+            dateTimePickerBirth.CustomFormat = "dd-MM-yyyy";
+            dateTimePickerBirth.Format = DateTimePickerFormat.Custom;
             // 
             // textBoxLastName
             // 
@@ -176,6 +180,15 @@
             // 
             // panel1
             // 
+            panel1.AutoScroll = true;
+            panel1.Controls.Add(tableLayoutPanel1);
+            panel1.Location = new Point(571, 62);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(703, 591);
+            panel1.TabIndex = 7;
+            // 
+            // tableLayoutPanel1
+            // 
             tableLayoutPanel1.AutoScroll = true;
             tableLayoutPanel1.AutoSize = true;
             tableLayoutPanel1.ColumnCount = 2;
@@ -188,20 +201,6 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
             tableLayoutPanel1.Size = new Size(575, 485);
             tableLayoutPanel1.TabIndex = 6;
-            // 
-            // vScrollBar1
-            // 
-
-            // 
-            // panel1
-            // 
-            panel1.AutoScroll = true;
-            panel1.Controls.Add(label1);
-            panel1.Controls.Add(tableLayoutPanel1);
-            panel1.Location = new Point(571, 62);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(703, 591);
-            panel1.TabIndex = 7;
             // 
             // Form3
             // 
