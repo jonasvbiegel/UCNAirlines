@@ -11,7 +11,7 @@
 		<option value="">-- selected Departure --</option>
 		@foreach (var flight in Model.Airports)
 		{
-			<option value="flight">@flight</option>
+			<option value="@flight">@flight</option>
 		}
 		
 	</select>
@@ -21,7 +21,7 @@
 		<option value="">-- selected Arrival --</option>
 		@foreach (var flight in Model.Airports)
 		{
-			<option value="flight">@flight</option>
+			<option value="@flight">@flight</option>
 		}
 	</select>
 

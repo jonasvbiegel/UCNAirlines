@@ -1,11 +1,9 @@
 ﻿@using UCNAirlinesWebpage.Models
-@model UCNAirlinesWebpage.Models.BookingCreationModel
-@{  
-    Layout = "_Layout";
-    ViewData["Title"] = "Home Page";
+@model BookingCreationModel
 
+@{
+    ViewData["Title"] = "Seats";
 }
-@Model.Flight.FlightId
 <style>
     .form-seat-container {
         display: flex;
@@ -89,8 +87,7 @@
         </div>
 
         @* Oprette sæder *@
-
-        <div class=@Model.Seats>
+        <div class="seat-map">
 
             @for (int row = 1; row <= 10; row++)
             {

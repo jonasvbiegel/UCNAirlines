@@ -47,7 +47,6 @@ namespace UCNAirlinesWebpage.Controllers
                     model.Flights.Add(f);
                 }
             }
-
             //InsertData(model);
 
             return View(model);
