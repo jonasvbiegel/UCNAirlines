@@ -23,6 +23,7 @@ namespace UCNAirlinesWebpage.Controllers
         [HttpPost]
         public IActionResult Search(FlightSearchModel model)
         {
+
             return View(model);
         }
 
@@ -51,7 +52,15 @@ namespace UCNAirlinesWebpage.Controllers
 
             return View(model);
         }
- 
+
+        [HttpPost]
+        public IActionResult SelectFlight(int passenger, int flightId)
+        {
+            // Redirect to the BookingController's GetSeats action with passenger and flightId as route values
+            return RedirectToAction("GetSeats", "Booking", new { passenger = passenger, flightId = flightId });
+        }
+
+
         //public void InsertData(FlightSearchModel model)
         //{
         //    model.Flights = new List<Flight>();
@@ -80,21 +89,7 @@ namespace UCNAirlinesWebpage.Controllers
         //    model.Flights = flights.FindAll(f => DateOnly.FromDateTime(f.Departure)  == model.Date);
         //}
 
-        public class BookingController : Controller
-        {
-            public IActionResult SelectSeat(FlightSearchModel model)
-            {
-                int passengers = model.Passenger;
-                var newmodel = new BookingCreationModel
-                {
-                    Passengers = passengers,
-                };
-               
-
-                return View(newmodel);
-            }
-
-        }
+        
 
     }
 

@@ -29,13 +29,24 @@ namespace UCNAirlinesWebpage.Controllers
             return View(newmodel);
         }
 
-        public  IActionResult GetSeats(BookingCreationModel model)
+        public  IActionResult GetSeats(int passenger, int flightId)
         {
             SeatServiceAccess ssa=new SeatServiceAccess();
-            List<Seat> seats = Task.Run(() => ssa.GetSeats(model.Flight.FlightId)).Result;
-            model.Seats = seats;
+            List<Seat> seats = Task.Run(() => ssa.GetSeats(flightId)).Result;
+            List<Passenger> passengersList=new List<Passenger>();
+            Flight f =new()
+            {
+               FlightId=flightId
+            };
+            SeatPassenger sp = new()
+            {
+                Flight=f,
+                passengerCount = passenger,
+                Passengers = passengersList,
+                Seats=seats
+            };
 
-            return View("SelectSeat",model);
+            return View(sp);
         }
 
     }
