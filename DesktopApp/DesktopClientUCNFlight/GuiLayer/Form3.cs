@@ -125,17 +125,18 @@ namespace DesktopClientUCNFlight.GuiLayer
         }
         private async void buttonNext2_Click(object sender, EventArgs e)
         {
+            if (_selectedSeatForCurrentPassenger == null)
+            {
+                MessageBox.Show("Please select a seat before proceeding.");
+                return;
+            }
+
             string selectedSeatName = _selectedSeatForCurrentPassenger.SeatName;
             string passportNo = textBoxPassport.Text;
             string firstName = textBoxFirstName.Text;
             string lastName = textBoxLastName.Text;
             //var birthDate = DateOnly.FromDateTime(dateTimePickerBirth.Value);
             var birthDate = DateOnly.FromDateTime(dateTimePickerBirth.Value);
-            if (string.IsNullOrWhiteSpace(selectedSeatName) || selectedSeatName == "-- Select a Seat --")
-            {
-                MessageBox.Show("Please select a valid seat before proceeding.");
-                return; 
-            }
 
             if (InputIsOk(selectedSeatName, passportNo, firstName, lastName))
             {
@@ -172,6 +173,7 @@ namespace DesktopClientUCNFlight.GuiLayer
                 {
                     btn.Enabled = false;
                     btn.BackColor = Color.LightGray;
+                    _selectedSeatForCurrentPassenger = null;
                 }
                 UpdatePassengerLabel();
                 ClearPassengerInputs();
