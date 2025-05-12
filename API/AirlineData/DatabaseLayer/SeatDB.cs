@@ -69,30 +69,15 @@ public class SeatDB : ISeatDB
         return seats;
     }
 
-    // TODO: Concurrency issue here
-    // Documentation for row version and concurrency control found here:
-    // https://learn.microsoft.com/en-us/sql/t-sql/data-types/rowversion-transact-sql?view=sql-server-ver16
-
     public bool UpdateSeat(Seat seat)
     {
         string sql =
-            @"
-            DECLARE @rv rowversion = (SELECT row_version FROM Seat WHERE seat_id = @SeatId);
-            DECLARE @key TABLE (seat_id int);
-            UPDATE Seat
-            SET passport_no_FK = @PassportNo
-                OUTPUT inserted.seat_id INTO @key(seat_id)
+        @"
+        UPDATE Seat
+        SET passport_no_FK = @PassportNo
             WHERE seat_id = @SeatId
-                AND row_version = @rv
-            IF (SELECT COUNT(*) FROM @key) = 0
-                BEGIN
-                    RAISERROR ('error changing row with seat_id = %d'
-                            , 16
-                            , 1
-                            , 1)
-                    END;
-            ";
-
+            AND passport_no_FK = null
+        ";
 
         using SqlConnection con = new(_connectionString);
 
@@ -248,3 +233,36 @@ public class SeatDB : ISeatDB
         return Tuple.Create(airports[0], airports[1]);
     }
 }
+// @"
+// DECLARE @rv rowversion = (SELECT row_version FROM Seat WHERE seat_id = @SeatId);
+// DECLARE @key TABLE (seat_id int);
+// UPDATE Seat
+// SET passport_no_FK = @PassportNo
+//     OUTPUT inserted.seat_id INTO @key(seat_id)
+// WHERE seat_id = @SeatId
+//     AND row_version = @rv
+// IF (SELECT COUNT(*) FROM @key) = 0
+//     BEGIN
+//         RAISERROR ('error changing row with seat_id = %d'
+//                 , 16
+//                 , 1
+//                 , @SeatId)
+//         END;
+// ";
+
+// @"
+// DECLARE @rv rowversion = (SELECT row_version FROM Seat WHERE seat_id = @SeatId);
+// UPDATE Seat
+// SET passport_no_FK = @PassportNo
+//     WHERE seat_id = @SeatId
+//     AND passport_no_FK = null
+//     AND row_version = @rv
+// IF @@ROWCOUNT = 0
+//     BEGIN
+//         RAISERROR ('error changing row with seat_id = %d'
+//             , 16
+//             , 1
+//             , @SeatId)
+//     END;
+// ";
+
