@@ -10,13 +10,7 @@ namespace UCNAirlinesWebpage.Controllers
     public class BookingController : Controller
     {
 
-        public IActionResult Pain()
-        {
-
-            Console.WriteLine("Hello World!");
-
-            return View("TestWorld");
-        }
+        
         public IActionResult SelectSeat(FlightSearchModel model, Flight SelectedFlight)
         {
 
@@ -25,17 +19,8 @@ namespace UCNAirlinesWebpage.Controllers
             var newmodel = new BookingCreationModel
             {
                 Flight = SelectedFlight,
-                Passengers = (int)TempData["Passenger"],
             };
-            //List<Flight> flights = TempData["flights"] as List<Flight>;
-            //foreach (Flight f in flights)
-            //{
-            //    if (f.FlightId.Equals(selectedFlight))
-            //    {
-            //        newmodel.Flight = f;
-            //    }
-
-            TempData.Keep("Passenger");
+           
 
             return View(newmodel);
         }
@@ -57,8 +42,6 @@ namespace UCNAirlinesWebpage.Controllers
                 Pass = Request.Cookies["0FirstName"]
             };
 
-            System.Diagnostics.Debug.WriteLine(sp.Pass); 
-
             return View(sp);
         }
         [HttpPost]
@@ -74,15 +57,15 @@ namespace UCNAirlinesWebpage.Controllers
                     LastName = Request.Cookies[i + "LastName"]
                 };
                 model.Passengers.Add(p);
-                 Seat s = new()
-                {
-                     Passenger = p,
-                     SeatId = Request.Cookies[i+ "SeatId"]
-                };
+                // Seat s = new()
+                //{
+                //     Passenger = p,
+                //     SeatId = Request.Cookies[i+ "SeatId"]
+                //};
             }
 
                 
-            return View(model);
+            return View("TestWorld",model);
         }
 
 
