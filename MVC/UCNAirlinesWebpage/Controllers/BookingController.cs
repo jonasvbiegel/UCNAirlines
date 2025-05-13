@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net;
+using System.Reflection.Metadata;
+using Microsoft.AspNetCore.Mvc;
 using UCNAirlinesWebpage.Models;
 using UCNAirlinesWebpage.ServiceLayer;
 
@@ -7,6 +9,12 @@ namespace UCNAirlinesWebpage.Controllers
     public class BookingController : Controller
     {
         
+        public IActionResult Pain () {
+
+            Console.WriteLine("Hello World!");
+
+            return View();
+        }
         public IActionResult SelectSeat(FlightSearchModel model, Flight SelectedFlight) {
         
 
@@ -28,7 +36,7 @@ namespace UCNAirlinesWebpage.Controllers
 
             return View(newmodel);
         }
-
+        [HttpPost]
         public  IActionResult GetSeats(int passenger, int flightId)
         {
             SeatServiceAccess ssa=new SeatServiceAccess();
@@ -43,11 +51,14 @@ namespace UCNAirlinesWebpage.Controllers
                 Flight=f,
                 passengerCount = passenger,
                 Passengers = passengersList,
-                Seats=seats
+                Seats=seats,
+                Pass = Request.Cookies["FirstName"]
             };
 
             return View(sp);
         }
 
+      
     }
+   
 }

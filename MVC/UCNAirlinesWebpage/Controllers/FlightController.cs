@@ -53,12 +53,7 @@ namespace UCNAirlinesWebpage.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public IActionResult SelectFlight(int passenger, int flightId)
-        {
-            // Redirect to the BookingController's GetSeats action with passenger and flightId as route values
-            return RedirectToAction("GetSeats", "Booking", new { passenger = passenger, flightId = flightId });
-        }
+       
 
 
         //public void InsertData(FlightSearchModel model)

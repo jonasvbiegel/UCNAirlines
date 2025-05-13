@@ -59,16 +59,17 @@
 <div>@Model.Flight.FlightId</div>
 <div>@Model.Flight.Airplane</div>
 <div>@Model.passengerCount</div>
+<div>@Model.Pass</div>
 <div class="text-center">
     <h1 class="display-4">Select a seat</h1>
 </div>
 
 <br />
 <br />
-@for (int i = 0; i < Model.passengerCount; i++) 
-{
-    <form asp-action="Create" method="post">
-        <div class="form-seat-container">
+<form method="post" asp-controller="Booking" asp-action="Pain">
+    @for (int i = 0; i < Model.passengerCount; i++) 
+    {
+        <div class="form-seat-container" >
             <div>
                 <div class="form-group">
                     <label for="FirstName">First Name:</label><br />
@@ -83,19 +84,26 @@
                 <br />
 
                 <div class="submit-container">
-                    <button type="submit">Tilføj passager</button>
+
+                    <button type="submit" onclick="()">Tilføj passenger </button>
+
+
+                    
                 </div>
             </div>
             <div>
             @foreach(Seat seat in Model.Seats)
             {
 
-                <button>@seat.SeatName</button>
+                <button>@seat.SeatName
+                    <input type="hidden" name="seatId" value="@seat.SeatId" />
+                    </button>
             }
 
             </div>
-    </form>
-}
+            </div>
+    }
+  </form>
 
 @* <script>
     // Find alle sædeknapper
@@ -106,9 +114,16 @@
             // Fjern 'selected' fra alle andre sæder
             seatButtons.forEach(btn => btn.classList.remove('selected'));
 
-            // Tilføj 'selected' til det valgte sæde
+            // Tilføj 'selected' til det valgte sæde    
             button.classList.add('selected');
         });
     });
+</script> *@
+<script>
+    function AddPassengertoCookie() {
+        const nameInput = document.getElementById('FirstName');
+        const nameValue = encodeURIComponent(nameInput.value);
+        document.cookie = "FirstName=" + nameValue + "; path=/";
+    }
 </script>
- *@
+

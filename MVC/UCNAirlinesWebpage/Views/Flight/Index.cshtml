@@ -8,7 +8,7 @@
 <form method="get" asp-controller="Flight" asp-action="SelectFlight" asp-for="date">
 	<label>From:</label>
 	<select id="fromSelect" name="from" onchange="updateToOptions()" required>
-		<option value="">-- selected Departure --</option>
+		<option value="">-- Selected Departure --</option>
 		@foreach (var flight in Model.Airports)
 		{
 			<option value="@flight">@flight</option>
@@ -18,7 +18,7 @@
 
 	<label>To:</label>
 	<select id="toSelect" name="to" required>
-		<option value="">-- selected Arrival --</option>
+		<option value="">-- Selected Destination --</option>
 		@foreach (var flight in Model.Airports)
 		{
 			<option value="@flight">@flight</option>
@@ -70,7 +70,7 @@
 	}
 		]
 
-		toSelect.innerHTML = '<option value="">--select Destination--</option>';
+		toSelect.innerHTML = '<option value="">-- Select Destination --</option>';
 		for (var i = 0; i < allOptions.length; i++)
 			{
 				if (allOptions[i].value !== selectedFrom)
