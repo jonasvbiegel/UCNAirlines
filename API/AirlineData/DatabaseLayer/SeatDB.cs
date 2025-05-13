@@ -1,7 +1,9 @@
 ﻿using System.Data;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using AirlineData.ModelLayer;
 using Dapper;
+using Dapper.Transaction;
 using Microsoft.Data.SqlClient;
 namespace AirlineData.DatabaseLayer;
 
@@ -12,7 +14,7 @@ public class SeatDB : ISeatDB
     public List<Seat?>? GetAllSeats()
     {
 
-        string sql = "SELECT * FROM Seat";
+        string sql = "SELECT * FROM Seat FULL OUTER JOIN Passenger ON passport_no_FK = passport_no";
 
         using SqlConnection con = new(_connectionString);
         con.Open();
@@ -34,7 +36,7 @@ public class SeatDB : ISeatDB
 
     public Seat? GetSeat(int seatId)
     {
-        string sql = "SELECT * FROM Seat WHERE seat_id = @SeatId";
+        string sql = "SELECT * FROM Seat FULL OUTER JOIN Passenger ON passport_no_FK = passport_no WHERE seat_id = @SeatId";
 
         using SqlConnection con = new(_connectionString);
         using var reader = con.ExecuteReader(sql, new { SeatId = seatId });
@@ -52,6 +54,7 @@ public class SeatDB : ISeatDB
     public List<Seat?>? GetSeatsFromFlight(int flightId)
     {
         string sql = @"SELECT * FROM Seat
+            JOIN Passenger ON passport_no_FK = passport_no
             WHERE flight_id_FK = @Flight_id";
 
         using SqlConnection con = new(_connectionString);
@@ -95,35 +98,93 @@ public class SeatDB : ISeatDB
             SeatId = seat.SeatId
         });
 
-        return rowsChanged != 0;
+        return rowsChanged > 0;
     }
 
-    public bool TryUpdateSeats(List<Seat> seats)
+    public bool TryUpdateSeats(List<Seat?>? seats)
     {
-
-    }
-
-    private Passenger? CreatePassengerFromPassportNo(string passportNo)
-    {
-        string sql = "SELECT * FROM Passenger WHERE passport_no = @Passport_no";
-
-        using SqlConnection connection = new(_connectionString);
-
-        var reader = connection.ExecuteReader(sql, new { Passport_no = passportNo });
-
-        Passenger? p = new();
-
-        while (reader.Read())
+        string sqlAvailable = "SELECT * FROM Seat FULL OUTER JOIN Passenger ON passport_no_FK = passport_no where seat_id = @SeatId ";
+        Random rnd = new Random();
+        for (; ; )
         {
+            foreach (Seat? s in seats)
+            {
+                Seat? seatReturn = GetSeat(s.SeatId);
+                if (seatReturn.Passenger != null)
+                {
+                    return false;
+                }
+                ;
+            }
 
-            p.FirstName = (string)reader["first_name"];
-            p.LastName = (string)reader["last_name"];
-            p.BirthDate = DateOnly.FromDateTime((DateTime)reader["birth_date"]);
-            p.PassportNo = (string)reader["passport_no"];
+            using SqlConnection con = new(_connectionString);
+            con.Open();
+
+            using var transaction = con.BeginTransaction(IsolationLevel.ReadUncommitted);
+
+            try
+            {
+                string sqlUpdate = "UPDATE Seat SET passport_no_FK = @PassportNo WHERE seat_id = @SeatId AND passport_no_FK IS NULL";
+                bool result = true;
+                foreach (Seat seat in seats)
+                {
+                    string actualPassport;
+                    if (seat.Passenger == null) actualPassport = (string?)null;
+                    else
+                    {
+                        actualPassport = seat.Passenger.PassportNo;
+                    }
+
+                    int rowsChanged = con.Execute(sqlUpdate, new
+                    {
+                        PassportNo = actualPassport,
+                        SeatId = seat.SeatId
+                    }, transaction);
+                    if (rowsChanged == 0)
+                    {
+                        result = false;
+                        break;
+                    }
+                }
+                ;
+
+                if (result)
+                {
+                    transaction.Commit();
+                    return true;
+                }
+                transaction.Rollback();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            Thread.Sleep(rnd.Next(1, 10));
         }
-
-        return p;
     }
+
+    // private Passenger? CreatePassengerFromPassportNo(string passportNo)
+    // {
+    //     string sql = "SELECT * FROM Passenger WHERE passport_no = @Passport_no";
+    //
+    //     using SqlConnection connection = new(_connectionString);
+    //
+    //     var reader = connection.ExecuteReader(sql, new { Passport_no = passportNo });
+    //
+    //     Passenger? p = new();
+    //
+    //     while (reader.Read())
+    //     {
+    //
+    //         p.FirstName = (string)reader["first_name"];
+    //         p.LastName = (string)reader["last_name"];
+    //         p.BirthDate = DateOnly.FromDateTime((DateTime)reader["birth_date"]);
+    //         p.PassportNo = (string)reader["passport_no"];
+    //     }
+    //     reader.Close();
+    //
+    //     return p;
+    // }
 
     // private Flight CreateFlightFromReader(int flight_id)
     // {
@@ -179,65 +240,74 @@ public class SeatDB : ISeatDB
         {
             s.Passenger = null;
         }
+
         else
         {
-            s.Passenger = CreatePassengerFromPassportNo((string)reader["passport_no_FK"]);
+            Passenger p = new()
+            {
+                FirstName = (string)reader["first_name"],
+                LastName = (string)reader["last_name"],
+                BirthDate = DateOnly.FromDateTime((DateTime)reader["birth_date"]),
+                PassportNo = (string)reader["passport_no"]
+            };
+            s.Passenger = p;
         }
 
         return s;
     }
-
-    private Tuple<Airport, Airport> FindAirports(int id)
-    {
-        string? startIcao;
-        string? endIcao;
-
-        Airport[] airports = new Airport[2];
-
-        using SqlConnection con = new(_connectionString);
-
-        string startIcaoSql = $"SELECT start_destination_FK FROM Flight_Route WHERE flight_route_id = @id";
-        string endIcaoSql = $"SELECT end_destination_FK FROM Flight_Route WHERE flight_route_id = ";
-
-        startIcao = con.Query<string>(startIcaoSql).FirstOrDefault();
-        endIcao = con.Query<string>(endIcaoSql).FirstOrDefault();
-
-        string startAirportSql = $"SELECT * FROM Airport JOIN City_Zip_Code ON zipcode_FK = zipcode JOIN Country ON country_id_FK = country_id WHERE icao_code = '{startIcao}'";
-        string endAirportSql = $"SELECT * FROM Airport JOIN City_Zip_Code ON zipcode_FK = zipcode JOIN Country ON country_id_FK = country_id WHERE icao_code = '{endIcao}'";
-
-        using (var startReader = con.ExecuteReader(startAirportSql))
-        {
-            while (startReader.Read())
-            {
-                airports[0] = new()
-                {
-                    IcaoCode = startIcao,
-                    Country = (string)startReader["country"],
-                    AirportName = (string)startReader["airport_name"],
-                    City = (string)startReader["city"],
-                    Zipcode = (string)startReader["zipcode"]
-                };
-            }
-        }
-
-        using (var endReader = con.ExecuteReader(endAirportSql))
-        {
-            while (endReader.Read())
-            {
-                airports[1] = new()
-                {
-                    IcaoCode = endIcao,
-                    Country = (string)endReader["country"],
-                    AirportName = (string)endReader["airport_name"],
-                    City = (string)endReader["city"],
-                    Zipcode = (string)endReader["zipcode"]
-                };
-            }
-        }
-
-        return Tuple.Create(airports[0], airports[1]);
-    }
 }
+
+//     private Tuple<Airport, Airport> FindAirports(int id)
+//     {
+//         string? startIcao;
+//         string? endIcao;
+//
+//         Airport[] airports = new Airport[2];
+//
+//         using SqlConnection con = new(_connectionString);
+//
+//         string startIcaoSql = $"SELECT start_destination_FK FROM Flight_Route WHERE flight_route_id = @id";
+//         string endIcaoSql = $"SELECT end_destination_FK FROM Flight_Route WHERE flight_route_id = ";
+//
+//         startIcao = con.Query<string>(startIcaoSql).FirstOrDefault();
+//         endIcao = con.Query<string>(endIcaoSql).FirstOrDefault();
+//
+//         string startAirportSql = $"SELECT * FROM Airport JOIN City_Zip_Code ON zipcode_FK = zipcode JOIN Country ON country_id_FK = country_id WHERE icao_code = '{startIcao}'";
+//         string endAirportSql = $"SELECT * FROM Airport JOIN City_Zip_Code ON zipcode_FK = zipcode JOIN Country ON country_id_FK = country_id WHERE icao_code = '{endIcao}'";
+//
+//         using (var startReader = con.ExecuteReader(startAirportSql))
+//         {
+//             while (startReader.Read())
+//             {
+//                 airports[0] = new()
+//                 {
+//                     IcaoCode = startIcao,
+//                     Country = (string)startReader["country"],
+//                     AirportName = (string)startReader["airport_name"],
+//                     City = (string)startReader["city"],
+//                     Zipcode = (string)startReader["zipcode"]
+//                 };
+//             }
+//         }
+//
+//         using (var endReader = con.ExecuteReader(endAirportSql))
+//         {
+//             while (endReader.Read())
+//             {
+//                 airports[1] = new()
+//                 {
+//                     IcaoCode = endIcao,
+//                     Country = (string)endReader["country"],
+//                     AirportName = (string)endReader["airport_name"],
+//                     City = (string)endReader["city"],
+//                     Zipcode = (string)endReader["zipcode"]
+//                 };
+//             }
+//         }
+//
+//         return Tuple.Create(airports[0], airports[1]);
+//     }
+// }
 // @"
 // DECLARE @rv rowversion = (SELECT row_version FROM Seat WHERE seat_id = @SeatId);
 // DECLARE @key TABLE (seat_id int);
