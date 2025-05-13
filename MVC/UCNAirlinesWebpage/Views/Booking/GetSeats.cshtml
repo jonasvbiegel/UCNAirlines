@@ -57,8 +57,8 @@
 
 </style>
 <div>@Model.Flight.FlightId</div>
-<div>@Model.Flight.Airplane</div>
-<div>@Model.passengerCount</div>
+@* <div>@Model.Flight.Airplane.AirplaneId</div>
+ *@<div>@Model.passengerCount</div>
 <div>@Model.Pass</div>
 <div class="text-center">
     <h1 class="display-4">Select a seat</h1>
@@ -66,9 +66,9 @@
 
 <br />
 <br />
-<form method="post" asp-controller="Booking" asp-action="Pain">
-    @for (int i = 0; i < Model.passengerCount; i++) 
-    {
+<form method="post">
+     @for (int i = 0; i < Model.passengerCount; i++) 
+     {
         <div class="form-seat-container" >
             <div>
                 <div class="form-group">
@@ -80,29 +80,30 @@
                     <label for="LastName">Last Name:</label><br />
                     <input type="text" id="LastName" name="Passengers[@i].LastName" class="form-control" />
                 </div>
-
+                <div class="form-group">
+                    <label for="Passportnr">Passport:</label><br />
+                    <input type="text" id="Passport" name="Passengers[@i].Passport" class="form-control" />
+                </div>
                 <br />
 
-                <div class="submit-container">
-
-                    <button type="submit" onclick="()">Tilføj passenger </button>
-
-
-                    
-                </div>
+               
             </div>
             <div>
-            @foreach(Seat seat in Model.Seats)
+           @*  @foreach(Seat seat in Model.Seats)
             {
 
                 <button>@seat.SeatName
                     <input type="hidden" name="seatId" value="@seat.SeatId" />
+                    <input type="hidden" name="seatName" value="@seat.SeatName" />
                     </button>
-            }
+            } *@
+                <div class="submit-container">
+                    <button type="submit" onclick="AddPassengertoCookie([@i])" asp-action="Pain">Tilføj passenger </button>
 
+                </div>
             </div>
             </div>
-    }
+     }  
   </form>
 
 @* <script>
@@ -120,10 +121,15 @@
     });
 </script> *@
 <script>
-    function AddPassengertoCookie() {
-        const nameInput = document.getElementById('FirstName');
-        const nameValue = encodeURIComponent(nameInput.value);
-        document.cookie = "FirstName=" + nameValue + "; path=/";
+    function AddPassengertoCookie(i) {
+     const firstNameInput = document.getElementById('FirstName').value;
+     const lastNameInput = document.getElementById('LastName').value; 
+     // const seatIdInput = document.getElementById('seatId').value;
+     // const seatNameInput = document.getElementById('seatName').value;  
+    document.cookie =i+"FirstName=" + encodeURIComponent(firstNameInput) + "; path=/";
+    document.cookie =i+"LastName=" + encodeURIComponent(lastNameInput) + "; path=/";
+    // document.cookie =i+"SeatId=" + encodeURIComponent(seatInput) + "; path=/GetSeats";
+    // document.cookie =i+"SeatName" + encodeURIComponent(seatNameInput) + "; path=/GetSeats"
     }
 </script>
 
