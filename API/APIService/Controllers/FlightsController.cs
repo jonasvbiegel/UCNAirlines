@@ -42,6 +42,23 @@ namespace APIService.Controllers
             }
             return foundFlights;
         }
+        [HttpGet, Route("id")]
+        public ActionResult<FlightDTO> GetFlightById(int id)
+        {
+            
+            ActionResult<FlightDTO> foundFlight;
+            FlightDTO? flightDto = _businessLogic.GetById(id);
+            if (!(flightDto == null))
+            {
+                    foundFlight = Ok(flightDto);
+            }
+            
+            else
+            {
+                foundFlight= new StatusCodeResult(500);
+            }
+            return foundFlight;
+        }
 
 
     }

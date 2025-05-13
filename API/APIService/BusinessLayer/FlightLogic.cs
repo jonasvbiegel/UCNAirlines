@@ -2,6 +2,7 @@
 using AirlineData.ModelLayer;
 using APIService.DTOs;
 using APIService.ModelConversion;
+using Microsoft.Data.SqlClient;
 
 namespace APIService.BusinessLayer
 {
@@ -29,17 +30,17 @@ namespace APIService.BusinessLayer
             throw new NotImplementedException();
         }
 
-        public FlightDTO? Get(int id)
+        public FlightDTO? GetById(int id)
         {
-            FlightDTO flightDTO;
+            FlightDTO flightDTO=null;
             try
             {
                 Flight? flight = _flightAccess.GetFlight_s(id).FirstOrDefault();
                 flightDTO = FlightDTOConvert.FromFlight(flight);
             }
-            catch
+            catch(SqlException  ex)   
             {
-                flightDTO = null;
+                Console.WriteLine(ex.Message); 
             }
             return flightDTO;
         }
