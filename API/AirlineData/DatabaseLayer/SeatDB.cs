@@ -98,6 +98,11 @@ public class SeatDB : ISeatDB
         return rowsChanged != 0;
     }
 
+    public bool TryUpdateSeats(List<Seat> seats)
+    {
+
+    }
+
     private Passenger? CreatePassengerFromPassportNo(string passportNo)
     {
         string sql = "SELECT * FROM Passenger WHERE passport_no = @Passport_no";

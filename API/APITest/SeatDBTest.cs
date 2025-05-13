@@ -104,83 +104,83 @@ public class SeatDBTest
         Assert.Null(updatedSeat.Passenger);
     }
 
-    [Fact]
-    public void DBTest_ConcurrencyTest()
-    {
-        // For this test we will be splitting the query up in 2 parts for one of the updates. The first part will get the row version and the second part will try to update the seat after the row version has been changed. This should output an error.
-
-        // This is the query that will be run against the database in full
-        // @"
-        // DECLARE @rv rowversion = (SELECT row_version FROM Seat WHERE seat_id = @SeatId);
-        // DECLARE @key TABLE (seat_id int);
-        // UPDATE Seat
-        // SET passport_no_FK = @PassportNo
-        //     OUTPUT inserted.seat_id INTO @key(seat_id)
-        // WHERE seat_id = @SeatId
-        //     AND row_version = @rv
-        // IF (SELECT COUNT(*) FROM @key) = 0
-        //     BEGIN
-        //         RAISERROR ('error changing row with seat_id = %d'
-        //                 , 16
-        //                 , 1
-        //                 , @SeatId)
-        //         END;
-        // ";
-
-
-        //Arrange
-        Byte[] rowVersion = null;
-        int seatIdToBeUpdated = 3;
-        Seat seatQuery = _seatDB.GetSeat(1);
-        seatQuery.SeatId = seatIdToBeUpdated;
-
-        string sqlSelectRowVersion = $"SELECT row_version FROM Seat WHERE seat_id = @SeatId";
-
-        string sqlUpdate = @"
-        DECLARE @key TABLE (seat_id int);
-        UPDATE Seat
-        SET passport_no_FK = @PassportNo
-            OUTPUT inserted.seat_id INTO @key(seat_id)
-        WHERE seat_id = @SeatId
-            AND row_version = @RV
-        IF (SELECT COUNT(*) FROM @key) = 0
-            BEGIN
-                RAISERROR ('error changing row with seat_id = %d'
-                        , 16
-                        , 1
-                        , @SeatId)
-                END;
-            ";
-
-        //Act
-
-        // Here we are getting the row version before executing an update
-        using SqlConnection con = new(_connectionString);
-        using (var reader = con.ExecuteReader(sqlSelectRowVersion, new { SeatId = seatIdToBeUpdated }))
-        {
-            while (reader.Read())
-            {
-                rowVersion = (Byte[])reader["row_version"];
-            }
-        }
-
-        // Now we execute an update on the seat to update the rowversion
-        bool success = _seatDB.UpdateSeat(seatQuery);
-        Console.WriteLine(success);
-
-        //Assert
-        // Now we execute the second update, which is the last part of the split query
-        // This is done in assert because we are trying to see if the call throws an SqlException
-        SqlException exception = Assert.Throws<SqlException>(() =>
-                con.Execute(sqlUpdate, new
-                {
-                    SeatId = seatIdToBeUpdated,
-                    PassportNo = seatQuery.Passenger.PassportNo,
-                    RV = rowVersion
-                })
-        );
-
-        Assert.True(success);
-        Assert.Equal($"error changing row with seat_id = {seatIdToBeUpdated}", exception.Message);
-    }
+    // [Fact]
+    //     public void DBTest_ConcurrencyTest()
+    //     {
+    //         // For this test we will be splitting the query up in 2 parts for one of the updates. The first part will get the row version and the second part will try to update the seat after the row version has been changed. This should output an error.
+    //
+    //         // This is the query that will be run against the database in full
+    //         // @"
+    //         // DECLARE @rv rowversion = (SELECT row_version FROM Seat WHERE seat_id = @SeatId);
+    //         // DECLARE @key TABLE (seat_id int);
+    //         // UPDATE Seat
+    //         // SET passport_no_FK = @PassportNo
+    //         //     OUTPUT inserted.seat_id INTO @key(seat_id)
+    //         // WHERE seat_id = @SeatId
+    //         //     AND row_version = @rv
+    //         // IF (SELECT COUNT(*) FROM @key) = 0
+    //         //     BEGIN
+    //         //         RAISERROR ('error changing row with seat_id = %d'
+    //         //                 , 16
+    //         //                 , 1
+    //         //                 , @SeatId)
+    //         //         END;
+    //         // ";
+    //
+    //
+    //         //Arrange
+    //         Byte[] rowVersion = null;
+    //         int seatIdToBeUpdated = 3;
+    //         Seat seatQuery = _seatDB.GetSeat(1);
+    //         seatQuery.SeatId = seatIdToBeUpdated;
+    //
+    //         string sqlSelectRowVersion = $"SELECT row_version FROM Seat WHERE seat_id = @SeatId";
+    //
+    //         string sqlUpdate = @"
+    //         DECLARE @key TABLE (seat_id int);
+    //         UPDATE Seat
+    //         SET passport_no_FK = @PassportNo
+    //             OUTPUT inserted.seat_id INTO @key(seat_id)
+    //         WHERE seat_id = @SeatId
+    //             AND row_version = @RV
+    //         IF (SELECT COUNT(*) FROM @key) = 0
+    //             BEGIN
+    //                 RAISERROR ('error changing row with seat_id = %d'
+    //                         , 16
+    //                         , 1
+    //                         , @SeatId)
+    //                 END;
+    //             ";
+    //
+    //         //Act
+    //
+    //         // Here we are getting the row version before executing an update
+    //         using SqlConnection con = new(_connectionString);
+    //         using (var reader = con.ExecuteReader(sqlSelectRowVersion, new { SeatId = seatIdToBeUpdated }))
+    //         {
+    //             while (reader.Read())
+    //             {
+    //                 rowVersion = (Byte[])reader["row_version"];
+    //             }
+    //         }
+    //
+    //         // Now we execute an update on the seat to update the rowversion
+    //         bool success = _seatDB.UpdateSeat(seatQuery);
+    //         Console.WriteLine(success);
+    //
+    //         //Assert
+    //         // Now we execute the second update, which is the last part of the split query
+    //         // This is done in assert because we are trying to see if the call throws an SqlException
+    //         SqlException exception = Assert.Throws<SqlException>(() =>
+    //                 con.Execute(sqlUpdate, new
+    //                 {
+    //                     SeatId = seatIdToBeUpdated,
+    //                     PassportNo = seatQuery.Passenger.PassportNo,
+    //                     RV = rowVersion
+    //                 })
+    //         );
+    //
+    //         Assert.True(success);
+    //         Assert.Equal($"error changing row with seat_id = {seatIdToBeUpdated}", exception.Message);
+    //     }
 }

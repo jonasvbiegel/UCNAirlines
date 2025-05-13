@@ -75,7 +75,6 @@ public class SeatLogic : ISeatLogic
             }
             Thread.Sleep(rnd.Next(1, 10));
         }
-
     }
 
     public bool UpdateSeat(Seat seat)
