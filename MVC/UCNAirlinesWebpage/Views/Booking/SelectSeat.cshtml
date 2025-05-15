@@ -1,5 +1,4 @@
-﻿@using UCNAirlinesWebpage.Models
-@model UCNAirlinesWebpage.Models.BookingCreationModel
+﻿@* @* @using UCNAirlinesWebpage.Models
 @{  
     Layout = "_Layout";
     ViewData["Title"] = "Home Page";
@@ -70,7 +69,7 @@
     <div class="form-seat-container">
 
         @* Oprette label med textfield og tilføj knappe *@
-        <div>
+ @*        <div>
             <div class="form-group">
                 <label for="FirstName">First Name:</label><br />
                 <input type="text" id="FirstName" name="FirstName" class="form-control" />
@@ -89,7 +88,7 @@
         </div>
 
         @* Oprette sæder *@
-
+@* 
         <div class=@Model.Seats>
 
             @for (int row = 1; row <= 10; row++)
@@ -126,4 +125,4 @@
             button.classList.add('selected');
         });
     });
-</script>
+</script> *@ 

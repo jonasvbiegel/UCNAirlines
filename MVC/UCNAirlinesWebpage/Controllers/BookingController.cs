@@ -11,19 +11,7 @@ namespace UCNAirlinesWebpage.Controllers
     {
 
         
-        public IActionResult SelectSeat(FlightSearchModel model, Flight SelectedFlight)
-        {
-
-
-
-            var newmodel = new BookingCreationModel
-            {
-                Flight = SelectedFlight,
-            };
-           
-
-            return View(newmodel);
-        }
+      
         public IActionResult GetSeats(int passenger, int flightId)
         {
             SeatServiceAccess ssa = new SeatServiceAccess();
@@ -36,8 +24,7 @@ namespace UCNAirlinesWebpage.Controllers
                 Flight = f,
                 passengerCount = passenger,
                 Passengers = passengersList,
-                Seats = seats,
-                Pass = Request.Cookies["0FirstName"]
+                Seats = seats
             };
 
             return View(sp);
@@ -46,25 +33,29 @@ namespace UCNAirlinesWebpage.Controllers
         public IActionResult CreateBooking(SeatPassenger model)
         {
             model.Passengers = new();
+            SeatServiceAccess ssa = new();
            
-            for (int i = 0; i < model.passengerCount; i++)
+            for (int i = 0; i < 4; i++)
             {
-                Passenger p = new()
+                string SDate = Request.Cookies[i + "Birthdate"];
+                DateOnly date = DateOnly.Parse(SDate);
+                Passenger passenger = new()
                 {
                     FirstName = Request.Cookies[i + "FirstName"],
                     LastName = Request.Cookies[i + "LastName"],
-                    PassportNo = Request.Cookies[i + "PassportNr"]
-                    
+                    PassportNo = Request.Cookies[i + "PassportNr"],
+                    BirthDate = date
+
                 };
-                model.Passengers.Add(p);
-                // Seat s = new()
-                //{
-                //     Passenger = p,
-                //     SeatId = Request.Cookies[i+ "SeatId"]
-                //};
+                int seatId = Int32.Parse(Request.Cookies[i + "SeatId"]);
+                model.Passengers.Add(passenger);
+                Seat seat = Task.Run(() => ssa.GetSeatBySeatID(seatId)).Result;
+                passenger.seat = seat;                
             }
 
-                
+
+            
+
             return View("TestWorld",model);
         }
 

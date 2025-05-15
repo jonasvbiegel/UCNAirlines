@@ -36,7 +36,7 @@ namespace UCNAirlinesWebpage.ServiceLayer
 
 
         }
-        public async Seat? GetSeatBySeatID(int seatId)
+        public async Task<Seat?> GetSeatBySeatID(int seatId)
         {
             Seat seat = new Seat();
             UseUrl = UseUrl = $"{BaseUrl}seatId?seatId=";

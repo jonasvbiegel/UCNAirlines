@@ -11,5 +11,7 @@ namespace UCNAirlinesWebpage.ServiceLayer
     {
         Task<List<Seat>?> GetSeatsForFlight(int flightId);
         Task<bool> UpdateSeat(Seat seatToUpdate);
+
+        Task<Seat> GetSeatBySeatID(int seatId);
     }
 }
