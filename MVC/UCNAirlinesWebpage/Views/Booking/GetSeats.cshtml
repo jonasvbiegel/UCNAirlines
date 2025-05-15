@@ -121,15 +121,14 @@
 </script> *@
 <script>
     function AddPassengertoCookie() {
-            console.log("Form is submitting...");
-
     for (let i = 0; i < @Model.passengerCount; i++) {
         const firstName = document.getElementById(`FirstName_${i}`).value;
         const lastName = document.getElementById(`LastName_${i}`).value;
+        const passportNr = document.getElementById(`Passport_${i}`).value;
         document.cookie = i + "FirstName=" + encodeURIComponent(firstName) + "; path=/";
         document.cookie = i + "LastName=" + encodeURIComponent(lastName) + "; path=/";
+        document.cookie = i + "Passport=" + encodeURIComponent(passportNr) + "; path=/";
      }
-
      return true;
     }
 </script>
