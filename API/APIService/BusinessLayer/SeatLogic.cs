@@ -33,48 +33,9 @@ public class SeatLogic : ISeatLogic
         return _seatDB.GetSeat(seatId) ?? null;
     }
 
-    public bool TryBookSeats(List<Seat> seats)
+    public bool TryBookSeats(List<Seat?>? seats)
     {
-        Random rnd = new Random();
-        using SqlConnection con = new(_connectionString);
-        con.Open();
-        SqlTransaction transaction = con.BeginTransaction();
-
-        for (; ; )
-        {
-            foreach (Seat s in seats)
-            {
-                bool isAvailable = _seatDB.GetSeat(s.SeatId).Passenger == null;
-                if (!isAvailable) return false;
-            }
-
-            try
-            {
-                bool result = true;
-                foreach (Seat s in seats)
-                {
-                    result = _seatDB.UpdateSeat(s);
-                    if (!result)
-                    {
-                        result = false;
-                        break;
-                    }
-                }
-
-                if (result)
-                {
-                    transaction.Commit();
-                    return true;
-                }
-                transaction.Rollback();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return false;
-            }
-            Thread.Sleep(rnd.Next(1, 10));
-        }
+        return _seatDB.TryUpdateSeats(seats);
     }
 
     public bool UpdateSeat(Seat seat)

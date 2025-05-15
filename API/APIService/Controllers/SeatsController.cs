@@ -51,10 +51,17 @@ public class SeatsController : ControllerBase
     // PUT /api/seats/, Seat object in body of request
     // if passportNo is "null", sets the passportNo to null in database
     [HttpPut]
-    public ActionResult<Seat> UpdateSeat([FromBody] Seat seat)
+    // public ActionResult<Seat> UpdateSeat([FromBody] Seat seat)
+    // {
+    //     bool updated = _seatLogic.UpdateSeat(seat);
+    //
+    //     if (!updated) return new StatusCodeResult(500);
+    //
+    //     return Ok(updated);
+    // }
+    public ActionResult<bool> TryBookSeats([FromBody] List<Seat?>? seats)
     {
-        bool updated = _seatLogic.UpdateSeat(seat);
-
+        bool updated = _seatLogic.TryBookSeats(seats);
         if (!updated) return new StatusCodeResult(500);
 
         return Ok(updated);
