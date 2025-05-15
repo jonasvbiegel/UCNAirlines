@@ -27,12 +27,10 @@ namespace UCNAirlinesWebpage.Controllers
         public IActionResult GetSeats(int passenger, int flightId)
         {
             SeatServiceAccess ssa = new SeatServiceAccess();
+            FlightServiceAccess flightServiceAccess = new FlightServiceAccess();
             List<Seat> seats = Task.Run(() => ssa.GetSeats(flightId)).Result;
+            Flight f = Task.Run(() => flightServiceAccess.GetFlight(flightId)).Result;
             List<Passenger> passengersList = new List<Passenger>();
-            Flight f = new()
-            {
-                FlightId = flightId
-            };
             SeatPassenger sp = new()
             {
                 Flight = f,
@@ -54,7 +52,9 @@ namespace UCNAirlinesWebpage.Controllers
                 Passenger p = new()
                 {
                     FirstName = Request.Cookies[i + "FirstName"],
-                    LastName = Request.Cookies[i + "LastName"]
+                    LastName = Request.Cookies[i + "LastName"],
+                    PassportNo = Request.Cookies[i + "PassportNr"]
+                    
                 };
                 model.Passengers.Add(p);
                 // Seat s = new()

@@ -94,7 +94,17 @@
                     <input type="hidden" name="seatName" value="@seat.SeatName" />
                     </button>
             } *@
+            <label>Seat:</label>
+            <select id="SelectedSeat" name="Seat" onchange="" required>
+                <option value="">-- Select Seat --</option>
+                @foreach (Seat seat in Model.Seats)
+                {
+                    if (seat.Passenger == null){
+                    <option value="@seat.SeatId">@seat.SeatName</option>
+                }
+                }
 
+            </select>
 
         </div>
           
@@ -125,9 +135,11 @@
         const firstName = document.getElementById(`FirstName_${i}`).value;
         const lastName = document.getElementById(`LastName_${i}`).value;
         const passportNr = document.getElementById(`Passport_${i}`).value;
+        const seatId = document.getElementById(`SeatId_${i}`).value;
         document.cookie = i + "FirstName=" + encodeURIComponent(firstName) + "; path=/";
         document.cookie = i + "LastName=" + encodeURIComponent(lastName) + "; path=/";
-        document.cookie = i + "Passport=" + encodeURIComponent(passportNr) + "; path=/";
+        document.cookie = i + "PassportNr=" + encodeURIComponent(passportNr) + "; path=/";
+        document.cookie = i + "SeatId=" + encodeURIComponent(seatId) + "; path=/½";
      }
      return true;
     }
