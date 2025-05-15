@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using UCNAirlinesWebpage.Models;
 using UCNAirlinesWebpage.ServiceLayer;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace UCNAirlinesWebpage.Controllers
 {
-
     public class FlightController : Controller
     {
-       
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -27,8 +27,7 @@ namespace UCNAirlinesWebpage.Controllers
             return View(model);
         }
 
-
-        public async  Task<IActionResult> SelectFlight(string from, string to, DateOnly date, int passenger)
+        public async IActionResult SelectFlight(string from, string to, DateOnly date, string passenger)
         {
             var model = new FlightSearchModel
             {
@@ -53,7 +52,7 @@ namespace UCNAirlinesWebpage.Controllers
             return View(model);
         }
 
-       
+
 
 
         //public void InsertData(FlightSearchModel model)
@@ -83,12 +82,9 @@ namespace UCNAirlinesWebpage.Controllers
 
         //    model.Flights = flights.FindAll(f => DateOnly.FromDateTime(f.Departure)  == model.Date);
         //}
-
-        
-
     }
 
 
 
-   
+
 }

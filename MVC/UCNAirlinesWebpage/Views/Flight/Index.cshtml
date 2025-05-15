@@ -48,7 +48,17 @@
 		<option value="9">9</option>
 		<option value="10">10</option>
 	</select>
-
+	@foreach (var flight in Model)
+	{
+		<tr>
+			<td>@flight.Id</td>
+			<td>@flight.Route</td>
+			<td>@flight.Airplane</td>
+			<td>@flight.Departure</td>
+		</tr>
+	}
+	</tbody>
+	</table>
 <br />
 <br />
 	
@@ -82,4 +92,4 @@
 				}
 			}
 	}
-</script>
+</script>  *@

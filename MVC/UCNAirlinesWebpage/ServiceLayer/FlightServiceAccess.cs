@@ -10,9 +10,8 @@ namespace UCNAirlinesWebpage.ServiceLayer
         public FlightServiceAccess() : base("https://localhost:7184/api/flights/")
         {
         }
-        public async Task<List<Flight>?> GetFlights(DateOnly date)
+        public async Task<List<Flight>?> GetFlights(string date)
         {
-
             List<Flight> flights = new List<Flight>();
             UseUrl = BaseUrl;
             UseUrl += date;
@@ -27,9 +26,11 @@ namespace UCNAirlinesWebpage.ServiceLayer
                     string responseData = await serviceResponse.Content.ReadAsStringAsync();
 
 
-
                     flights = JsonConvert.DeserializeObject<List<Flight>>(responseData);
-
+                    foreach (var flight in flights.Take(1)) // Inspect the first flight
+                    {
+                        Console.WriteLine($"Flight Info: ID={flight.FlightId}, Date={flight.Departure}");
+                    }
 
                 }
 

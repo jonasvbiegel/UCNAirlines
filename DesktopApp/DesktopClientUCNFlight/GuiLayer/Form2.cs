@@ -57,18 +57,30 @@ namespace DesktopClientUCNFlight
             listViewFlights.Font = new Font("Segoe UI", 14);
 
             // Konverterer DateTime til DateOnly
-            DateOnly selectedDateOnly = DateOnly.FromDateTime(selectedDate);
+            string selectedDateOnly = DateOnly.FromDateTime(selectedDate).ToString();
 
             // Kalder den asynkrone metode i din business logic
             List<Flight>? flights = await _flightLogic.GetFlightsByDate(selectedDateOnly);
+            List<Flight>? flightReturn = new List<Flight>();
 
-            if (flights == null || flights.Count == 0)
             {
-                HandleNoFlights();
-                return;
-            }
+                foreach (Flight flight in flights)
+                {
 
-            LoadFlightItems(flights);
+                    if (flight.Route.StartDestination.AirportName.Equals(_departure) && flight.Route.EndDestination.AirportName.Equals(_arrival))
+                    {
+
+                        flightReturn.Add(flight);
+                    }
+                    if (flightReturn.Count == 0)
+                    {
+                        HandleNoFlights();
+                        return;
+                    }
+                }
+
+                LoadFlightItems(flightReturn);
+            }
         }
 
         private void HandleNoFlights()
@@ -98,8 +110,8 @@ namespace DesktopClientUCNFlight
                 }
 
                 ListViewItem item = new ListViewItem(airlineName);
-                item.SubItems.Add(flight.Departure.ToShortDateString());
-                item.SubItems.Add(flight.Departure.ToShortTimeString());
+                item.SubItems.Add(flight.Departure_time_and_date.ToShortDateString());
+                item.SubItems.Add(flight.Departure_time_and_date.ToShortTimeString());
                 item.SubItems.Add("SELECT");
                 item.Tag = flight;
 

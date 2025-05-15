@@ -8,28 +8,29 @@ using DesktopClientUCNFlight.ServiceLayer;
 
 namespace DesktopClientUCNFlight.BusinesslogicLayer
 {
-    public class FlightLogic
-    {
-        private readonly IFlightServiceAccess _flightServiceAccess;
-        public FlightLogic()
+        public class FlightLogic
         {
-            _flightServiceAccess = new FlightServiceAccess();
-        }
+                private readonly IFlightAccess _flightServiceAccess;
+                public FlightLogic()
+                {
+                        _flightServiceAccess = new FlightServiceAccess();
+                }
 
-        public async Task<List<Flight>?> GetFlightsByDate(DateOnly date)
-        {
-            List<Flight>? foundFlights;
-            try
-            {
-                foundFlights = await _flightServiceAccess.GetFlightsByDate(date);
-            }
-            catch
-            {
-                foundFlights = null;
-            }
+                public async Task<List<Flight>?> GetFlightsByDate(string date)
+                {
+                        List<Flight>? foundFlights;
+                        try
+                        {
+                                foundFlights = await _flightServiceAccess.GetFlights(date);
+                        }
+                        catch (Exception ex)
+                        {
+                                Console.WriteLine($"Error retrieving flights: {ex.Message}");
+                                foundFlights = null;
+                        }
 
-            return foundFlights;
+                        return foundFlights;
+                }
         }
-    }
 }
 

@@ -32,16 +32,11 @@ namespace APIService.BusinessLayer
 
         public FlightDTO? GetById(int id)
         {
-            FlightDTO flightDTO=null;
-            try
-            {
-                Flight? flight = _flightAccess.GetFlight_s(id).FirstOrDefault();
-                flightDTO = FlightDTOConvert.FromFlight(flight);
-            }
-            catch(SqlException  ex)   
-            {
-                Console.WriteLine(ex.Message); 
-            }
+            FlightDTO flightDTO;
+
+            Flight? flight = _flightAccess.GetFlight_s(id).FirstOrDefault();
+            flightDTO = FlightDTOConvert.FromFlight(flight);
+
             return flightDTO;
         }
 

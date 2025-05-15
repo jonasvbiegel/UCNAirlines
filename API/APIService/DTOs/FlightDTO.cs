@@ -17,7 +17,7 @@ namespace APIService.DTOs
         public List<Seat> Seats { get; set; }
         public Airplane Airplane { get; set; }
         public FlightRoute Route { get; set; }
-        public int FlightId {  get; set; }
+        public int FlightId { get; set; }
 
     }
 }

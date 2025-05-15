@@ -4,6 +4,6 @@ namespace DesktopClientUCNFlight.ServiceLayer
 {
     public interface IFlightAccess
     {
-       public Task<List<Flight>?> GetFlights(DateOnly date);
+        Task<List<Flight>?> GetFlights(string date);
     }
 }

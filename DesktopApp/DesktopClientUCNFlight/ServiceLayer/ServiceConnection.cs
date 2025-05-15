@@ -1,8 +1,9 @@
-﻿namespace DesktopClientUCNFlight.ServiceLayer
-{
-    public abstract class ServiceConnection
-    {
+using System.Net.Http;
 
+namespace DesktopClientUCNFlight.ServiceLayer
+{
+    public class ServiceConnection
+    {
         private readonly HttpClient _httpEnabler;
 
         public ServiceConnection(string inBaseUrl)
@@ -24,7 +25,6 @@
             }
             return hrm;
         }
-
         public async Task<HttpResponseMessage?> CallServicePost(StringContent postJson)
         {
             HttpResponseMessage? hrm = null;
@@ -34,32 +34,24 @@
             }
             return hrm;
         }
-        public Task<HttpResponseMessage?> CallServicePut(StringContent postJson)
-        {
-            throw new NotImplementedException();
-        }
-        public Task<HttpResponseMessage?> CallServiceDelete()
-        {
-            throw new NotImplementedException();
-        }
-
-        //For autentication
-        public void SetHeaders(string authStr, string bearerVal)
-        {
-            _httpEnabler.DefaultRequestHeaders.Remove(authStr);
-            _httpEnabler.DefaultRequestHeaders.Add(authStr, bearerVal);
-        }
-
-        public async Task<HttpResponseMessage?> CallServicePost(HttpRequestMessage postRequest)
+        public async Task<HttpResponseMessage?> CallServicePut(StringContent postJson)
         {
             HttpResponseMessage? hrm = null;
             if (UseUrl != null)
             {
-                hrm = await _httpEnabler.SendAsync(postRequest);
+                hrm = await _httpEnabler.PutAsync(UseUrl, postJson);
             }
             return hrm;
         }
-
+        public async Task<HttpResponseMessage?> CallServiceDelete()
+        {
+            HttpResponseMessage? hrm = null;
+            if (UseUrl != null)
+            {
+                hrm = await _httpEnabler.DeleteAsync(UseUrl);
+            }
+            return hrm;
+        }
     }
 
 }
