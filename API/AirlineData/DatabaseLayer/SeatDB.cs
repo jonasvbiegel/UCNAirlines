@@ -103,7 +103,6 @@ public class SeatDB : ISeatDB
 
     public bool TryUpdateSeats(List<Seat?>? seats)
     {
-        string sqlAvailable = "SELECT * FROM Seat FULL OUTER JOIN Passenger ON passport_no_FK = passport_no where seat_id = @SeatId ";
         Random rnd = new Random();
         for (; ; )
         {
