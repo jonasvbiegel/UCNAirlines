@@ -157,6 +157,7 @@ public class SeatDB : ISeatDB
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                transaction.Rollback();
             }
             Thread.Sleep(rnd.Next(1, 10));
         }
