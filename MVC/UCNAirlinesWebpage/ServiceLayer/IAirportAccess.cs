@@ -2,5 +2,6 @@
 {
     public interface IAirportAccess
     {
+        Task<List<string>?> GetAirports();
     }
 }

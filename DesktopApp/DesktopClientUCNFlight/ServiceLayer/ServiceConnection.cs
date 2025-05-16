@@ -1,4 +1,4 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 
 namespace DesktopClientUCNFlight.ServiceLayer
 {
@@ -15,7 +15,6 @@ namespace DesktopClientUCNFlight.ServiceLayer
 
         public string? BaseUrl { get; init; }
         public string? UseUrl { get; set; }
-
 
         public async Task<HttpResponseMessage?> CallServiceGet()
         {

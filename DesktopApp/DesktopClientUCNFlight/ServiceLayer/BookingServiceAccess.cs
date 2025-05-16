@@ -1,4 +1,4 @@
-﻿using DesktopClientUCNFlight.ModelLayer;
+using DesktopClientUCNFlight.ModelLayer;
 using Newtonsoft.Json;
 using System.Text;
 

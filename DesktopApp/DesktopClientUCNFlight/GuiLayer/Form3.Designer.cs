@@ -1,4 +1,6 @@
-﻿using System.Windows.Forms;
+
+using System.Windows.Forms;
+
 
 namespace DesktopClientUCNFlight.GuiLayer
 {
@@ -223,7 +225,7 @@ namespace DesktopClientUCNFlight.GuiLayer
             PerformLayout();
         }
 
-        #endregion
+        
 
         private Label labelFlightInfo;
         private GroupBox groupBox1;

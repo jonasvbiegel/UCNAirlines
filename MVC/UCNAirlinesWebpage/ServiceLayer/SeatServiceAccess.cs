@@ -9,7 +9,7 @@ using System.Net.Http;
 
 namespace UCNAirlinesWebpage.ServiceLayer
 {
-    public class SeatServiceAccess : ServiceConnection, ISeatAccess
+    public class SeatServiceAccess : ServiceConnection
     {
         public SeatServiceAccess() : base("https://localhost:7184/api/seats/")
         {   

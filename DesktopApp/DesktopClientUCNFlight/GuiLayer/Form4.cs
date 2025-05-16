@@ -79,7 +79,6 @@ namespace DesktopClientUCNFlight.GuiLayer
                     return;
                 }
             }
-
             foreach (Seat seat in _selectedSeats)
             {
                 bool seatUpdated = await _seatLogic.UpdateSeat(seat);

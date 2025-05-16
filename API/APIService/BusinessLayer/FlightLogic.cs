@@ -2,6 +2,7 @@
 using AirlineData.ModelLayer;
 using APIService.DTOs;
 using APIService.ModelConversion;
+using Microsoft.Data.SqlClient;
 
 namespace APIService.BusinessLayer
 {
@@ -29,14 +30,13 @@ namespace APIService.BusinessLayer
             throw new NotImplementedException();
         }
 
-        public FlightDTO? Get(int id)
+        public FlightDTO? GetById(int id)
         {
             FlightDTO flightDTO;
 
-                Flight? flight = _flightAccess.GetFlight_s(id).FirstOrDefault();
-                flightDTO = FlightDTOConvert.FromFlight(flight);
-            
-          
+            Flight? flight = _flightAccess.GetFlight_s(id).FirstOrDefault();
+            flightDTO = FlightDTOConvert.FromFlight(flight);
+
             return flightDTO;
         }
 
@@ -57,16 +57,7 @@ namespace APIService.BusinessLayer
             return flightsByDate;
         }
 
-        public bool Update(FlightDTO flightUpdate)
-        {
-            throw new NotImplementedException();
-        }
-
-        int IFlightLogic.Create(FlightDTO flightAdd)
-        {
-            throw new NotImplementedException();
-        }
-    }
+   
 }
 
 

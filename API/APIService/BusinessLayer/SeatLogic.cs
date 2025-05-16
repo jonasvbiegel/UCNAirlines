@@ -2,11 +2,14 @@
 using AirlineData.DatabaseLayer;
 using AirlineData.ModelLayer;
 using Microsoft.Data.SqlClient;
+using Microsoft.AspNetCore.Components.Forms.Mapping;
 
 namespace APIService.BusinessLayer;
 
 public class SeatLogic : ISeatLogic
 {
+
+    private readonly string _connectionString = "Data Source = localhost; Initial Catalog = UCNAirlines; Persist Security Info=True; User ID = sa; Password=@12tf56so; Encrypt=False";
 
     private readonly ISeatDB _seatDB;
 
@@ -30,14 +33,20 @@ public class SeatLogic : ISeatLogic
         return _seatDB.GetSeat(seatId) ?? null;
     }
 
+    public bool TryBookSeats(List<Seat?>? seats)
+    {
+        return _seatDB.TryUpdateSeats(seats);
+    }
+
     public bool UpdateSeat(Seat seat)
     {
         try
         {
             _seatDB.UpdateSeat(seat);
         }
-        catch (SqlException)
+        catch (SqlException e)
         {
+            Console.WriteLine(e.Message);
             return false;
         }
         return true;

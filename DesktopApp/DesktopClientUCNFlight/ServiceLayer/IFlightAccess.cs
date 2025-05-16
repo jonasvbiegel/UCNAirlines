@@ -1,6 +1,5 @@
 ﻿using DesktopClientUCNFlight.ModelLayer;
 
-
 namespace DesktopClientUCNFlight.ServiceLayer
 {
     public interface IFlightAccess

@@ -90,7 +90,7 @@ namespace DesktopClientUCNFlight.GuiLayer
                     if (seat.Passenger?.PassportNo == null)
                     {
                         button.Enabled = true;
-                        button.BackColor = Color.LightGreen; 
+                        button.BackColor = Color.LightGreen;
                     }
                     else
                     {
@@ -194,7 +194,6 @@ namespace DesktopClientUCNFlight.GuiLayer
             }
             return isValidInput;
         }
-
 
         // Clear the input fields after registering a passenger
         private void ClearPassengerInputs()

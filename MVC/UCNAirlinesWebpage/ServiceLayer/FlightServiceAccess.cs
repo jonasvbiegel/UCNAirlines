@@ -20,22 +20,43 @@ namespace UCNAirlinesWebpage.ServiceLayer
             // if success (200-299)
             if (serviceResponse != null && serviceResponse.IsSuccessStatusCode)
             {
-               
+
                 if (serviceResponse.StatusCode == HttpStatusCode.OK)
                 {
                     string responseData = await serviceResponse.Content.ReadAsStringAsync();
-                 
+
 
                     flights = JsonConvert.DeserializeObject<List<Flight>>(responseData);
-                    foreach (var flight in flights.Take(1)) // Inspect the first flight
-                    {
-                        Console.WriteLine($"Flight Info: ID={flight.FlightId}, Date={flight.Departure}");
-                    }
+
 
                 }
 
             }
             return flights;
+        }
+        public async Task<Flight?> GetFlight(int flightId)
+        {
+            Flight flight = null;
+            UseUrl = UseUrl = $"{BaseUrl}id?id=";
+            UseUrl += flightId;
+
+            var serviceResponse = await base.CallServiceGet();
+            // if success (200-299)
+            if (serviceResponse != null && serviceResponse.IsSuccessStatusCode)
+            {
+
+                if (serviceResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    string responseData = await serviceResponse.Content.ReadAsStringAsync();
+
+
+                    flight = JsonConvert.DeserializeObject<Flight>(responseData);
+
+                }
+
+
+            }
+            return flight;
 
 
         }
