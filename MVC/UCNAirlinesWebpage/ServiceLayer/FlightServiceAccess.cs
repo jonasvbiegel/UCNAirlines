@@ -27,10 +27,7 @@ namespace UCNAirlinesWebpage.ServiceLayer
 
 
                     flights = JsonConvert.DeserializeObject<List<Flight>>(responseData);
-                    foreach (var flight in flights.Take(1)) // Inspect the first flight
-                    {
-                        Console.WriteLine($"Flight Info: ID={flight.FlightId}, Date={flight.Departure}");
-                    }
+
 
                 }
 

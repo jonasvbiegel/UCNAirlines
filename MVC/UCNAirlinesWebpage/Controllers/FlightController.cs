@@ -53,8 +53,6 @@ namespace UCNAirlinesWebpage.Controllers
         }
 
 
-
-
         //public void InsertData(FlightSearchModel model)
         //{
         //    model.Flights = new List<Flight>();

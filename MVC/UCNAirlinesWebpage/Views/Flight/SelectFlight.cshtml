@@ -88,14 +88,14 @@
                         <td>@flight.Departure.ToString("HH:mm")</td>
 
                         <td>
-                            <form method="post" asp-controller="Booking" asp-action="GetSeats">
-                                <input type="hidden" name="passenger" value="@Model.Passenger" />
-                                <input type="hidden" name="flightId" value="@flight.FlightId" />
-                                <button type="submit" name="SelectedFlight" onclick="this.disabled=true; this.form.submit();">
-                                    Select
-                                </button>
-
-
+                        <form method="post" asp-controller="Booking" asp-action="GetSeats">
+                            <input type="hidden" name="passenger" value="@Model.Passenger" />
+                            <input type="hidden" name="flightId" value="@flight.FlightId" />
+                            <button type="submit" name="SelectedFlight" onclick="this.disabled=true; this.form.submit();">
+                                Select 
+                            </button>
+                              
+                              
                             </form>
                         </td>
                     </tr>
