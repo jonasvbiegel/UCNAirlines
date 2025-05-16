@@ -8,14 +8,7 @@ namespace TestUCNAirlineWebpage
 {
     public class TestFlightroute
     {
-        [Fact]
-        public void Test_StartAndEndCannotBeTheSame()
-        {
-            //    //Arrange
-            //    string startDestination = "Aalborg";
-            //    string endDestination = "Aalborg";
-
-        }
+        
         [Fact]
         public async void FlightgetTest()
         {

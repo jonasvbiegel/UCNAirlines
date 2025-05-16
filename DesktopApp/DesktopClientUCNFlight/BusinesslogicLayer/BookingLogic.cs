@@ -8,7 +8,7 @@ using DesktopClientUCNFlight.ServiceLayer;
 
 namespace DesktopClientUCNFlight.BusinesslogicLayer
 {
-<<<<<<< HEAD
+
     public class BookingLogic
     {
         private readonly IBookingAccess _bookingServiceAccess;

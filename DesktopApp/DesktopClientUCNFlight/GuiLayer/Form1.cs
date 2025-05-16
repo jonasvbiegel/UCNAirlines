@@ -18,7 +18,7 @@ namespace DesktopClientUCNFlight
             }
 
             comboBoxDeparture.SelectedIndex = 0;
-
+           
             ////Kalder en metode nedenunder for at registrere afrejsevalg
             comboBoxDeparture.SelectedIndexChanged += comboBoxDeparture_SelectedIndexChanged;
 
@@ -33,12 +33,11 @@ namespace DesktopClientUCNFlight
             monthCalendar1.MinDate = DateTime.Today;
         }
 
-        //Sørger for at samme by ikke kan vælges som både afrejse og ankomst - og nulstiller hvis der vælges det samme
+        //Sï¿½rger for at samme by ikke kan vï¿½lges som bï¿½de afrejse og ankomst - og nulstiller hvis der vï¿½lges det samme
         private void comboBoxDeparture_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selectedDeparture = comboBoxDeparture.SelectedItem.ToString();
             string selectedArrival = comboBoxArrival.SelectedItem?.ToString();
-
             comboBoxArrival.Items.Clear();
             comboBoxArrival.Items.Add("--Arrival Airport");
 
@@ -80,7 +79,7 @@ namespace DesktopClientUCNFlight
                 MessageBox.Show("Please select the number of persons");
                 return;
             }
-            //konverterer objektet til en læsbar streng-repræsentation
+            //konverterer objektet til en lï¿½sbar streng-reprï¿½sentation
             string departure = comboBoxDeparture.SelectedItem.ToString();
             string arrival = comboBoxArrival.SelectedItem.ToString();
             string persons = comboBoxPersons.SelectedItem.ToString();
@@ -90,5 +89,8 @@ namespace DesktopClientUCNFlight
             form2.Show();
             this.Hide();
         }
+
+
+        
     }
 }

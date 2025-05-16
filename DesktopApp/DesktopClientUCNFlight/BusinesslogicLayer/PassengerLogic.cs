@@ -25,7 +25,7 @@ namespace DesktopClientUCNFlight.BusinesslogicLayer
             {
                 var createdPassenger = await _passengerServiceAccess.InsertPassenger(passenger);
 
-                wasCreated = (createdPassenger != null);
+                wasCreated = (createdPassenger!=null);
             }
             catch (Exception ex)
             {
@@ -35,4 +35,3 @@ namespace DesktopClientUCNFlight.BusinesslogicLayer
         }
     }
 }
-

@@ -21,7 +21,7 @@ namespace DesktopClientUCNFlight.ServiceLayer
 
             if (serviceResponse.IsSuccessStatusCode)
             {
-                b = true;
+                b= true;
             }
 
             return b;
@@ -30,4 +30,3 @@ namespace DesktopClientUCNFlight.ServiceLayer
 
     }
 }
-

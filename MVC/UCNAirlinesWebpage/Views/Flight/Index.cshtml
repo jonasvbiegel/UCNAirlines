@@ -1,95 +1,30 @@
-﻿ @using UCNAirlinesWebpage.Models;
- @model UCNAirlinesWebpage.Models.AirportModel
-<h1 style="text-align: center; margin-top: auto">Book Your Trip</h1>
+@using UCNAirlinesWebpage.Models
+@model List<Flight>
 
-<br />
-<br />
+<h1>Available Flights</h1>
 
-<form method="get" asp-controller="Flight" asp-action="SelectFlight" asp-for="date">
-	<label>From:</label>
-	<select id="fromSelect" name="from" onchange="updateToOptions()" required>
-		<option value="">-- Select Departure --</option>
-		@foreach (var flight in Model.Airports)
-		{
-			<option value="@flight">@flight</option>
-		}
-		
-	</select>
-
-	<label>To:</label>
-	<select id="toSelect" name="to" required>
-		<option value="">-- Select Destination --</option>
-		@foreach (var flight in Model.Airports)
-		{
-			<option value="@flight">@flight</option>
-		}
-	</select>
-
-<br />
-<br />
-
-	<label>Date:</label>
-	<input type="date" name="date" min="@DateTime.Today.ToString("yyyy-MM-dd")" required />
-
-<br />
-<br />
-	
-	<label>Passenger:</label>
-	<select name="passenger" required>
-		<option value="">-- select passenger --</option>
-		<option value="1">1</option>
-		<option value="2">2</option>
-		<option value="3">3</option>
-		<option value="4">4</option>
-		<option value="5">5</option>
-		<option value="6">6</option>
-		<option value="7">7</option>
-		<option value="8">8</option>
-		<option value="9">9</option>
-		<option value="10">10</option>
-	</select>
-	@foreach (var flight in Model)
-	{
-		<tr>
-			<td>@flight.Id</td>
-			<td>@flight.Route</td>
-			<td>@flight.Airplane</td>
-			<td>@flight.Departure</td>
-		</tr>
-	}
-	</tbody>
-	</table>
-<br />
-<br />
-	
-<button type="Submit">Select</button>
-
-</form>
-
-<script>
-	function updateToOptions()
-	{
-		var fromSelect = document.getElementById('fromSelect');
-		var toSelect = document.getElementById('toSelect');
-		var selectedFrom = fromSelect.value;
-
-		var allOptions = [
-	@foreach (var flight in Model.Airports)
-	{
-		@:{ value: "@flight", text: "@flight" },
-	}
-		]
-
-		toSelect.innerHTML = '<option value="">-- Select Destination --</option>';
-		for (var i = 0; i < allOptions.length; i++)
+@if (Model != null && Model.Any())
+{
+	<table>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Departure</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var flight in Model)
 			{
-				if (allOptions[i].value !== selectedFrom)
-				{
-					var option = document.createElement("option");
-					option.value = allOptions[i].value;
-					option.text = allOptions[i].text;
-					toSelect.appendChild(option);
-				}
+				<tr>
+					<td>@flight.Airplane.AirplaneId</td>
+					<td>@flight.Route.StartDestination</td>
+					<td>@flight.Departure</td>
+				</tr>
 			}
-	}
-</script>  *@
+		</tbody>
+	</table>
+}
+else
+{
+	<p>No flights found for the selected date.</p>
+}
