@@ -30,7 +30,7 @@ namespace DesktopClientUCNFlight.BusinesslogicLayer
 
             return seats;
         }
-        public async Task<bool> UpdateSeat(Seat seat)
+        public async Task<bool> UpdateSeat(List<Seat> seat)
         {
             try
             {

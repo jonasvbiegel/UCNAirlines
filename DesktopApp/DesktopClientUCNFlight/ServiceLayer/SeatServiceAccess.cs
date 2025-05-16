@@ -39,7 +39,7 @@ namespace DesktopClientUCNFlight.ServiceLayer
 
 
         }
-        public async Task<bool> UpdateSeat(Seat seat)
+        public async Task<bool> UpdateSeat(List<Seat> seat)
         {
             bool updated = false;
             UseUrl = BaseUrl;
