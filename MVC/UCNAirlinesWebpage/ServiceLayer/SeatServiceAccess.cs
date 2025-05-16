@@ -2,10 +2,14 @@
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Net;
 using UCNAirlinesWebpage.Models;
+using System.Text;
+using System;
+using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
 
 namespace UCNAirlinesWebpage.ServiceLayer
 {
-    public class SeatServiceAccess : ServiceConnection, ISeatAccess
+    public class SeatServiceAccess : ServiceConnection
     {
         public SeatServiceAccess() : base("https://localhost:7184/api/seats/")
         {   
@@ -36,5 +40,24 @@ namespace UCNAirlinesWebpage.ServiceLayer
 
 
         }
+        public async Task<bool> UpdateSeat(Seat seat)
+        {
+            bool updated = false;
+            UseUrl = BaseUrl;
+
+            string seatJson=JsonConvert.SerializeObject(seat);
+            var httpContent = new StringContent(seatJson, Encoding.UTF8, "application/json");
+            var serviceResponse = await base.CallServicePut(httpContent);
+
+            if (serviceResponse.IsSuccessStatusCode)
+            {
+                updated = true;
+            }
+
+            return updated;
+
+        }
     }
+
+
 }

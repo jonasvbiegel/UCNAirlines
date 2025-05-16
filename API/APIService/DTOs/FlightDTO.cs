@@ -6,11 +6,11 @@ namespace APIService.DTOs
     {
         public FlightDTO(DateTime departure, Airplane airplane, FlightRoute route, int flightId)
         {
-            FlightId = flightId;
             Departure_time_and_date = departure;
             Seats = new List<Seat>();
             this.Airplane = airplane;
             this.Route = route;
+            this.FlightId = flightId;
         }
 
         public DateTime Departure_time_and_date { get; set; }
@@ -18,6 +18,7 @@ namespace APIService.DTOs
         public Airplane Airplane { get; set; }
         public FlightRoute Route { get; set; }
         public int FlightId { get; set; }
+
     }
 }
 

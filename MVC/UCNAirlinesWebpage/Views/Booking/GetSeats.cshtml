@@ -1,0 +1,136 @@
+﻿@using UCNAirlinesWebpage.Models
+@model SeatPassenger
+
+@{
+    ViewData["Title"] = "Seats";
+}
+<style>
+    .form-seat-container {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    justify-content: center;
+    margin-bottom: 20px;
+    }
+
+    .form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 300px;
+    }
+
+    .seat-map {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    }
+
+    .seat.row {
+    display: flex;
+    gap: 10px;
+    }
+
+    .seat-gap {
+    display: inline-block;
+    width: 30px;
+    }
+
+    .seat {
+    width: 40px;
+    height: 40px;
+    background-color: lightgray;
+    border: none;
+    border-radius: 3px;
+    font-weight: bold;
+    cursor: pointer;
+    }
+
+    .seat.selected {
+    background-color: green;
+    color: white;
+    }
+
+    .submit-container {
+    text-align: center
+    }
+
+</style>
+<div>@Model.Flight.FlightId</div>
+@* <div>@Model.Flight.Airplane.AirplaneId</div>
+ *@<div>@Model.passengerCount</div>
+<div>@Model.Pass</div>
+<div class="text-center">
+    <h1 class="display-4">Select a seat</h1>
+</div>
+
+<br />
+<br />
+<form method="post" action="/Booking/CreateBooking" onsubmit="return AddPassengertoCookie();">
+     @for (int i = 0; i < Model.passengerCount; i++) 
+     {
+        <div class="form-seat-container">
+            <div>
+                <div class="form-group">
+                    <label for="FirstName_@i">First Name:</label><br />
+                    <input type="text" id="FirstName_@i" name="Passengers[@i].FirstName" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="LastName_@i">Last Name:</label><br />
+                    <input type="text" id="LastName_@i" name="Passengers[@i].LastName" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="Passport_@i">Passport:</label><br />
+                    <input type="text" id="Passport_@i" name="Passengers[@i].Passport" class="form-control" />
+                </div>
+                <br />
+            </div>
+            @*  @foreach(Seat seat in Model.Seats)
+            {
+
+                <button>@seat.SeatName
+                    <input type="hidden" name="seatId" value="@seat.SeatId" />
+                    <input type="hidden" name="seatName" value="@seat.SeatName" />
+                    </button>
+            } *@
+
+
+        </div>
+          
+            
+     }
+    <div class="submit-container">
+        <button type="submit">Tilføj passenger</button>
+    </div>
+</form>
+
+@* <script>
+    // Find alle sædeknapper
+    const seatButtons = document.querySelectorAll('.seat');
+
+    seatButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Fjern 'selected' fra alle andre sæder
+            seatButtons.forEach(btn => btn.classList.remove('selected'));
+
+            // Tilføj 'selected' til det valgte sæde    
+            button.classList.add('selected');
+        });
+    });
+</script> *@
+<script>
+    function AddPassengertoCookie() {
+            console.log("Form is submitting...");
+
+    for (let i = 0; i < @Model.passengerCount; i++) {
+        const firstName = document.getElementById(`FirstName_${i}`).value;
+        const lastName = document.getElementById(`LastName_${i}`).value;
+        document.cookie = i + "FirstName=" + encodeURIComponent(firstName) + "; path=/";
+        document.cookie = i + "LastName=" + encodeURIComponent(lastName) + "; path=/";
+     }
+
+     return true;
+    }
+</script>
+

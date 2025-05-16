@@ -1,7 +1,5 @@
-﻿
- @{
-}
-
+﻿ @using UCNAirlinesWebpage.Models;
+ @model UCNAirlinesWebpage.Models.AirportModel
 <h1 style="text-align: center; margin-top: auto">Book Your Trip</h1>
 
 <br />
@@ -10,16 +8,21 @@
 <form method="get" asp-controller="Flight" asp-action="SelectFlight" asp-for="date">
 	<label>From:</label>
 	<select id="fromSelect" name="from" onchange="updateToOptions()" required>
-		<option value="">-- selected Departure --</option>
-		<option value="Aalborg Airport">Aalborg Airport</option>
-		<option value="Nuuk Airport">Nuuk Airport</option>
+		<option value="">-- Select Departure --</option>
+		@foreach (var flight in Model.Airports)
+		{
+			<option value="@flight">@flight</option>
+		}
+		
 	</select>
 
 	<label>To:</label>
 	<select id="toSelect" name="to" required>
-		<option value="">-- selected Arrival --</option>
-		<option value="Aalborg Airport">Aalborg Airport</option>
-		<option value="Nuuk Airport">Nuuk Airport</option>
+		<option value="">-- Select Destination --</option>
+		@foreach (var flight in Model.Airports)
+		{
+			<option value="@flight">@flight</option>
+		}
 	</select>
 
 <br />
@@ -45,7 +48,17 @@
 		<option value="9">9</option>
 		<option value="10">10</option>
 	</select>
-
+	@foreach (var flight in Model)
+	{
+		<tr>
+			<td>@flight.Id</td>
+			<td>@flight.Route</td>
+			<td>@flight.Airplane</td>
+			<td>@flight.Departure</td>
+		</tr>
+	}
+	</tbody>
+	</table>
 <br />
 <br />
 	
@@ -61,12 +74,13 @@
 		var selectedFrom = fromSelect.value;
 
 		var allOptions = [
-			{ value: "Aalborg Airport", text: "Aalborg Airport"},
-			{ value: "Nuuk Airport", text: "Nuuk Airport"}
-		];
+	@foreach (var flight in Model.Airports)
+	{
+		@:{ value: "@flight", text: "@flight" },
+	}
+		]
 
-		toSelect.innerHTML = '<option value="">--select Destination--</option>';
-
+		toSelect.innerHTML = '<option value="">-- Select Destination --</option>';
 		for (var i = 0; i < allOptions.length; i++)
 			{
 				if (allOptions[i].value !== selectedFrom)
@@ -78,4 +92,4 @@
 				}
 			}
 	}
-</script>
+</script>  *@

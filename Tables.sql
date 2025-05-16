@@ -81,22 +81,16 @@ FROM Airport airport
 GO;
 
 CREATE VIEW RouteWithAirports AS
-SELECT
+SELECT 
     r.flight_route_id AS FlightRouteId,
     r.start_destination_FK AS StartAirportCode,       -- Code from FlightRoute for the start airport
+    sa.airport_name AS StartAirportName,
+	sa.zipcode_FK AS StartZipCode,-- Name from the Airport table for the start airport
     r.end_destination_FK AS EndAirportCode,          -- Code from FlightRoute for the end airport
-
-    sa.airportName AS StartAirportName,
-    sa.airportZipcode AS StartAirportZipcode,
-    sa.airportCity AS StartAirportCity,
-    sa.airportCountry AS StartAirportCountry,
-
-    ea.airportName AS EndAirportName,
-    ea.airportZipcode AS EndAirportZipcode,
-    ea.airportCity AS EndAirportCity,
-    ea.airportCountry AS EndAirportCountry
-
+    ea.airport_name AS EndAirportName,
+	ea.zipcode_FK AS EndZipCode-- Name from the Airport table for the end airport
 FROM Flight_Route r
+<<<<<<< HEAD
          JOIN AirportZipCountry sa ON r.start_destination_FK = sa.icaoCode
          JOIN AirportZipCountry ea ON r.end_destination_FK = ea.icaoCode;
 GO;

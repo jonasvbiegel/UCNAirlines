@@ -2,49 +2,57 @@
 
 <style>
     .centered-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    margin-bottom: 120px;
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        margin-bottom: 120px;
     }
 
     table {
-    width: 50%;
-    font-size: 1.3rem;
+        width: 50%;
+        font-size: 1.3rem;
     }
 
-    th, td {
-    padding: 12px 20px;
-    border-bottom: 1px solid #ccc; /* streg under hver række */
-    text-align: center;
+    th,
+    td {
+        padding: 12px 20px;
+        border-bottom: 1px solid #ccc;
+        /* streg under hver række */
+        text-align: center;
     }
 
     thead {
-    background-color: lightblue;
-    border-bottom: 2px solid #888;
+        background-color: lightblue;
+        border-bottom: 2px solid #888;
     }
 
     button {
-    padding: 6px 12px;
-    font-size: 1rem;
-    cursor: pointer;
+        padding: 6px 12px;
+        font-size: 1rem;
+        cursor: pointer;
     }
-
 </style>
 
 <h1 style="text-align: center; margin-top: auto">Select a flight</h1>
 <br />
 
 <div style="margin-bottom: 20px;">
-    @if(Model != null)
+    @if (Model != null)
     {
-        <strong>From:</strong> @Model.From
+        <strong>From:</strong> 
+        @Model.From
         <br />
-        <strong>To:</strong> @Model.To
+        <strong>To:</strong>
+ 
+        @Model.To
         <br />
-        <strong>Date:</strong> @Model.Date
+        <strong>Date:</strong>
+ 
+        @Model.Date
         <br />
-        <strong>Passenger:</strong> @Model.Passenger
+        <strong>Passenger:</strong>
+ 
+        @Model.Passenger
     }
     else
     {
@@ -65,35 +73,38 @@
             </tr>
         </thead>
         <tbody>
-            
+            @if (Model != null)
+            {
 
 
-                @foreach (var flight in Model.Flights)
+                @foreach (var flight in @Model.Flights)
                 {
                     <tr>
-
-                        <td>@flight.Airplane.Airline</td>
+                        <td>@flight.Airplane.AirplaneModel</td>
                         <td>@Model.From</td>
                         <td>@Model.To</td>
                         <td>@flight.Departure.ToString("yyyy-MM-dd")</td>
+                        @*   <td>@Model.Date /td> *@
                         <td>@flight.Departure.ToString("HH:mm")</td>
+
                         <td>
-                        <form method="post" asp-controller="Booking" asp-action="SelectSeat" target="_blank" >
-                            <button type="submit" name="SelectedFlight" value="@flight.FlightId">
-                                Select 
-                            </button>
-                              
-                              
+                            <form method="post" asp-controller="Booking" asp-action="GetSeats">
+                                <input type="hidden" name="passenger" value="@Model.Passenger" />
+                                <input type="hidden" name="flightId" value="@flight.FlightId" />
+                                <button type="submit" name="SelectedFlight" onclick="this.disabled=true; this.form.submit();">
+                                    Select
+                                </button>
+
+
                             </form>
                         </td>
-                        
                     </tr>
                 }
-            
-              
-            
-           
-        
+
+
+            }
+
+
         </tbody>
     </table>
 </div>

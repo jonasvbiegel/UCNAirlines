@@ -22,7 +22,7 @@ namespace APIService.Controllers
         [HttpGet, Route("{date}")]
         public ActionResult<List<FlightDTO>> GetAllFlights(string date)
         {
-            DateOnly dato = DateOnly.Parse(date);
+            DateOnly dato=DateOnly.Parse(date);
             ActionResult<List<FlightDTO>> foundFlights;
             List<FlightDTO?>? flightsDto = _businessLogic.GetByDate(dato);
             if (!(flightsDto == null))
@@ -41,6 +41,23 @@ namespace APIService.Controllers
                 foundFlights = new StatusCodeResult(500);
             }
             return foundFlights;
+        }
+        [HttpGet, Route("id")]
+        public ActionResult<FlightDTO> GetFlightById(int id)
+        {
+            
+            ActionResult<FlightDTO> foundFlight;
+            FlightDTO? flightDto = _businessLogic.GetById(id);
+            if (!(flightDto == null))
+            {
+                    foundFlight = Ok(flightDto);
+            }
+            
+            else
+            {
+                foundFlight= new StatusCodeResult(500);
+            }
+            return foundFlight;
         }
 
 

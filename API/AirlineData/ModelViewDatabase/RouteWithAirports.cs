@@ -8,17 +8,13 @@ namespace AirlineData.ModelViewDatabase
 {
     public class RouteWithAirports
     {
-        public int FlightRouteId { get; set; }
-        public string StartAirportCode { get; set; }
-        public string StartAirportName { get; set; }
-        public string StartAirportZipCode { get; set; }
-        public string StartAirportCity { get; set; }
-        public string StartAirportCountry { get; set; }
+        public int FlightRouteId { get; set; }        
+        public string StartAirportCode { get; set; }  
+        public string StartAirportName { get; set; }  
+        public string StartZipCode { get; set; }      
+        public string EndAirportCode { get; set; }    
+        public string EndAirportName { get; set; }    
+        public string EndZipCode { get; set; }        
 
-        public string EndAirportCode { get; set; }
-        public string EndAirportName { get; set; }
-        public string EndAirportZipCode { get; set; }
-        public string EndAirportCity { get; set; }
-        public string EndAirportCountry { get; set; }
     }
 }

@@ -34,7 +34,7 @@ public class PassengerDB : IPassengerDB
             PassportNo = passenger.PassportNo,
             FirstName = passenger.FirstName,
             LastName = passenger.LastName,
-            BirthDate = passenger.BirthDate.ToString()
+            BirthDate = passenger.BirthDate.ToString("yyyy-MM-dd"),
         });
 
         if (rows != 1) return null;
