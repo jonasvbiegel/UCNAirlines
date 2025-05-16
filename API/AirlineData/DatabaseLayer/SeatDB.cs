@@ -54,7 +54,7 @@ public class SeatDB : ISeatDB
     public List<Seat?>? GetSeatsFromFlight(int flightId)
     {
         string sql = @"SELECT * FROM Seat
-            JOIN Passenger ON passport_no_FK = passport_no
+            FULL OUTER JOIN Passenger ON passport_no_FK = passport_no
             WHERE flight_id_FK = @Flight_id";
 
         using SqlConnection con = new(_connectionString);
