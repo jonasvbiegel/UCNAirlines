@@ -6,7 +6,7 @@ namespace APIService.BusinessLayer
     {
         List<FlightDTO?>? GetByDate(DateOnly date);
         FlightDTO? GetById(int id);
-        bool Delete(int id);
+        
 
     }
 }

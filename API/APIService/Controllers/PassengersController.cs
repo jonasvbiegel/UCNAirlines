@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using AirlineData.ModelLayer;
 using APIService.BusinessLayer;
+using APIService.DTOs;
 
 namespace APIService.Controllers;
 
@@ -17,16 +18,16 @@ public class PassengersController : ControllerBase
     }
 
     [HttpGet("{passportNo}")]
-    public ActionResult<Passenger> GetPassenger(string passportNo)
+    public ActionResult<PassengerDTO> GetPassenger(string passportNo)
     {
-        Passenger? p = _passengerLogic.GetPassenger(passportNo);
+        PassengerDTO? p = _passengerLogic.GetPassenger(passportNo);
 
         if (p == null) return new StatusCodeResult(204);
         return Ok(p);
     }
 
     [HttpPost]
-    public ActionResult<Passenger> PostPassenger(Passenger passenger)
+    public ActionResult<Passenger> PostPassenger(PassengerDTO passenger)
     {
         Passenger? p;
 

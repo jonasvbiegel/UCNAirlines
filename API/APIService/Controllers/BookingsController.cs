@@ -1,5 +1,6 @@
 ﻿using AirlineData.ModelLayer;
 using APIService.BusinessLayer;
+using APIService.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -16,7 +17,7 @@ namespace APIService.Controllers
         }
         // POST api/<BookingsController>
         [HttpPost]
-        public ActionResult<bool> PostBooking([FromBody] Booking booking)
+        public ActionResult<bool> PostBooking([FromBody] BookingDTO booking)
         {
             bool b=false;
 

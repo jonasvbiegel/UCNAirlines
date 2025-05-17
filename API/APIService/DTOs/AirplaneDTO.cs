@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DesktopClientUCNFlight.ModelLayer
+﻿namespace APIService.DTOs
 {
-    public class Airplane
+    public class AirplaneDTO
     {
         public string? Airplane_number { get; set; }
         public string? Airline { get; set; }
@@ -19,5 +13,6 @@ namespace DesktopClientUCNFlight.ModelLayer
         }
         public int RowCount { get; set; }
         public int ColumnCount { get; set; }
+
     }
 }

@@ -1,9 +1,10 @@
 ﻿using AirlineData.ModelLayer;
+using APIService.DTOs;
 
 namespace APIService.BusinessLayer;
 
 public interface IPassengerLogic
 {
-    public Passenger? GetPassenger(string passportNo);
-    public Passenger? CreatePassenger(Passenger passenger);
+    public PassengerDTO? GetPassenger(string passportNo);
+    public Passenger? CreatePassenger(PassengerDTO passenger);
 }
