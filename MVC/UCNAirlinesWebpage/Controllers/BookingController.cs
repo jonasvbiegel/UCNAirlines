@@ -10,8 +10,8 @@ namespace UCNAirlinesWebpage.Controllers
     public class BookingController : Controller
     {
 
-        
-      
+
+
         public IActionResult GetSeats(int passenger, int flightId)
         {
             SeatServiceAccess ssa = new SeatServiceAccess();
@@ -34,7 +34,7 @@ namespace UCNAirlinesWebpage.Controllers
         {
             model.Passengers = new();
             SeatServiceAccess ssa = new();
-           
+            ReceiptModel model2 = new ReceiptModel();
             for (int i = 0; i < 4; i++)
             {
                 string SDate = Request.Cookies[i + "Birthdate"];
@@ -50,16 +50,32 @@ namespace UCNAirlinesWebpage.Controllers
                 int seatId = Int32.Parse(Request.Cookies[i + "SeatId"]);
                 model.Passengers.Add(passenger);
                 Seat seat = Task.Run(() => ssa.GetSeatBySeatID(seatId)).Result;
-                passenger.seat = seat;                
+                Booking book = InsertBooking(model.Passengers, model.Flight);
+                model2.booking = book;
+                
+                passenger.seat = seat;
+                
             }
-
-
-            
-
-            return View("TestWorld",model);
+            return View("TestWorld", model2);
         }
-
-
-
+        public Booking InsertBooking(List<Passenger> passengers, Flight flight)
+        {
+            Booking booking = new Booking()
+            {
+                passengers = passengers,
+                Flight = flight
+            };
+           BookingServiceAccess bsa = new BookingServiceAccess();
+            bool bwa = bsa.InsertBooking(booking).Result;
+            if (bwa == true)
+            {
+                return booking;
+            }
+            else
+            {
+                //throw new Exception(NoBooking);
+                return null;
+            }
+        }
     }
 }

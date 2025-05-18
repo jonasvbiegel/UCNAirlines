@@ -9,6 +9,6 @@ namespace UCNAirlinesWebpage.ServiceLayer
 {
     public interface IBookingServiceAccess
     {
-        Task<bool> CreateBooking(Flight flight, List<Seat> seats);
+        Task<bool> InsertBooking(Booking booking);
     }
 }

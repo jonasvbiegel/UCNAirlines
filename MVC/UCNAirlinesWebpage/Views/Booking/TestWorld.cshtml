@@ -1,14 +1,15 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model UCNAirlinesWebpage.Models.SeatPassenger
+@model UCNAirlinesWebpage.Models.ReceiptModel
 
 
 <h1>Passenger Information</h1>
 
 <ul>
-    @foreach (var passenger in Model.Passengers)
+    @foreach (var passenger in Model.booking.passengers)
     {
         <li>@passenger.FirstName @passenger.LastName</li>
     }
+    @* <li>Departure: @Model.booking.Flight.Departure Destination: @Model.booking.Flight.Route.EndDestination </li> *@
 </ul>

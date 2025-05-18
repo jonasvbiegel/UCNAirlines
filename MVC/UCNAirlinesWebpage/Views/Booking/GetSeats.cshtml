@@ -96,33 +96,14 @@
 				<option value="">-- Select Seat --</option>
 				@foreach (Seat seat in Model.Seats)
 				{
-					if (seat.Passenger == null)
-					{
+@* 					if (seat.Passenger == null)
+ *@					@* { *@
 						<option value="@seat.SeatId">@seat.SeatName</option>
-					}
+					@* } *@
 				}
 
-			</select>@* Oprette sæder *@
-			@* <div class="seat-map">
-
-                @for (int row = 1; row <= 10; row++)
-                {
-                    <div class="seat-row">
-                        @foreach (char column in new[] { 'A', 'B', 'C', 'D', 'E', 'F' })
-                        {
-                            if (column == 'D')
-                            {
-                                <span class="seat-gap"></span>
-                            }
-
-                            var seatID = $"{row}{column}";
-                            <button type="button" class="seat" data-seat="@seatID">@seatID</button>
-
-                        }
-                    </div>
-                }
-
-            </div> *@
+			</select>
+            </div> 
 			<div class="seat-map">
 				@for (int row = 1; row <= @Model.Flight.Airplane.SeatRows; row++)
 				{
@@ -143,7 +124,7 @@
 					</div>
 				}
 			</div>
-		</div>
+		
 
 
 	}
@@ -152,20 +133,6 @@
 	</div>
 </form>
 
-@* <script>
-    // Find alle sædeknapper
-    const seatButtons = document.querySelectorAll('.seat');
-
-    seatButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Fjern 'selected' fra alle andre sæder
-            seatButtons.forEach(btn => btn.classList.remove('selected'));
-
-            // Tilføj 'selected' til det valgte sæde    
-            button.classList.add('selected');
-        });
-    });
-</script> *@
 <script>
 	function AddPassengertoCookie() {
 	for (let i = 0; i < @Model.passengerCount; i++) {
@@ -175,6 +142,9 @@
 		const passportNr = document.getElementById(`Passport_${i}`).value;
 		const seatId = document.getElementById(`SeatId_${i}`).value;
 		const birthDate = document.getElementById(`BirthDate_${i}`).value;
+		if (firstName = null || lastName = null || birthDate =null || seatId = null || passportNr = null){
+			return false;
+		} 
 		document.cookie = i + "FirstName=" + encodeURIComponent(firstName) + "; path=/";
 		document.cookie = i + "LastName=" + encodeURIComponent(lastName) + "; path=/";
 		document.cookie = i + "PassportNr=" + encodeURIComponent(passportNr) + "; path=/";
@@ -183,5 +153,6 @@
 	 }
 	 return true;
 	}
+
 </script>
 
