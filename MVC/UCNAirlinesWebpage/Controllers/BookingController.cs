@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Net;
 using System.Reflection.Metadata;
+using System.Xml.Linq;
 using Microsoft.AspNetCore.Mvc;
 using UCNAirlinesWebpage.Models;
 using UCNAirlinesWebpage.ServiceLayer;
@@ -15,6 +16,7 @@ namespace UCNAirlinesWebpage.Controllers
         public IActionResult GetSeats(int passenger, int flightId)
         {
             SeatServiceAccess ssa = new SeatServiceAccess();
+            TempData["Flightid"]= flightId;
             FlightServiceAccess flightServiceAccess = new FlightServiceAccess();
             List<Seat> seats = Task.Run(() => ssa.GetSeats(flightId)).Result;
             Flight f = Task.Run(() => flightServiceAccess.GetFlight(flightId)).Result;
@@ -33,6 +35,7 @@ namespace UCNAirlinesWebpage.Controllers
         public IActionResult CreateBooking(SeatPassenger model)
         {
             model.Passengers = new();
+            FlightServiceAccess flightServiceAccess = new();
             SeatServiceAccess ssa = new();
             ReceiptModel model2 = new ReceiptModel();
             for (int i = 0; i < 4; i++)
@@ -50,7 +53,10 @@ namespace UCNAirlinesWebpage.Controllers
                 int seatId = Int32.Parse(Request.Cookies[i + "SeatId"]);
                 model.Passengers.Add(passenger);
                 Seat seat = Task.Run(() => ssa.GetSeatBySeatID(seatId)).Result;
-                Booking book = InsertBooking(model.Passengers, model.Flight);
+                int flightId = (int)TempData["FlightId"];
+                Flight f = Task.Run(() => flightServiceAccess.GetFlight(flightId)).Result;
+
+                Booking book = InsertBooking(model.Passengers, f);
                 model2.booking = book;
                 
                 passenger.seat = seat;

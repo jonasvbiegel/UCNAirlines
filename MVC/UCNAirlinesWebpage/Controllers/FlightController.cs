@@ -37,7 +37,6 @@ namespace UCNAirlinesWebpage.Controllers
                 Date = date,
                 Passenger = passenger
             };
-            TempData["Passenger"] = passenger;
             FlightServiceAccess fac = new FlightServiceAccess();
             List<Flight> fls = await fac.GetFlights(date);
             model.Flights = new List<Flight>();
