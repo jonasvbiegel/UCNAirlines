@@ -1,14 +1,16 @@
 ﻿using Newtonsoft.Json;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Net;
+using System.Text.Json;
 using UCNAirlinesWebpage.Models;
+using System.Text;
 
 namespace UCNAirlinesWebpage.ServiceLayer
 {
     public class SeatServiceAccess : ServiceConnection
     {
         public SeatServiceAccess() : base("https://localhost:7184/api/seats/")
-        {   
+        {
         }
         public async Task<List<Seat>?> GetSeats(int flightId)
         {
@@ -56,11 +58,29 @@ namespace UCNAirlinesWebpage.ServiceLayer
 
                 }
 
-
             }
             return seat;
+        }
 
+        public async Task<bool>? TryUpdateSeats(List<Seat?>? seats)
+        {
+            if (seats == null) return false;
+            if (seats.Count == 0) return false;
 
+            HttpClient client = new();
+            string seatsJson = System.Text.Json.JsonSerializer.Serialize(seats);
+            var httpContent = new StringContent(seatsJson, Encoding.UTF8, "application/json");
+
+            var response = await client.PutAsync(BaseUrl, httpContent);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseBody = await response.Content.ReadAsStringAsync();
+                List<Seat?>? seatsReturn = System.Text.Json.JsonSerializer.Deserialize<List<Seat?>>(responseBody);
+                if (seatsReturn != null) return seatsReturn.Count != 0;
+            }
+
+            return false;
         }
     }
 }
