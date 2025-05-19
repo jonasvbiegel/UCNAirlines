@@ -11,7 +11,9 @@ namespace Testservicelayer
         { SeatServiceAccess ssa=new SeatServiceAccess();
             Passenger p = new() { PassportNo = "87654321", FirstName = "Hans", LastName = "Hansen" }; 
             Seat seat = new() { SeatId = 3, SeatName = "2A", Passenger = p };
-            bool b=await ssa.UpdateSeat(seat); 
+            List<Seat> seats = new();
+            seats.Add(seat);
+            bool b = await ssa.TryUpdateSeats(seats);
             Assert.True(b);
         }
         public async void PassengerCreateTest()
@@ -59,7 +61,7 @@ namespace Testservicelayer
             Booking booking = new()
             {
                 Flight = f,
-                Passengers = psg
+                passengers = psg
             };
             BookingServiceAccess bsa = new BookingServiceAccess();
             bsa.InsertBooking(booking);

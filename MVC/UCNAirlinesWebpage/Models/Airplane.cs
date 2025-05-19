@@ -7,7 +7,7 @@ namespace UCNAirlinesWebpage.Models
         [JsonProperty]
         public string AirplaneId { get; set; }
         [JsonProperty]
-        public string AirplaneModel { get; set; }
+        public string Airline { get; set; }
         [JsonProperty]
         public int SeatColumns { get; set; }
         [JsonProperty]
@@ -17,10 +17,10 @@ namespace UCNAirlinesWebpage.Models
         public Airplane()
         {
         }
-        public Airplane(string airplaneId, string airplaneModel, int seatColumns, int seatRows)
+        public Airplane(string airplaneId, string airline, int seatColumns, int seatRows)
         {
             AirplaneId = airplaneId;
-            AirplaneModel = airplaneModel;
+            Airline = airline;
             SeatColumns = seatColumns;
             SeatRows = seatRows;
             Capacity = seatColumns * seatRows;
@@ -30,7 +30,7 @@ namespace UCNAirlinesWebpage.Models
         public Airplane(string airplaneModel)
         {
             AirplaneId = airplaneModel;
-            AirplaneModel = airplaneModel;
+            Airline = airplaneModel;
         }
     }
     

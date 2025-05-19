@@ -37,7 +37,7 @@ namespace UCNAirlinesWebpage.Controllers
                 Passenger = passenger
             };
             FlightServiceAccess fac = new FlightServiceAccess();
-            List<Flight> fls = await fac.GetFlights(date);
+            List<Flight> fls = await fac.GetFlights(date.ToString());
             model.Flights = new List<Flight>();
             foreach (Flight f in fls)
             {
@@ -52,10 +52,8 @@ namespace UCNAirlinesWebpage.Controllers
        
 
     } 
-
-            return View(model);
-        }
-
-    }
-
 }
+
+    
+
+
