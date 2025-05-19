@@ -34,7 +34,7 @@ namespace UCNAirlinesWebpage.Controllers
             return View(sp);
         }
         [HttpPost]
-        public IActionResult CreateBooking(SeatPassenger model)
+        public  async Task<IActionResult> CreateBooking(SeatPassenger model)
         {
             model.Passengers = new();
             List<Seat> seats = new List<Seat>();
@@ -63,7 +63,7 @@ namespace UCNAirlinesWebpage.Controllers
             int flightId = (int)TempData["FlightId"];
             Flight f = Task.Run(() => flightServiceAccess.GetFlight(flightId)).Result;
 
-            model2.booking = InsertBooking(model.Passengers, f);
+            model2.booking = await InsertBooking(model.Passengers, f);
             return View("TestWorld", model2);
         }
         public async Task<Booking> InsertBooking(List<Passenger> passengers, Flight flight)
