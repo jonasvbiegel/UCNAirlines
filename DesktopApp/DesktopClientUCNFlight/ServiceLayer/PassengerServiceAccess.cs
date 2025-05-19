@@ -2,12 +2,13 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Text;
 using DesktopClientUCNFlight.ModelLayer;
+using System.Configuration;
 
 namespace DesktopClientUCNFlight.ServiceLayer
 {
     public class PassengerServiceAccess : ServiceConnection, IPassengerAccess
     {
-        public PassengerServiceAccess() : base("https://localhost:7184/api/passengers/")
+        public PassengerServiceAccess() : base(ConfigurationManager.AppSettings.Get("PassengerUrl"))
         {
         }
 

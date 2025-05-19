@@ -25,12 +25,6 @@ namespace AirlineData.DatabaseLayer
             _connectionString = inConfig.GetConnectionString("CompanyConnection");
         }
 
-        // For test (convenience)
-        public FlightDatabaseAccess(string inConnectionString)
-        {
-            _connectionString = inConnectionString;
-        }
-
 
         public bool CreateFlight(Flight flight)
         {

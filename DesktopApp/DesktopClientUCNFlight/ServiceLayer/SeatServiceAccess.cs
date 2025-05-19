@@ -5,12 +5,13 @@ using System.Text;
 using DesktopClientUCNFlight.ModelLayer;
 using System;
 using System.Net.Http;
+using System.Configuration;
 
 namespace DesktopClientUCNFlight.ServiceLayer
 {
     public class SeatServiceAccess : ServiceConnection, ISeatAccess
     {
-        public SeatServiceAccess() : base("https://localhost:7184/api/seats/")
+        public SeatServiceAccess() : base(ConfigurationManager.AppSettings.Get("SeatUrl"))
         {
         }
         public async Task<List<Seat>?> GetSeats(int flightId)

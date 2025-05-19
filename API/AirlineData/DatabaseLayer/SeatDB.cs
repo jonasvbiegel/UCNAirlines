@@ -5,11 +5,19 @@ using AirlineData.ModelLayer;
 using Dapper;
 using Dapper.Transaction;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 namespace AirlineData.DatabaseLayer;
 
 public class SeatDB : ISeatDB
 {
-    private readonly string _connectionString = "Data Source = localhost; Initial Catalog = UCNAirlines; Persist Security Info=True; User ID = sa; Password=@12tf56so; Encrypt=False";
+    private readonly string? _connectionString;
+
+    public SeatDB(IConfiguration inConfig)
+    {
+
+        _connectionString = inConfig.GetConnectionString("CompanyConnection");
+    }
+
 
     public List<Seat?>? GetAllSeats()
     {
@@ -72,35 +80,7 @@ public class SeatDB : ISeatDB
         return seats;
     }
 
-    public bool UpdateSeat(Seat seat)
-    {
-        string sql =
-        @"
-        UPDATE Seat
-        SET passport_no_FK = @PassportNo
-            WHERE seat_id = @SeatId
-            AND passport_no_FK = null
-        ";
-
-        using SqlConnection con = new(_connectionString);
-
-        string actualPassport;
-
-        if (seat.Passenger == null) actualPassport = (string?)null;
-        else
-        {
-            actualPassport = seat.Passenger.PassportNo;
-        }
-
-        int rowsChanged = con.Execute(sql, new
-        {
-            PassportNo = actualPassport,
-            SeatId = seat.SeatId
-        });
-
-        return rowsChanged > 0;
-    }
-
+    
     public bool TryUpdateSeats(List<Seat?>? seats)
     {
         Random rnd = new Random();
@@ -165,71 +145,7 @@ public class SeatDB : ISeatDB
         }
     }
 
-    // private Passenger? CreatePassengerFromPassportNo(string passportNo)
-    // {
-    //     string sql = "SELECT * FROM Passenger WHERE passport_no = @Passport_no";
-    //
-    //     using SqlConnection connection = new(_connectionString);
-    //
-    //     var reader = connection.ExecuteReader(sql, new { Passport_no = passportNo });
-    //
-    //     Passenger? p = new();
-    //
-    //     while (reader.Read())
-    //     {
-    //
-    //         p.FirstName = (string)reader["first_name"];
-    //         p.LastName = (string)reader["last_name"];
-    //         p.BirthDate = DateOnly.FromDateTime((DateTime)reader["birth_date"]);
-    //         p.PassportNo = (string)reader["passport_no"];
-    //     }
-    //     reader.Close();
-    //
-    //     return p;
-    // }
-
-    // private Flight CreateFlightFromReader(int flight_id)
-    // {
-    //     string sql = "SELECT * FROM Flight WHERE flight_id = @Flight_id";
-    //
-    //     using SqlConnection con = new(_connectionString);
-    //
-    //     var reader = con.ExecuteReader(sql, new { Flight_id = flight_id });
-    //
-    //     int flightRouteId = (int)reader["flight_route_id"];
-    //
-    //     Tuple<Airport, Airport> airports = FindAirports(flightRouteId);
-    //
-    //     Airport start = airports.Item1;
-    //     Airport end = airports.Item2;
-    //
-    //     FlightRoute flightRoute = new()
-    //     {
-    //         FlightRouteId = (int)reader["flight_route_id"],
-    //         StartDestination = start,
-    //         EndDestination = end
-    //     };
-    //
-    //     Airplane airplane = new()
-    //     {
-    //         AirplaneId = (string)reader["airplane_id"],
-    //         Airline = (string)reader["airline"],
-    //         SeatRows = (int)reader["seat_rows"],
-    //         SeatColumns = (int)reader["seat_columns"]
-    //     };
-    //
-    //     Flight flight = new()
-    //     {
-    //         FlightId = (int)reader["flight_id"],
-    //         Departure = (DateTime)reader["datetime"],
-    //         Airplane = airplane,
-    //         Route = flightRoute,
-    //         Seats = new List<Seat?>()
-    //     };
-    //
-    //     return flight;
-    // }
-
+ 
     private Seat? CreateSeatFromReader(IDataReader reader)
     {
         Seat s = new()
@@ -258,88 +174,4 @@ public class SeatDB : ISeatDB
         return s;
     }
 }
-
-//     private Tuple<Airport, Airport> FindAirports(int id)
-//     {
-//         string? startIcao;
-//         string? endIcao;
-//
-//         Airport[] airports = new Airport[2];
-//
-//         using SqlConnection con = new(_connectionString);
-//
-//         string startIcaoSql = $"SELECT start_destination_FK FROM Flight_Route WHERE flight_route_id = @id";
-//         string endIcaoSql = $"SELECT end_destination_FK FROM Flight_Route WHERE flight_route_id = ";
-//
-//         startIcao = con.Query<string>(startIcaoSql).FirstOrDefault();
-//         endIcao = con.Query<string>(endIcaoSql).FirstOrDefault();
-//
-//         string startAirportSql = $"SELECT * FROM Airport JOIN City_Zip_Code ON zipcode_FK = zipcode JOIN Country ON country_id_FK = country_id WHERE icao_code = '{startIcao}'";
-//         string endAirportSql = $"SELECT * FROM Airport JOIN City_Zip_Code ON zipcode_FK = zipcode JOIN Country ON country_id_FK = country_id WHERE icao_code = '{endIcao}'";
-//
-//         using (var startReader = con.ExecuteReader(startAirportSql))
-//         {
-//             while (startReader.Read())
-//             {
-//                 airports[0] = new()
-//                 {
-//                     IcaoCode = startIcao,
-//                     Country = (string)startReader["country"],
-//                     AirportName = (string)startReader["airport_name"],
-//                     City = (string)startReader["city"],
-//                     Zipcode = (string)startReader["zipcode"]
-//                 };
-//             }
-//         }
-//
-//         using (var endReader = con.ExecuteReader(endAirportSql))
-//         {
-//             while (endReader.Read())
-//             {
-//                 airports[1] = new()
-//                 {
-//                     IcaoCode = endIcao,
-//                     Country = (string)endReader["country"],
-//                     AirportName = (string)endReader["airport_name"],
-//                     City = (string)endReader["city"],
-//                     Zipcode = (string)endReader["zipcode"]
-//                 };
-//             }
-//         }
-//
-//         return Tuple.Create(airports[0], airports[1]);
-//     }
-// }
-// @"
-// DECLARE @rv rowversion = (SELECT row_version FROM Seat WHERE seat_id = @SeatId);
-// DECLARE @key TABLE (seat_id int);
-// UPDATE Seat
-// SET passport_no_FK = @PassportNo
-//     OUTPUT inserted.seat_id INTO @key(seat_id)
-// WHERE seat_id = @SeatId
-//     AND row_version = @rv
-// IF (SELECT COUNT(*) FROM @key) = 0
-//     BEGIN
-//         RAISERROR ('error changing row with seat_id = %d'
-//                 , 16
-//                 , 1
-//                 , @SeatId)
-//         END;
-// ";
-
-// @"
-// DECLARE @rv rowversion = (SELECT row_version FROM Seat WHERE seat_id = @SeatId);
-// UPDATE Seat
-// SET passport_no_FK = @PassportNo
-//     WHERE seat_id = @SeatId
-//     AND passport_no_FK = null
-//     AND row_version = @rv
-// IF @@ROWCOUNT = 0
-//     BEGIN
-//         RAISERROR ('error changing row with seat_id = %d'
-//             , 16
-//             , 1
-//             , @SeatId)
-//     END;
-// ";
 
