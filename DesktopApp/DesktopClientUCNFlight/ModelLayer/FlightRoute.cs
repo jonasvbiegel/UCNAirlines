@@ -8,7 +8,7 @@ namespace DesktopClientUCNFlight.ModelLayer
 {
     public class FlightRoute
     {
-        public int FlightRouteId { get; set; }
+      
         public Airport? StartDestination { get; set; }
         public Airport? EndDestination { get; set; }
     }

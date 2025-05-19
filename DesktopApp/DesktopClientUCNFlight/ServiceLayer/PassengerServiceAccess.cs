@@ -1,44 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DesktopClientUCNFlight.ModelLayer;
 using Newtonsoft.Json;
+using System.Net;
+using System.Text;
+using DesktopClientUCNFlight.ModelLayer;
 
 namespace DesktopClientUCNFlight.ServiceLayer
 {
-    public class PassengerServiceAccess : ServiceConnection, IPassengerServiceAccess
+    public class PassengerServiceAccess : ServiceConnection, IPassengerAccess
     {
-        public PassengerServiceAccess() : base("https://localhost:7184/api/airports/")
+        public PassengerServiceAccess() : base("https://localhost:7184/api/passengers/")
         {
         }
 
-        // Asynchronous method to create a passenger
-        public async Task<Passenger?> PostPassenger(Passenger passenger)
+        public async Task<Passenger> GetPassenger(string passportNo)
         {
-            Passenger? newPassenger = null; // Change from int to Passenger
-            UseUrl = BaseUrl + "passenger";
+            Passenger p = null;
+            UseUrl = BaseUrl;
+            UseUrl += passportNo;
 
-            try
+            var serviceResponse = await base.CallServiceGet();
+            // if success (200-299)
+            if (serviceResponse != null && serviceResponse.IsSuccessStatusCode)
             {
-                var json = JsonConvert.SerializeObject(passenger);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var serviceResponse = await CallServicePost(content);
-                if (serviceResponse != null && serviceResponse.IsSuccessStatusCode)
+                if (serviceResponse.StatusCode == HttpStatusCode.OK)
                 {
-                    var responseContent = await serviceResponse.Content.ReadAsStringAsync();
-                    newPassenger = JsonConvert.DeserializeObject<Passenger>(responseContent); // Deserialize to Passenger
+                    string responseData = await serviceResponse.Content.ReadAsStringAsync();
+
+
+                    p = JsonConvert.DeserializeObject<Passenger>(responseData);
+
                 }
+
             }
-            catch
+            return p;
+
+
+        }
+        public async Task<Passenger> InsertPassenger(Passenger passenger)
+        {
+            Passenger? p = null;
+            UseUrl = BaseUrl;
+
+            string passengerJson = JsonConvert.SerializeObject(passenger);
+            var httpContent = new StringContent(passengerJson, Encoding.UTF8, "application/json");
+            var serviceResponse = await base.CallServicePost(httpContent);
+
+            if (serviceResponse.IsSuccessStatusCode)
             {
-                newPassenger = null; // Return null in case of an error
+                p = passenger;
             }
 
-            return newPassenger; // Return the Passenger object
+            return p;
+
         }
+
     }
 }

@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using AirlineData.ModelLayer;
 using APIService.BusinessLayer;
 using Microsoft.IdentityModel.Tokens;
-// using AirlineData.DatabaseLayer;
+using APIService.DTOs;
+using APIService.ModelConversion;
+
 
 namespace APIService.Controllers;
 
@@ -22,17 +24,18 @@ public class SeatsController : ControllerBase
     // Returns all seats
     // GET /api/seats/
     [HttpGet]
-    public ActionResult<List<Seat>> GetSeats()
+    public ActionResult<List<SeatDTO>> GetSeats()
     {
+
         return Ok(_seatLogic.GetSeats());
     }
 
     // Returns seats from a specific flight
     // GET /api/seats/flightId?flightId={id}
     [HttpGet("flightId")]
-    public ActionResult<List<Seat>> GetSeatsFromAirplane(int flightId)
+    public ActionResult<List<SeatDTO>> GetSeatsFromAirplane(int flightId)
     {
-        List<Seat?>? listOfSeats = _seatLogic.GetSeatsFromFlight(flightId);
+        List<SeatDTO?>? listOfSeats = _seatLogic.GetSeatsFromFlight(flightId);
         if (listOfSeats.IsNullOrEmpty()) return new StatusCodeResult(204);
         return Ok(listOfSeats);
     }
@@ -40,21 +43,17 @@ public class SeatsController : ControllerBase
     // Gets a specific seat from id
     // GET /api/seats/{seatId}
     [HttpGet("{seatId}")]
-    public ActionResult<Seat> GetSeat(int seatId)
+    public ActionResult<SeatDTO> GetSeat(int seatId)
     {
-        Seat? seat = _seatLogic.GetSeat(seatId);
+        SeatDTO? seat = _seatLogic.GetSeat(seatId);
         if (seat == null) return new StatusCodeResult(204);
         return Ok(seat);
     }
 
-    // Updates the passport number of the given seat
-    // PUT /api/seats/, Seat object in body of request
-    // if passportNo is "null", sets the passportNo to null in database
     [HttpPut]
-    public ActionResult<Seat> UpdateSeat([FromBody] Seat seat)
+    public ActionResult<bool> TryBookSeats([FromBody] List<SeatDTO?>? seats)
     {
-        bool updated = _seatLogic.UpdateSeat(seat);
-
+        bool updated = _seatLogic.TryBookSeats(seats);
         if (!updated) return new StatusCodeResult(500);
 
         return Ok(updated);

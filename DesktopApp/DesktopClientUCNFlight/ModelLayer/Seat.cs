@@ -8,7 +8,7 @@ namespace DesktopClientUCNFlight.ModelLayer
 {
     public class Seat
     {
-        public int SeatId { get; set; }
+        public int SeatNumber { get; set; }
         public string? SeatName { get; set; }
         public Passenger? Passenger { get; set; }
     }

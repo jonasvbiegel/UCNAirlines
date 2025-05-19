@@ -2,7 +2,7 @@
 {
     public class Booking
     {
-        public List<Passenger> passengers { get; set; }
+        public List<Passenger?>? passengers { get; set; }
         public Flight Flight { get; set; }
     }
 }

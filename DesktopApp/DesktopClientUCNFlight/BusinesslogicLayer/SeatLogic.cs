@@ -10,7 +10,7 @@ namespace DesktopClientUCNFlight.BusinesslogicLayer
 {
     public class SeatLogic
     {
-        private ISeatServiceAccess _seatServiceAccess;
+        private ISeatAccess _seatServiceAccess;
         public SeatLogic()
         {
             _seatServiceAccess = new SeatServiceAccess();
@@ -20,23 +20,25 @@ namespace DesktopClientUCNFlight.BusinesslogicLayer
             List<Seat>? seats;
             try
             {
-                seats = await _seatServiceAccess.GetSeatsForFlight(flightId);
+                seats = await _seatServiceAccess.GetSeats(flightId);
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine($"Error retrieving seats: {ex.Message}");
                 seats = null;
             }
 
             return seats;
         }
-        public async Task<bool> UpdateSeat(Seat seat)
+        public async Task<bool> UpdateSeat(List<Seat> seat)
         {
             try
             {
                 return await _seatServiceAccess.UpdateSeat(seat);
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine($"Error updating seat: {ex.Message}");
                 return false;
             }
         }

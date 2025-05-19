@@ -10,21 +10,21 @@ namespace DesktopClientUCNFlight.BusinesslogicLayer
 {
     public class BookingLogic
     {
-        private readonly IBookingServiceAccess _bookingServiceAccess;
+        private readonly IBookingAccess _bookingServiceAccess;
 
         public BookingLogic()
         {
             _bookingServiceAccess = new BookingServiceAccess();
         }
 
-        public async Task<bool> SaveBooking(Flight flight, List<Seat> seat)
+        public async Task<bool> SaveBooking(Booking b)
         {
             bool wasSaved = false;
 
             try
             {
                 // Her vil du kalde på din service til at gemme bookingen
-                wasSaved = await _bookingServiceAccess.CreateBooking(flight, seat);
+                wasSaved = await _bookingServiceAccess.InsertBooking(b);
             }
             catch (Exception ex)
             {

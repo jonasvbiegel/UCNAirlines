@@ -1,9 +1,10 @@
 ﻿using AirlineData.ModelLayer;
+using APIService.DTOs;
 
 namespace APIService.BusinessLayer
 {
     public interface IBookingLogic
     {
-        public bool CreateBooking(Booking booking);
+        public bool CreateBooking(BookingDTO booking);
     }
 }

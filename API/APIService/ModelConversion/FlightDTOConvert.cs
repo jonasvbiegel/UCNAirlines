@@ -1,7 +1,6 @@
 ﻿using AirlineData.ModelLayer;
 using APIService.DTOs;
 using Microsoft.AspNetCore.Routing;
-using System.Runtime.Intrinsics.X86;
 
 namespace APIService.ModelConversion
 {
@@ -23,18 +22,18 @@ namespace APIService.ModelConversion
             }
             return flightsDTO;
         }
-        // Convert from Person object to PersonDTO object
+     
         public static FlightDTO FromFlight(Flight flight)
         {
             FlightDTO? flightDto = null;
             if (flight != null)
             {
-                flightDto = new FlightDTO(flight.Departure, flight.Airplane, flight.Route, flight.FlightId);
+                flightDto = new FlightDTO(flight.Departure, AirplaneDTOConversion.FromAirplane(flight.Airplane), FlightRouteDTOConversion.FromFlightRoute(flight.Route), flight.FlightId);
             }
             return flightDto;
         }
 
-        // Convert from PersonDTO object to Person object
+     
         public static Flight? ToFlight(FlightDTO flightDto)
         {
             Flight? flight = null;
@@ -43,9 +42,9 @@ namespace APIService.ModelConversion
                 flight = new Flight()
                 {
                     Departure = flightDto.Departure_time_and_date,
-                    Airplane = flightDto.Airplane,
-                    Route = flightDto.Route,
-                    Seats = flightDto.Seats
+                    Airplane = AirplaneDTOConversion.ToAirplane(flightDto.Airplane),
+                    Route = FlightRouteDTOConversion.ToFlightRoute(flightDto.Route),
+                    Seats = SeatDTOConversion.ToSeatCollection(flightDto.Seats)
                 };
             }
 

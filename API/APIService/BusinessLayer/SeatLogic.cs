@@ -2,12 +2,16 @@
 using AirlineData.DatabaseLayer;
 using AirlineData.ModelLayer;
 using Microsoft.Data.SqlClient;
+using Microsoft.AspNetCore.Components.Forms.Mapping;
+using APIService.DTOs;
+using APIService.ModelConversion;
 
 namespace APIService.BusinessLayer;
 
 public class SeatLogic : ISeatLogic
 {
 
+    
     private readonly ISeatDB _seatDB;
 
     public SeatLogic(ISeatDB seatDB)
@@ -15,31 +19,45 @@ public class SeatLogic : ISeatLogic
         _seatDB = seatDB;
     }
 
-    public List<Seat?>? GetSeats()
+    public List<SeatDTO?>? GetSeats()
     {
-        return _seatDB.GetAllSeats() ?? null;
+        List<SeatDTO?> stsDTO = SeatDTOConversion.FromSeatCollection(_seatDB.GetAllSeats() ?? null);
+        return stsDTO;
     }
 
-    public List<Seat?>? GetSeatsFromFlight(int flightId)
+    public List<SeatDTO?>? GetSeatsFromFlight(int flightId)
     {
-        return _seatDB.GetSeatsFromFlight(flightId) ?? null;
-    }
-
-    public Seat? GetSeat(int seatId)
-    {
-        return _seatDB.GetSeat(seatId) ?? null;
-    }
-
-    public bool UpdateSeat(Seat seat)
-    {
-        try
+        List<SeatDTO?> stsDTO=new List<SeatDTO?>();
+        if (flightId > 0)
         {
-            _seatDB.UpdateSeat(seat);
+           stsDTO = SeatDTOConversion.FromSeatCollection(_seatDB.GetSeatsFromFlight(flightId) ?? null);
         }
-        catch (SqlException)
-        {
-            return false;
-        }
-        return true;
+            return stsDTO;
     }
+
+    public SeatDTO? GetSeat(int seatId)
+    {
+        SeatDTO? stsDTO = null;
+        if (seatId > 0)
+        {
+           stsDTO = SeatDTOConversion.FromSeat(_seatDB.GetSeat(seatId) ?? null);
+        }
+            return stsDTO;
+    }
+
+    public bool TryBookSeats(List<SeatDTO?>? stsDTO)
+    {
+        List<Seat> seats = new List<Seat>();      
+        if(stsDTO != null)
+        {
+            seats=SeatDTOConversion.ToSeatCollection(stsDTO);
+        }
+        else
+        {
+            Console.Error.WriteLine("SOMETHING WRONG");
+        }
+            return _seatDB.TryUpdateSeats(seats);
+    }
+
+    
 }

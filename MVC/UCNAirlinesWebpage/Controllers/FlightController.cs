@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using UCNAirlinesWebpage.Models;
 using UCNAirlinesWebpage.ServiceLayer;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace UCNAirlinesWebpage.Controllers
 {
-
     public class FlightController : Controller
     {
-       
         [HttpGet]
         public IActionResult Index()
         {
@@ -53,4 +52,10 @@ namespace UCNAirlinesWebpage.Controllers
        
 
     } 
+
+            return View(model);
+        }
+
+    }
+
 }

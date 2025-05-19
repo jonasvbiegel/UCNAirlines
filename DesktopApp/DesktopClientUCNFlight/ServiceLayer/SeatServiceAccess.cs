@@ -1,72 +1,60 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DesktopClientUCNFlight.ModelLayer;
 using Newtonsoft.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Net;
+using System.Text;
+using DesktopClientUCNFlight.ModelLayer;
+using System;
+using System.Net.Http;
 
 namespace DesktopClientUCNFlight.ServiceLayer
 {
-    public class SeatServiceAccess : ServiceConnection, ISeatServiceAccess
+    public class SeatServiceAccess : ServiceConnection, ISeatAccess
     {
         public SeatServiceAccess() : base("https://localhost:7184/api/seats/")
-        { 
-        }
-        public async Task<List<Seat>?> GetSeatsForFlight(int flightId)
         {
-            UseUrl = BaseUrl + "flightId?flightId=" + flightId;
-            try
-            {
-                var response = await CallServiceGet();
-                if (response != null && response.IsSuccessStatusCode)
-                {
-                    var json = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<List<Seat>>(json);
-                }
-                else
-                {
-                    // Mulighed for fejlhåndtering baseret på HTTP-status
-                    Console.WriteLine($"Fejl ved hentning af sæder. Status: {response?.StatusCode}");
-                }
-            }
-            catch (HttpRequestException httpEx)
-            {
-                Console.WriteLine($"Netværksfejl ved hentning af sæder: {httpEx.Message}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Ukendt fejl i GetSeatsForFlightAsync: {ex.Message}");
-            }
-
-            return null;
         }
-
-        public async Task<bool> UpdateSeat(Seat seatToUpdate)
+        public async Task<List<Seat>?> GetSeats(int flightId)
         {
-            bool updateOk = false;
+            List<Seat> seats = new List<Seat>();
+            UseUrl = UseUrl = $"{BaseUrl}flightId?flightId=";
+            UseUrl += flightId;
 
-            // Brug base URL og tilføj evt. seat ID hvis nødvendigt
-            UseUrl = BaseUrl + seatToUpdate.SeatId;
-
-            try
+            var serviceResponse = await base.CallServiceGet();
+            // if success (200-299)
+            if (serviceResponse != null && serviceResponse.IsSuccessStatusCode)
             {
-                var json = JsonConvert.SerializeObject(seatToUpdate);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var serviceResponse = await CallServicePut(content);  // OBS: Sørg for at CallServicePut findes i ServiceConnection
-
-                if (serviceResponse != null && serviceResponse.IsSuccessStatusCode)
+                if (serviceResponse.StatusCode == HttpStatusCode.OK)
                 {
-                    updateOk = true;
+                    string responseData = await serviceResponse.Content.ReadAsStringAsync();
+
+
+                    seats = JsonConvert.DeserializeObject<List<Seat>>(responseData);
+
                 }
+
+
             }
-            catch
+            return seats;
+
+
+        }
+        public async Task<bool> UpdateSeat(List<Seat> seat)
+        {
+            bool updated = false;
+            UseUrl = BaseUrl;
+
+            string seatJson = JsonConvert.SerializeObject(seat);
+            var httpContent = new StringContent(seatJson, Encoding.UTF8, "application/json");
+            var serviceResponse = await base.CallServicePut(httpContent);
+
+            if (serviceResponse.IsSuccessStatusCode)
             {
-                updateOk = false;
+                updated = true;
             }
 
-            return updateOk;
+            return updated;
+
         }
     }
 }

@@ -26,7 +26,6 @@ namespace DesktopClientUCNFlight.GuiLayer
 
             _selectedFlight = selectedFlight;
             _selectedSeats = selectedSeats;
-
             _bookingLogic = new BookingLogic();
             _passengerLogic = new PassengerLogic();
             _seatLogic = new SeatLogic();
@@ -40,8 +39,8 @@ namespace DesktopClientUCNFlight.GuiLayer
 
             overview.AppendLine("Flight from " + _selectedFlight.Route.StartDestination.AirportName +
                                 " to " + _selectedFlight.Route.EndDestination.AirportName);
-            overview.AppendLine("Date: " + _selectedFlight.Departure.ToShortDateString());
-            overview.AppendLine("Time: " + _selectedFlight.Departure.ToShortTimeString());
+            overview.AppendLine("Date: " + _selectedFlight.Departure_time_and_date.ToShortDateString());
+            overview.AppendLine("Time: " + _selectedFlight.Departure_time_and_date.ToShortTimeString());
             overview.AppendLine();
 
             int passengerNumber = 1;
@@ -54,7 +53,7 @@ namespace DesktopClientUCNFlight.GuiLayer
                 overview.AppendLine("Seat: " + seat.SeatName);
                 overview.AppendLine("Name: " + p.FirstName + " " + p.LastName);
                 overview.AppendLine("Passport No: " + p.PassportNo);
-                overview.AppendLine("Birthdate: " + p.BirthDate.ToString("dd-MM-yyyy"));
+                overview.AppendLine("Birthdate: " + p.BirthDate.ToString());
                 overview.AppendLine("----------------------------");
 
                 passengerNumber++;
@@ -65,7 +64,6 @@ namespace DesktopClientUCNFlight.GuiLayer
 
         private async void buttonConfirm_Click(object sender, EventArgs e)
         {
-            // 1. Gem alle passagerer
             foreach (Seat seat in _selectedSeats)
             {
                 if (seat.Passenger == null)
@@ -81,20 +79,25 @@ namespace DesktopClientUCNFlight.GuiLayer
                     return;
                 }
             }
-
-            // 2. Opdater sæder med passagerer
-            foreach (Seat seat in _selectedSeats)
+            
+                bool seatUpdated = await _seatLogic.UpdateSeat(_selectedSeats);
+            if (!seatUpdated)
             {
-                bool seatUpdated = await _seatLogic.UpdateSeat(seat);
-                if (!seatUpdated)
-                {
+                foreach(Seat seat in _selectedSeats){
                     MessageBox.Show($"Passenger saved, but failed to update seat {seat.SeatName}");
                     return;
                 }
             }
+            
 
-            // 3. Gem booking
-            bool bookingSaved = await _bookingLogic.SaveBooking(_selectedFlight, _selectedSeats);
+            Booking booking = new Booking
+            {
+                Flight = _selectedFlight,
+                //extracts all passengers from the selected seats, filters out any that are null, and stores the result as a list of passengers
+                Passengers = _selectedSeats.Select(s => s.Passenger).Where(p => p != null).ToList()!
+            };
+
+            bool bookingSaved = await _bookingLogic.SaveBooking(booking);
             if (!bookingSaved)
             {
                 MessageBox.Show("Failed to save booking. Please try again.");

@@ -8,16 +8,16 @@ namespace DesktopClientUCNFlight.ModelLayer
 {
     public class Airplane
     {
-        public string? AirplaneId { get; set; }
+        public string? Airplane_number { get; set; }
         public string? Airline { get; set; }
         public int Capacity
         {
             get
             {
-                return SeatRows * SeatColumns;
+                return RowCount * ColumnCount;
             }
         }
-        public int SeatRows { get; set; }
-        public int SeatColumns { get; set; }
+        public int RowCount { get; set; }
+        public int ColumnCount { get; set; }
     }
 }

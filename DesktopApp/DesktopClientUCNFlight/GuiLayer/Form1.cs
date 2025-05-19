@@ -11,29 +11,14 @@ namespace DesktopClientUCNFlight
             _airportServiceAccess = new AirportServiceAccess();
             List<string> airports = Task.Run(() => _airportServiceAccess.GetAirports()).Result;
             InitializeComponent();
-            comboBoxDeparture.Items.Add("Departure Airport");
-            foreach (string airport in airports) {
+            comboBoxDeparture.Items.Add("--Departure Airport");
+            foreach (string airport in airports)
+            {
                 comboBoxDeparture.Items.Add(airport);
             }
 
             comboBoxDeparture.SelectedIndex = 0;
-            //comboBoxDeparture.Items.Add("Aalborg Airport");
-            //comboBoxDeparture.Items.Add("Billund Airport");
-            //comboBoxDeparture.Items.Add("Nuuk Airport");
-            //comboBoxDeparture.Items.Add("Ilulissat Airport");
-            //comboBoxDeparture.Items.Add("Kangerlussuaq Airport");
-
-            //comboBoxDeparture.SelectedIndex = 0;
-
-            comboBoxArrival.Items.Add("Arrival Airport");
-            comboBoxArrival.Items.Add("Aalborg Airport");
-            comboBoxArrival.Items.Add("Billund Airport");
-            comboBoxArrival.Items.Add("Nuuk Airport");
-            comboBoxArrival.Items.Add("Ilulissat Airport");
-            comboBoxArrival.Items.Add("Kangerlussuaq Airport");
-            comboBoxArrival.SelectedIndex = 0;
-
-            //Kalder en metode nedenunder for at registrere afrejsevalg
+            ////Kalder en metode nedenunder for at registrere afrejsevalg
             comboBoxDeparture.SelectedIndexChanged += comboBoxDeparture_SelectedIndexChanged;
 
             for (int i = 0; i <= 10; i++)
@@ -52,21 +37,10 @@ namespace DesktopClientUCNFlight
         {
             string selectedDeparture = comboBoxDeparture.SelectedItem.ToString();
             string selectedArrival = comboBoxArrival.SelectedItem?.ToString();
-           
-            
-
             comboBoxArrival.Items.Clear();
-            comboBoxArrival.Items.Add("Arrival Airport");
+            comboBoxArrival.Items.Add("--Arrival Airport");
 
-            List<string> destinations = new List<string>
-            {
-                "Aalborg Airport",
-                "Billund Airport",
-                "Nuuk Airport",
-                "Ilulissat Airport",
-                "Kangerlussuaq Airport"
-            };
-
+            List<string> destinations = Task.Run(() => _airportServiceAccess.GetAirports()).Result;
             foreach (string destination in destinations)
             {
                 if (destination != selectedDeparture)
@@ -114,19 +88,5 @@ namespace DesktopClientUCNFlight
             form2.Show();
             this.Hide();
         }
-
-        //public async Task<List<string>> getairportnamesAsync()
-        //{
-        //    Task.Run(() => _airportServiceAccess.GetAirports());
-        //    return Task.FromResult(new List<string>());
-        //}
-        //static public async Task<List<string>> GetairportnamesAsync()
-
-        //{
-        //    AirportServiceAccess _airportServiceAccess = new AirportServiceAccess();
-
-        //     return Task.Run(() =>  _airportServiceAccess.GetAirports()).Result;
-            
-        //}
     }
 }

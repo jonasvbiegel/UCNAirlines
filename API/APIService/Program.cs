@@ -7,20 +7,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddSingleton<ISeatDB, SeatDB>();
-builder.Services.AddSingleton<ISeatLogic, SeatLogic>();
-builder.Services.AddSingleton<IBooking, BookingDatabaseAccess>();
-builder.Services.AddSingleton<IBookingLogic, BookingLogic>();
-builder.Services.AddSingleton<IAirport, AirportDatabaseAccess>();
-builder.Services.AddSingleton<IAirportLogic, AirportLogic>();
-builder.Services.AddSingleton<IPassengerDB, PassengerDB>();
-builder.Services.AddSingleton<IPassengerLogic, PassengerLogic>();
+builder.Services.AddScoped<ISeatDB, SeatDB>();
+builder.Services.AddScoped<ISeatLogic, SeatLogic>();
+builder.Services.AddScoped<IBooking, BookingDatabaseAccess>();
+builder.Services.AddScoped<IBookingLogic, BookingLogic>();
+builder.Services.AddScoped<IAirport, AirportDatabaseAccess>();
+builder.Services.AddScoped<IAirportLogic, AirportLogic>();
+builder.Services.AddScoped<IPassengerDB, PassengerDB>();
+builder.Services.AddScoped<IPassengerLogic, PassengerLogic>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<IFlightLogic, FlightLogic>();
-builder.Services.AddSingleton<IFlight, FlightDatabaseAccess>();
+builder.Services.AddScoped<IFlightLogic, FlightLogic>();
+builder.Services.AddScoped<IFlight, FlightDatabaseAccess>();
 
 var app = builder.Build();
 

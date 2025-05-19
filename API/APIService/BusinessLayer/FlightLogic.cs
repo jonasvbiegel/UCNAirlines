@@ -25,10 +25,6 @@ namespace APIService.BusinessLayer
             return _flightAccess.CreateFlight(dbFlight);
         }
 
-        public bool Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
 
         public FlightDTO? GetById(int id)
         {
@@ -61,17 +57,8 @@ namespace APIService.BusinessLayer
 
             return flightsByDate;
         }
-
-        public bool Update(FlightDTO flightUpdate)
-        {
-            throw new NotImplementedException();
-        }
-
-        int IFlightLogic.Create(FlightDTO flightAdd)
-        {
-            throw new NotImplementedException();
-        }
     }
+
 }
 
 
