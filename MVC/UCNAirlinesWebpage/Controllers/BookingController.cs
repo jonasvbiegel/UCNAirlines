@@ -17,6 +17,7 @@ namespace UCNAirlinesWebpage.Controllers
         {
             SeatServiceAccess ssa = new SeatServiceAccess();
             TempData["Flightid"]= flightId;
+            TempData["PassengerCount"] = passenger;
             FlightServiceAccess flightServiceAccess = new FlightServiceAccess();
             List<Seat> seats = Task.Run(() => ssa.GetSeats(flightId)).Result;
             Flight f = Task.Run(() => flightServiceAccess.GetFlight(flightId)).Result;
@@ -38,7 +39,8 @@ namespace UCNAirlinesWebpage.Controllers
             FlightServiceAccess flightServiceAccess = new();
             SeatServiceAccess ssa = new();
             ReceiptModel model2 = new ReceiptModel();
-            for (int i = 0; i < 4; i++)
+            model.passengerCount = (int)TempData["PassengerCount"];
+            for (int i = 0; i < model.passengerCount; i++)
             {
                 string SDate = Request.Cookies[i + "Birthdate"];
                 DateOnly date = DateOnly.Parse(SDate);
@@ -53,15 +55,14 @@ namespace UCNAirlinesWebpage.Controllers
                 int seatId = Int32.Parse(Request.Cookies[i + "SeatId"]);
                 model.Passengers.Add(passenger);
                 Seat seat = Task.Run(() => ssa.GetSeatBySeatID(seatId)).Result;
-                int flightId = (int)TempData["FlightId"];
-                Flight f = Task.Run(() => flightServiceAccess.GetFlight(flightId)).Result;
-
-                Booking book = InsertBooking(model.Passengers, f);
-                model2.booking = book;
                 
                 passenger.seat = seat;
                 
             }
+            int flightId = (int)TempData["FlightId"];
+            Flight f = Task.Run(() => flightServiceAccess.GetFlight(flightId)).Result;
+
+            model2.booking = InsertBooking(model.Passengers, f);
             return View("TestWorld", model2);
         }
         public Booking InsertBooking(List<Passenger> passengers, Flight flight)
