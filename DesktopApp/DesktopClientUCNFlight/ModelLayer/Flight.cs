@@ -6,16 +6,6 @@ using System.Threading.Tasks;
 
 namespace DesktopClientUCNFlight.ModelLayer
 {
-<<<<<<< HEAD
-        public class Flight
-        {
-                public int flightId { get; set; }
-                public DateTime Departure_time_and_date { get; set; }
-                public Airplane? Airplane { get; set; }
-                public FlightRoute? Route { get; set; }
-                public List<Seat?>? Seats { get; set; }
-        }
-=======
     public class Flight
     {
         public int flightId { get; set; }
@@ -24,5 +14,4 @@ namespace DesktopClientUCNFlight.ModelLayer
         public FlightRoute? Route { get; set; }
         public List<Seat?>? Seats { get; set; }
     }
->>>>>>> develop
 }
