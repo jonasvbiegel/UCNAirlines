@@ -25,10 +25,7 @@ namespace APIService.BusinessLayer
             return _flightAccess.CreateFlight(dbFlight);
         }
 
-        public bool Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public FlightDTO? GetById(int id)
         {

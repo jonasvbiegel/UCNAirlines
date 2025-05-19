@@ -49,8 +49,8 @@ namespace DesktopClientUCNFlight.GuiLayer
             _selectedFlight = selectedFlight;
             _selectedButtons = new List<Button>();
             _seatLogic = new SeatLogic();
-            tableLayoutPanel1.RowCount = _selectedFlight.Airplane.SeatRows;
-            tableLayoutPanel1.ColumnCount = _selectedFlight.Airplane.SeatColumns;
+            tableLayoutPanel1.RowCount = _selectedFlight.Airplane.RowCount;
+            tableLayoutPanel1.ColumnCount = _selectedFlight.Airplane.ColumnCount;
             _selectedSeats = new List<Seat>();
             _updateSeats = new List<Seat>();
             _totalPassengers = Convert.ToInt32(persons);

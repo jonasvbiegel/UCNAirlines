@@ -3,6 +3,8 @@ using AirlineData.DatabaseLayer;
 using AirlineData.ModelLayer;
 using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Components.Forms.Mapping;
+using APIService.DTOs;
+using APIService.ModelConversion;
 
 namespace APIService.BusinessLayer;
 
@@ -18,28 +20,46 @@ public class SeatLogic : ISeatLogic
         _seatDB = seatDB;
     }
 
-    public List<Seat?>? GetSeats()
+    public List<SeatDTO?>? GetSeats()
     {
-        return _seatDB.GetAllSeats() ?? null;
+        List<SeatDTO?> stsDTO = SeatDTOConversion.FromSeatCollection(_seatDB.GetAllSeats() ?? null);
+        return stsDTO;
     }
 
-    public List<Seat?>? GetSeatsFromFlight(int flightId)
+    public List<SeatDTO?>? GetSeatsFromFlight(int flightId)
     {
-        return _seatDB.GetSeatsFromFlight(flightId) ?? null;
+        List<SeatDTO?> stsDTO=new List<SeatDTO?>();
+        if (flightId > 0)
+        {
+           stsDTO = SeatDTOConversion.FromSeatCollection(_seatDB.GetSeatsFromFlight(flightId) ?? null);
+        }
+            return stsDTO;
     }
 
-    public Seat? GetSeat(int seatId)
+    public SeatDTO? GetSeat(int seatId)
     {
-        return _seatDB.GetSeat(seatId) ?? null;
+        SeatDTO? stsDTO = null;
+        if (seatId > 0)
+        {
+           stsDTO = SeatDTOConversion.FromSeat(_seatDB.GetSeat(seatId) ?? null);
+        }
+            return stsDTO;
     }
 
-    public bool TryBookSeats(List<Seat?>? seats)
+    public bool TryBookSeats(List<SeatDTO?>? stsDTO)
     {
+        List<Seat> seats = new List<Seat>();      
+        if(stsDTO != null)
+        {
+            seats=SeatDTOConversion.ToSeatCollection(stsDTO);
+        }  
         return _seatDB.TryUpdateSeats(seats);
     }
 
-    public bool UpdateSeat(Seat seat)
+    public bool UpdateSeat(SeatDTO sdto)
     {
+        Seat seat = SeatDTOConversion.ToSeat(sdto);
+
         try
         {
             _seatDB.UpdateSeat(seat);

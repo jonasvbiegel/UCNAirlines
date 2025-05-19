@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DesktopClientUCNFlight.ModelLayer
+﻿namespace APIService.DTOs
 {
-    public class Airport
+    public class AirportDTO
     {
         public string? AirportName { get; set; }
         public string? Zipcode { get; set; }

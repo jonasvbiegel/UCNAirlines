@@ -79,15 +79,16 @@ namespace DesktopClientUCNFlight.GuiLayer
                     return;
                 }
             }
-            foreach (Seat seat in _selectedSeats)
+            
+                bool seatUpdated = await _seatLogic.UpdateSeat(_selectedSeats);
+            if (!seatUpdated)
             {
-                bool seatUpdated = await _seatLogic.UpdateSeat(seat);
-                if (!seatUpdated)
-                {
+                foreach(Seat seat in _selectedSeats){
                     MessageBox.Show($"Passenger saved, but failed to update seat {seat.SeatName}");
                     return;
                 }
             }
+            
 
             Booking booking = new Booking
             {
