@@ -55,7 +55,4 @@ namespace DesktopClientUCNFlight.ServiceLayer
     }
 
 }
-<<<<<<< HEAD
-=======
-    
->>>>>>> develop
+

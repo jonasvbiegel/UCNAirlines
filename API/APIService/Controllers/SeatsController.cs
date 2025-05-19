@@ -26,7 +26,7 @@ public class SeatsController : ControllerBase
     [HttpGet]
     public ActionResult<List<SeatDTO>> GetSeats()
     {
-        
+
         return Ok(_seatLogic.GetSeats());
     }
 
@@ -50,7 +50,7 @@ public class SeatsController : ControllerBase
         return Ok(seat);
     }
 
-    [HttpPost]
+    [HttpPut]
     public ActionResult<bool> TryBookSeats([FromBody] List<SeatDTO?>? seats)
     {
         bool updated = _seatLogic.TryBookSeats(seats);

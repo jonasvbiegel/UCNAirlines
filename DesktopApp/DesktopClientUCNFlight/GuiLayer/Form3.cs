@@ -21,11 +21,7 @@ namespace DesktopClientUCNFlight.GuiLayer
         private string _arrival;
         private string _persons;
         private string _date;
-<<<<<<< HEAD
         private List<Button> _btns = new List<Button>();
-=======
-        private List<Button> _btns=new List<Button>();
->>>>>>> develop
         private Flight _selectedFlight;
         private SeatLogic _seatLogic;
         private List<Seat> _updateSeats;
@@ -34,11 +30,6 @@ namespace DesktopClientUCNFlight.GuiLayer
         private int _currentPassengerIndex;
         private Seat _selectedSeatForCurrentPassenger;
         private List<Button> _selectedButtons;
-<<<<<<< HEAD
-
-=======
-        
->>>>>>> develop
         public Form3(string departure, string arrival, string persons, string date, Flight selectedFlight)
         {
             InitializeComponent();
@@ -78,10 +69,6 @@ namespace DesktopClientUCNFlight.GuiLayer
             labelPassengerInfo.Text = "Passenger " + _currentPassengerIndex + " of " + _totalPassengers;
         }
 
-<<<<<<< HEAD
-=======
-        
->>>>>>> develop
         private List<Button> GetAvailableSeats()
         {
 
@@ -106,24 +93,15 @@ namespace DesktopClientUCNFlight.GuiLayer
                     else
                     {
                         button.Enabled = false;
-<<<<<<< HEAD
                         button.BackColor = Color.LightGray;
                     }
                     _selectedSeats.Add(seat);
                     button.Click += SeatButton_Click;
-=======
-                        button.BackColor = Color.LightGray; 
-                    }
-                    _selectedSeats.Add(seat);
-                    button.Click+= SeatButton_Click;
->>>>>>> develop
                     _btns.Add(button);
                     tableLayoutPanel1.Controls.Add(button);
                 }
 
             }
-<<<<<<< HEAD
-
             return _btns;
         }
 
@@ -140,27 +118,6 @@ namespace DesktopClientUCNFlight.GuiLayer
                     _selectedButtons.Add(clickedButton);
                 }
             }
-
-=======
-            
-            return _btns;
-        }
-
-        private void SeatButton_Click(object sender,EventArgs e) 
-        {   
-            Button clickedButton = sender as Button;
-            //clickedButton.Enabled = false;
-            string seatName = clickedButton.Text;
-            foreach(Seat s in _selectedSeats)
-            {
-                if(s.SeatName.Equals(seatName))
-                {
-                    _selectedSeatForCurrentPassenger = s;
-                    _selectedButtons.Add(clickedButton);
-                } 
-            }
-            
->>>>>>> develop
         }
         private async void buttonNext2_Click(object sender, EventArgs e)
         {
@@ -187,17 +144,10 @@ namespace DesktopClientUCNFlight.GuiLayer
                     BirthDate = birthDate
                 };
 
-<<<<<<< HEAD
 
                 _selectedSeatForCurrentPassenger.Passenger = passenger;
                 _updateSeats.Add(_selectedSeatForCurrentPassenger);
 
-=======
-                
-                    _selectedSeatForCurrentPassenger.Passenger = passenger;
-                    _updateSeats.Add(_selectedSeatForCurrentPassenger);
-              
->>>>>>> develop
             }
             else
             {
@@ -209,21 +159,13 @@ namespace DesktopClientUCNFlight.GuiLayer
             if (_currentPassengerIndex > _totalPassengers)
             {
                 MessageBox.Show("All passengers registered!\nProceeding to confirmation.");
-<<<<<<< HEAD
                 Form4 form4 = new Form4(_selectedFlight, _updateSeats);
-=======
-                Form4 form4 = new Form4(_selectedFlight, _updateSeats );
->>>>>>> develop
                 form4.Show();
                 this.Hide();
             }
             else
             {
-<<<<<<< HEAD
                 foreach (Button btn in _selectedButtons)
-=======
-                foreach(Button btn in _selectedButtons)
->>>>>>> develop
                 {
                     btn.Enabled = false;
                     btn.BackColor = Color.LightGray;
@@ -240,14 +182,9 @@ namespace DesktopClientUCNFlight.GuiLayer
             if (!string.IsNullOrWhiteSpace(seat) &&
                 !string.IsNullOrWhiteSpace(passportNo) &&
                 !string.IsNullOrWhiteSpace(firstName) &&
-<<<<<<< HEAD
                 !string.IsNullOrWhiteSpace(lastName))
             {
                 if (passportNo.Length > 1 && firstName.Length > 0 && lastName.Length > 0)
-=======
-                !string.IsNullOrWhiteSpace(lastName)) {
-                if (passportNo.Length > 1 && firstName.Length > 0 && lastName.Length > 0) 
->>>>>>> develop
                 {
                     isValidInput = true;
                 }

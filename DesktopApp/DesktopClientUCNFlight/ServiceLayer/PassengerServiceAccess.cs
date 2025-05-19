@@ -28,11 +28,6 @@ namespace DesktopClientUCNFlight.ServiceLayer
 
 
                     p = JsonConvert.DeserializeObject<Passenger>(responseData);
-<<<<<<< HEAD
-
-=======
-                    
->>>>>>> develop
 
                 }
 
@@ -43,11 +38,7 @@ namespace DesktopClientUCNFlight.ServiceLayer
         }
         public async Task<Passenger> InsertPassenger(Passenger passenger)
         {
-<<<<<<< HEAD
             Passenger? p = null;
-=======
-            Passenger? p=null;
->>>>>>> develop
             UseUrl = BaseUrl;
 
             string passengerJson = JsonConvert.SerializeObject(passenger);
@@ -65,7 +56,3 @@ namespace DesktopClientUCNFlight.ServiceLayer
 
     }
 }
-<<<<<<< HEAD
-=======
- 
->>>>>>> develop

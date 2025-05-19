@@ -21,11 +21,7 @@ namespace DesktopClientUCNFlight.ServiceLayer
 
             if (serviceResponse.IsSuccessStatusCode)
             {
-<<<<<<< HEAD
                 b = true;
-=======
-                b= true;
->>>>>>> develop
             }
 
             return b;
