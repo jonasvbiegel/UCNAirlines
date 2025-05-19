@@ -56,17 +56,8 @@ namespace APIService.BusinessLayer
 
             return flightsByDate;
         }
-
-        public bool Update(FlightDTO flightUpdate)
-        {
-            throw new NotImplementedException();
-        }
-
-        int IFlightLogic.Create(FlightDTO flightAdd)
-        {
-            throw new NotImplementedException();
-        }
     }
+
 }
 
 

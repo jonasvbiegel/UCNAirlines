@@ -124,11 +124,9 @@ public class SeatDBTest
         seats1.ForEach(s => s.Passenger = p1);
         seats2.ForEach(s => s.Passenger = p2);
 
-        bool update1 = false;
-        bool update2 = false;
+        bool update1 = _seatDB.TryUpdateSeats(seats1);
 
-        Thread t1 = new Thread(() => update1 = TryBook(seats1));
-        Thread t2 = new Thread(() => update2 = TryBook(seats2));
+        Assert.True(update1);
     }
 
     public bool TryBook(List<Seat?>? seats)

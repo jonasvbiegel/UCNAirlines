@@ -52,6 +52,7 @@ namespace UCNAirlinesWebpage.Controllers
             return View(model);
         }
 
+<<<<<<< HEAD
 
 
 
@@ -87,4 +88,8 @@ namespace UCNAirlinesWebpage.Controllers
 
 
 
+=======
+    }
+
+>>>>>>> develop
 }

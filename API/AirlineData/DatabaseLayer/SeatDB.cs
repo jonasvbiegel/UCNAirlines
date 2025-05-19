@@ -55,6 +55,7 @@ public class SeatDB : ISeatDB
     {
         string sql = @"SELECT * FROM Seat
             JOIN Passenger ON passport_no_FK = passport_no
+            FULL OUTER JOIN Passenger ON passport_no_FK = passport_no
             WHERE flight_id_FK = @Flight_id";
 
         using SqlConnection con = new(_connectionString);
@@ -123,7 +124,7 @@ public class SeatDB : ISeatDB
 
             try
             {
-                string sqlUpdate = "UPDATE Seat SET passport_no_FK = @PassportNo WHERE seat_id = @SeatId AND passport_no_FK IS NULL";
+                string sqlUpdate = "UPDATE Seat SET passport_no_FK = @PassportNo WHERE seat_id = @SeatId";
                 bool result = true;
                 foreach (Seat seat in seats)
                 {
@@ -141,6 +142,7 @@ public class SeatDB : ISeatDB
                     }, transaction);
                     if (rowsChanged == 0)
                     {
+                        Console.WriteLine($"Seat {seat.SeatId} was already booked; rolling back and trying again");
                         result = false;
                         break;
                     }
@@ -159,7 +161,8 @@ public class SeatDB : ISeatDB
                 Console.WriteLine(e.Message);
                 transaction.Rollback();
             }
-            Thread.Sleep(rnd.Next(1, 10));
+            // Thread.Sleep(rnd.Next(1, 10));
+            Thread.Sleep(750);
         }
     }
 

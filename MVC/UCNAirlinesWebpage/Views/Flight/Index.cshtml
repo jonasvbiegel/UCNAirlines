@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿ @using UCNAirlinesWebpage.Models;
  @model UCNAirlinesWebpage.Models.AirportModel
 <h1 style="text-align: center; margin-top: auto">Book Your Trip</h1>
@@ -82,14 +83,40 @@
 
 		toSelect.innerHTML = '<option value="">-- Select Destination --</option>';
 		for (var i = 0; i < allOptions.length; i++)
+=======
+@using UCNAirlinesWebpage.Models
+@model List<Flight>
+
+<h1>Available Flights</h1>
+
+@if (Model != null && Model.Any())
+{
+	<table>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Departure</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var flight in Model)
+>>>>>>> develop
 			{
-				if (allOptions[i].value !== selectedFrom)
-				{
-					var option = document.createElement("option");
-					option.value = allOptions[i].value;
-					option.text = allOptions[i].text;
-					toSelect.appendChild(option);
-				}
+				<tr>
+					<td>@flight.Airplane.AirplaneId</td>
+					<td>@flight.Route.StartDestination</td>
+					<td>@flight.Departure</td>
+				</tr>
 			}
+<<<<<<< HEAD
 	}
 </script>  *@
+=======
+		</tbody>
+	</table>
+}
+else
+{
+	<p>No flights found for the selected date.</p>
+}
+>>>>>>> develop
