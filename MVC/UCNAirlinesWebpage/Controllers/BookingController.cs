@@ -3,6 +3,7 @@ using System.Net;
 using System.Reflection.Metadata;
 using System.Xml.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging.Abstractions;
 using UCNAirlinesWebpage.Models;
 using UCNAirlinesWebpage.ServiceLayer;
 
@@ -36,6 +37,7 @@ namespace UCNAirlinesWebpage.Controllers
         public IActionResult CreateBooking(SeatPassenger model)
         {
             model.Passengers = new();
+            List<Seat> seats = new List<Seat>();
             FlightServiceAccess flightServiceAccess = new();
             SeatServiceAccess ssa = new();
             ReceiptModel model2 = new ReceiptModel();
@@ -55,9 +57,8 @@ namespace UCNAirlinesWebpage.Controllers
                 int seatId = Int32.Parse(Request.Cookies[i + "SeatId"]);
                 model.Passengers.Add(passenger);
                 Seat seat = Task.Run(() => ssa.GetSeatBySeatID(seatId)).Result;
-                
                 passenger.seat = seat;
-                
+                                
             }
             int flightId = (int)TempData["FlightId"];
             Flight f = Task.Run(() => flightServiceAccess.GetFlight(flightId)).Result;
@@ -67,22 +68,36 @@ namespace UCNAirlinesWebpage.Controllers
         }
         public Booking InsertBooking(List<Passenger> passengers, Flight flight)
         {
+            SeatServiceAccess ssa = new();
             Booking booking = new Booking()
             {
                 passengers = passengers,
                 Flight = flight
             };
-           BookingServiceAccess bsa = new BookingServiceAccess();
-            bool bwa = bsa.InsertBooking(booking).Result;
-            if (bwa == true)
+            List<Seat> s = new();
+            foreach (Passenger passenger in passengers)
             {
-                return booking;
+                s.Add(passenger.seat);
             }
-            else
+            bool seatadded = ssa.updateseats(s);
+            if (seatadded)
             {
-                //throw new Exception(NoBooking);
-                return null;
+
+                BookingServiceAccess bsa = new BookingServiceAccess();
+                bool bwa = bsa.InsertBooking(booking).Result;
+                if (bwa == true)
+                {
+
+                    return booking;
+                }
+                else
+                {
+                    //throw new Exception(NoBooking);
+                    return null;
+                }
             }
+            throw new Exception(InsertConcurrencyErrorHere);
+            return null;
         }
     }
 }
