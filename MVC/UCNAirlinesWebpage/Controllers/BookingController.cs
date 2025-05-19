@@ -17,7 +17,7 @@ namespace UCNAirlinesWebpage.Controllers
         public IActionResult GetSeats(int passenger, int flightId)
         {
             SeatServiceAccess ssa = new SeatServiceAccess();
-            TempData["Flightid"]= flightId;
+            TempData["Flightid"] = flightId;
             TempData["PassengerCount"] = passenger;
             FlightServiceAccess flightServiceAccess = new FlightServiceAccess();
             List<Seat> seats = Task.Run(() => ssa.GetSeats(flightId)).Result;
@@ -58,7 +58,7 @@ namespace UCNAirlinesWebpage.Controllers
                 model.Passengers.Add(passenger);
                 Seat seat = Task.Run(() => ssa.GetSeatBySeatID(seatId)).Result;
                 passenger.seat = seat;
-                                
+
             }
             int flightId = (int)TempData["FlightId"];
             Flight f = Task.Run(() => flightServiceAccess.GetFlight(flightId)).Result;
@@ -66,7 +66,7 @@ namespace UCNAirlinesWebpage.Controllers
             model2.booking = InsertBooking(model.Passengers, f);
             return View("TestWorld", model2);
         }
-        public Booking InsertBooking(List<Passenger> passengers, Flight flight)
+        public async Task<Booking> InsertBooking(List<Passenger> passengers, Flight flight)
         {
             SeatServiceAccess ssa = new();
             Booking booking = new Booking()
@@ -79,8 +79,8 @@ namespace UCNAirlinesWebpage.Controllers
             {
                 s.Add(passenger.seat);
             }
-            bool seatadded = ssa.updateseats(s);
-            if (seatadded)
+            bool seatAdded = await ssa.TryUpdateSeats(s);
+            if (seatAdded)
             {
 
                 BookingServiceAccess bsa = new BookingServiceAccess();
@@ -96,7 +96,6 @@ namespace UCNAirlinesWebpage.Controllers
                     return null;
                 }
             }
-            throw new Exception(InsertConcurrencyErrorHere);
             return null;
         }
     }
