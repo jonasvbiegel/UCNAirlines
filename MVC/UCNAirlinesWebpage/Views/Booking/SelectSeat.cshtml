@@ -1,0 +1,129 @@
+﻿@using UCNAirlinesWebpage.Models
+@model UCNAirlinesWebpage.Models.BookingCreationModel
+@{  
+    Layout = "_Layout";
+    ViewData["Title"] = "Home Page";
+
+}
+@Model.Flight.FlightId
+<style>
+    .form-seat-container {
+        display: flex;
+        gap: 40px;
+        align-items: flex-start;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .form-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        max-width: 300px;
+    }
+
+    .seat-map {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .seat.row {
+        display: flex;
+        gap: 10px;
+    }
+
+    .seat-gap {
+        display: inline-block;
+        width: 30px;
+    }
+
+    .seat {
+        width: 40px;
+        height: 40px;
+        background-color: lightgray;
+        border: none;
+        border-radius: 3px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+        .seat.selected {
+            background-color: green;
+            color: white;
+        }
+
+    .submit-container {
+        text-align: center
+    }
+
+</style>
+
+<div class="text-center">
+    <h1 class="display-4">Select a seat</h1>
+</div>
+
+<br />
+<br />
+
+<form asp-action="Create" method="post">
+    <div class="form-seat-container">
+
+        @* Oprette label med textfield og tilføj knappe *@
+        <div>
+            <div class="form-group">
+                <label for="FirstName">First Name:</label><br />
+                <input type="text" id="FirstName" name="FirstName" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label for="LastName">Last Name:</label><br />
+                <input type="text" id="LastName" name="LastName" class="form-control" />
+            </div>
+
+            <br />
+
+            <div class="submit-container">
+                <button type="submit">Tilføj passager</button>
+            </div>
+        </div>
+
+        @* Oprette sæder *@
+
+        <div class=@Model.Seats>
+
+            @for (int row = 1; row <= 10; row++)
+            {
+                <div class="seat-row">
+                    @foreach (char column in new[] { 'A', 'B', 'C', 'D', 'E', 'F' })
+                    {
+                        if (column == 'D')
+                        {
+                            <span class="seat-gap"></span>
+                        }
+
+                        var seatID = $"{row}{column}";
+                        <button type="button" class="seat" data-seat="@seatID">@seatID</button>
+
+                    }
+                </div>
+            }
+        </div>
+    </div>
+
+</form>
+
+<script>
+    // Find alle sædeknapper
+    const seatButtons = document.querySelectorAll('.seat');
+
+    seatButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Fjern 'selected' fra alle andre sæder
+            seatButtons.forEach(btn => btn.classList.remove('selected'));
+
+            // Tilføj 'selected' til det valgte sæde
+            button.classList.add('selected');
+        });
+    });
+</script>

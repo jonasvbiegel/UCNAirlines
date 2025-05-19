@@ -25,7 +25,7 @@ namespace APIService.BusinessLayer
             return _flightAccess.CreateFlight(dbFlight);
         }
 
-        
+
 
         public FlightDTO? GetById(int id)
         {
@@ -53,9 +53,8 @@ namespace APIService.BusinessLayer
 
             return flightsByDate;
         }
-
-
     }
+
 }
 
 

@@ -8,6 +8,26 @@ namespace TestUCNAirlineWebpage
 {
     public class TestFlightroute
     {
+<<<<<<< HEAD
+        [Fact]
+        public void Test_StartAndEndCannotBeTheSame()
+        {
+            //    //Arrange
+            //    string startDestination = "Aalborg";
+            //    string endDestination = "Aalborg";
+
+        }
+        [Fact]
+        public async void FlightgetTest()
+        {
+            FlightServiceAccess fsa = new FlightServiceAccess();
+            Flight f = await fsa.GetFlight(3);
+            string s = f.Airplane.Airline;
+            Assert.NotNull(f);
+            Assert.Equal("UCN", s);
+        }
+
+=======
         
         [Fact]
         public async void FlightgetTest()
@@ -19,6 +39,7 @@ namespace TestUCNAirlineWebpage
             Assert.Equal("UCN", s);
         }
 
+>>>>>>> develop
     }
 }
 

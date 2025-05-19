@@ -127,7 +127,6 @@ public class SeatDBTest
         bool update1 = _seatDB.TryUpdateSeats(seats1);
 
         Assert.True(update1);
-
     }
 
     public bool TryBook(List<Seat?>? seats)

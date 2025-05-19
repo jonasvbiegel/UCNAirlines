@@ -11,7 +11,11 @@ namespace DesktopClientUCNFlight.ServiceLayer
     public class SeatServiceAccess : ServiceConnection, ISeatAccess
     {
         public SeatServiceAccess() : base("https://localhost:7184/api/seats/")
+<<<<<<< HEAD
+        {
+=======
         {   
+>>>>>>> develop
         }
         public async Task<List<Seat>?> GetSeats(int flightId)
         {
@@ -44,7 +48,11 @@ namespace DesktopClientUCNFlight.ServiceLayer
             bool updated = false;
             UseUrl = BaseUrl;
 
+<<<<<<< HEAD
+            string seatJson = JsonConvert.SerializeObject(seat);
+=======
             string seatJson=JsonConvert.SerializeObject(seat);
+>>>>>>> develop
             var httpContent = new StringContent(seatJson, Encoding.UTF8, "application/json");
             var serviceResponse = await base.CallServicePut(httpContent);
 
@@ -57,6 +65,9 @@ namespace DesktopClientUCNFlight.ServiceLayer
 
         }
     }
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> develop
 }
