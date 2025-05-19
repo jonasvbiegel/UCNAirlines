@@ -45,6 +45,7 @@ namespace APIService.ModelConversion
                     Airplane = AirplaneDTOConversion.ToAirplane(flightDto.Airplane),
                     Route = FlightRouteDTOConversion.ToFlightRoute(flightDto.Route),
                     Seats = SeatDTOConversion.ToSeatCollection(flightDto.Seats)
+                    
                 };
             }
 

@@ -17,7 +17,7 @@ namespace UCNAirlinesWebpage.Controllers
         public IActionResult GetSeats(int passenger, int flightId)
         {
             SeatServiceAccess ssa = new SeatServiceAccess();
-            TempData["Flightid"] = flightId;
+            TempData["FlightId"] = flightId;
             TempData["PassengerCount"] = passenger;
             FlightServiceAccess flightServiceAccess = new FlightServiceAccess();
             List<Seat> seats = Task.Run(() => ssa.GetSeats(flightId)).Result;
@@ -30,6 +30,7 @@ namespace UCNAirlinesWebpage.Controllers
                 Passengers = passengersList,
                 Seats = seats
             };
+
 
             return View(sp);
         }
