@@ -1,7 +1,6 @@
 ﻿using AirlineData.ModelLayer;
 using APIService.DTOs;
 using Microsoft.AspNetCore.Routing;
-using System.Runtime.Intrinsics.X86;
 
 namespace APIService.ModelConversion
 {

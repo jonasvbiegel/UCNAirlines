@@ -11,8 +11,7 @@ namespace APIService.BusinessLayer;
 public class SeatLogic : ISeatLogic
 {
 
-    private readonly string _connectionString = "Data Source = localhost; Initial Catalog = UCNAirlines; Persist Security Info=True; User ID = sa; Password=@12tf56so; Encrypt=False";
-
+    
     private readonly ISeatDB _seatDB;
 
     public SeatLogic(ISeatDB seatDB)
@@ -52,23 +51,13 @@ public class SeatLogic : ISeatLogic
         if(stsDTO != null)
         {
             seats=SeatDTOConversion.ToSeatCollection(stsDTO);
-        }  
-        return _seatDB.TryUpdateSeats(seats);
+        }
+        else
+        {
+            Console.Error.WriteLine("SOMETHING WRONG");
+        }
+            return _seatDB.TryUpdateSeats(seats);
     }
 
-    public bool UpdateSeat(SeatDTO sdto)
-    {
-        Seat seat = SeatDTOConversion.ToSeat(sdto);
-
-        try
-        {
-            _seatDB.UpdateSeat(seat);
-        }
-        catch (SqlException e)
-        {
-            Console.WriteLine(e.Message);
-            return false;
-        }
-        return true;
-    }
+    
 }
