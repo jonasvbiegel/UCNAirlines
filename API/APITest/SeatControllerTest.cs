@@ -125,4 +125,25 @@ public class SeatControllerTest
         Assert.Equal("true", responseBody);
         Assert.Null(updatedSeat.Passenger);
     }
+
+    [Fact]
+    public async void Test_Concurrency()
+    {
+        Seat seat = await client.GetFromJsonAsync<Seat>(baseUri + "1");
+
+        Seat seatToUpdate = await client.GetFromJsonAsync<Seat>(baseUri + "11");
+
+        seatToUpdate.Passenger = seat.Passenger;
+
+        string jsonObject = JsonSerializer.Serialize(seatToUpdate);
+        Console.WriteLine(jsonObject);
+
+        var httpContent = new StringContent(jsonObject, Encoding.UTF8, "application/json");
+        var response = await client.PutAsync(baseUri, httpContent);
+
+        var responseBody = await response.Content.ReadAsStringAsync();
+
+        Assert.Equal("true", responseBody);
+
+    }
 }
