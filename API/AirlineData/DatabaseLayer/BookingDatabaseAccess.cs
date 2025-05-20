@@ -10,13 +10,12 @@ using Microsoft.Extensions.Configuration;
 
 namespace AirlineData.DatabaseLayer
 {
-   public class BookingDatabaseAccess:IBooking
+    public class BookingDatabaseAccess : IBooking
     {
         private readonly string? _connectionString;
 
         public BookingDatabaseAccess(IConfiguration inConfig)
         {
-
             _connectionString = inConfig.GetConnectionString("CompanyConnection");
         }
 
@@ -42,24 +41,24 @@ namespace AirlineData.DatabaseLayer
             {
                 con.Open();
                 bookingId = con.ExecuteScalar<int>(insertBookingQuery, new { FlightId = booking.Flight?.FlightId });
-                if (booking.Passengers.Count> 0)
+                if (booking.Passengers.Count > 0)
                 {
-                    
+
                     foreach (var passenger in booking.Passengers)
                     {
-                        
-                            con.Execute(insertPassengerBookingQuery, new
-                            {
-                                BookingId = bookingId,
-                                PassportNo = passenger.PassportNo
-                            });
-                        }
+
+                        con.Execute(insertPassengerBookingQuery, new
+                        {
+                            BookingId = bookingId,
+                            PassportNo = passenger.PassportNo
+                        });
                     }
                 }
-
-
-
-                return bookingId >  0;
             }
+
+
+
+            return bookingId > 0;
         }
     }
+}
