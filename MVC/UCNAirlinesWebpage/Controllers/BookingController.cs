@@ -58,8 +58,8 @@ namespace UCNAirlinesWebpage.Controllers
                 int seatId = Convert.ToInt32(Request.Cookies[i + "SeatId"]);
                 model.Passengers.Add(passenger);
                 Seat seat = await ssa.GetSeatBySeatID(seatId);
+                seat.Passenger = passenger;
                 model.Seats.Add(seat);
-                
             }
             int flightId = (int)TempData["FlightId"];
             Flight f = await flightServiceAccess.GetFlight(flightId);
