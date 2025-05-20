@@ -1,5 +1,6 @@
 using DesktopClientUCNFlight.ModelLayer;
 using Newtonsoft.Json;
+using System.Configuration;
 using System.Text;
 
 
@@ -7,7 +8,7 @@ namespace DesktopClientUCNFlight.ServiceLayer
 {
     public class BookingServiceAccess : ServiceConnection, IBookingAccess
     {
-        public BookingServiceAccess() : base("https://localhost:7184/api/bookings/")
+        public BookingServiceAccess() : base(ConfigurationManager.AppSettings.Get("BookingUrl"))
         {
         }
         public async Task<bool> InsertBooking(Booking booking)

@@ -1,12 +1,13 @@
 ﻿using Newtonsoft.Json;
 using System.Net;
 using DesktopClientUCNFlight.ModelLayer;
+using System.Configuration;
 
 namespace DesktopClientUCNFlight.ServiceLayer
 {
     public class AirportServiceAccess : ServiceConnection, IAirportAccess
     {
-        public AirportServiceAccess() : base("https://localhost:7184/api/airports/")
+        public AirportServiceAccess() : base(ConfigurationManager.AppSettings.Get("AirportUrl"))
         {
         }
 

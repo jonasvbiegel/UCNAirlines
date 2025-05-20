@@ -20,11 +20,6 @@ namespace AirlineData.DatabaseLayer
             _connectionString = inConfig.GetConnectionString("CompanyConnection");
         }
 
-        // For test (convenience)
-        public AirportDatabaseAccess(string inConnectionString)
-        {
-            _connectionString = inConnectionString;
-        }
         public List<string> GetAllAirports()
         {
             string sql = "SELECT airport_name FROM Airport";

@@ -22,18 +22,25 @@ namespace APIService.ModelConversion
             }
             return flightsDTO;
         }
-     
+
         public static FlightDTO FromFlight(Flight flight)
         {
             FlightDTO? flightDto = null;
             if (flight != null)
             {
-                flightDto = new FlightDTO(flight.Departure, AirplaneDTOConversion.FromAirplane(flight.Airplane), FlightRouteDTOConversion.FromFlightRoute(flight.Route), flight.FlightId);
+                flightDto = new()
+                {
+                    Route = FlightRouteDTOConversion.FromFlightRoute(flight.Route),
+                    Airplane = AirplaneDTOConversion.FromAirplane(flight.Airplane),
+                    FlightId = flight.FlightId,
+                    Seats = SeatDTOConversion.FromSeatCollection(flight.Seats),
+                    Departure_time_and_date = flight.Departure
+                };
             }
             return flightDto;
         }
 
-     
+
         public static Flight? ToFlight(FlightDTO flightDto)
         {
             Flight? flight = null;
