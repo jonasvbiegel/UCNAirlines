@@ -30,7 +30,6 @@ namespace UCNAirlinesWebpage.ServiceLayer
                 {
                     string responseData = await serviceResponse.Content.ReadAsStringAsync();
 
-
                     seats = JsonConvert.DeserializeObject<List<Seat>>(responseData);
 
                 }
