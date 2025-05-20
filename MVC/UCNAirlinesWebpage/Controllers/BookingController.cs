@@ -70,12 +70,20 @@ namespace UCNAirlinesWebpage.Controllers
         public async Task<Booking> InsertBooking(List<Seat> seats, Flight flight)
         {
             SeatServiceAccess ssa = new();
+            PassengerServiceAccess psa = new();
            
             List<Passenger> passengers = new();
             foreach (Seat seat in seats)
             {
                 passengers.Add(seat.Passenger);
                 
+            }
+            if (passengers.Count > 0)
+            {
+                foreach (Passenger passenger in passengers)
+                {
+                    psa.InsertPassenger(passenger);
+                }
             }
             bool seatAdded = await ssa.TryUpdateSeats(seats);
 
