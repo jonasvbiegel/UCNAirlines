@@ -67,7 +67,7 @@ CREATE TABLE PassengerBooking (
     booking_id_FK INT NOT NULL FOREIGN KEY REFERENCES Booking(booking_id),
     passport_no_FK VARCHAR(128) NOT NULL FOREIGN KEY REFERENCES Passenger(passport_no)
 )
-
+GO;
 CREATE VIEW AirportZipCountry AS
 SELECT
     airport.icao_code AS icaoCode,
@@ -90,7 +90,7 @@ SELECT
     ea.airport_name AS EndAirportName,
 	ea.zipcode_FK AS EndZipCode-- Name from the Airport table for the end airport
 FROM Flight_Route r
-<<<<<<< HEAD
+
          JOIN AirportZipCountry sa ON r.start_destination_FK = sa.icaoCode
          JOIN AirportZipCountry ea ON r.end_destination_FK = ea.icaoCode;
 GO;
