@@ -5,7 +5,7 @@ namespace UCNAirlinesWebpage.Models
 {
     public class Flight
     {
-        [JsonProperty("id")]
+        [JsonProperty("flightId")]
         public int FlightId { get; set; }
         [JsonProperty("Departure_time_and_date")]
         public DateTime Departure { get; set; }

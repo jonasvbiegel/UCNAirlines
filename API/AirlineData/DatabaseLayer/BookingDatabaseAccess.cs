@@ -19,11 +19,7 @@ namespace AirlineData.DatabaseLayer
             _connectionString = inConfig.GetConnectionString("CompanyConnection");
         }
 
-        // For test (convenience)
-        public BookingDatabaseAccess(string inConnectionString)
-        {
-            _connectionString = inConnectionString;
-        }
+       
 
         public bool CreateBooking(Booking booking)
         {

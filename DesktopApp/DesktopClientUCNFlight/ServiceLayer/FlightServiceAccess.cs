@@ -3,11 +3,12 @@ using System.Net.Http.Json;
 using Newtonsoft.Json;
 using System.Net;
 using DesktopClientUCNFlight.ModelLayer;
+using System.Configuration;
 namespace DesktopClientUCNFlight.ServiceLayer
 {
     public class FlightServiceAccess : ServiceConnection, IFlightAccess
     {
-        public FlightServiceAccess() : base("https://localhost:7184/api/flights/")
+        public FlightServiceAccess() : base(ConfigurationManager.AppSettings.Get("FlightUrl"))
         {
         }
         public async Task<List<Flight>?> GetFlights(string date)

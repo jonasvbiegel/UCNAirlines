@@ -3,12 +3,20 @@ using System.Data;
 using System.Runtime.CompilerServices;
 using Dapper;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace AirlineData.DatabaseLayer;
 
 public class PassengerDB : IPassengerDB
 {
-    private readonly string _connectionString = "Data Source = localhost; Initial Catalog = UCNAirlines; Persist Security Info=True; User ID = sa; Password=@12tf56so; Encrypt=False";
+    private readonly string? _connectionString;
+
+    public PassengerDB(IConfiguration inConfig)
+    {
+
+        _connectionString = inConfig.GetConnectionString("CompanyConnection");
+    }
+
 
     public Passenger? GetPassenger(string passportNo)
     {

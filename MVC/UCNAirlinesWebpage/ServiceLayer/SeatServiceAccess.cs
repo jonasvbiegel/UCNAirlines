@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Net;
-using System.Text.Json;
+// using System.Text.Json;
 using UCNAirlinesWebpage.Models;
 using System.Text;
 using System;
@@ -30,7 +30,6 @@ namespace UCNAirlinesWebpage.ServiceLayer
                 {
                     string responseData = await serviceResponse.Content.ReadAsStringAsync();
 
-
                     seats = JsonConvert.DeserializeObject<List<Seat>>(responseData);
 
                 }
@@ -44,7 +43,6 @@ namespace UCNAirlinesWebpage.ServiceLayer
         public async Task<Seat?> GetSeatBySeatID(int seatId)
         {
             Seat seat = new Seat();
-            UseUrl = UseUrl = $"{BaseUrl}seatId?seatId=";
             UseUrl += seatId;
 
             var serviceResponse = await base.CallServiceGet();
@@ -71,16 +69,20 @@ namespace UCNAirlinesWebpage.ServiceLayer
             if (seats.Count == 0) return false;
 
             HttpClient client = new();
-            string seatsJson = System.Text.Json.JsonSerializer.Serialize(seats);
-            var httpContent = new StringContent(seatsJson, Encoding.UTF8, "application/json");
+            //string seatsJson = System.Text.Json.JsonSerializer.Serialize(seats);
 
-            var response = await client.PutAsync(BaseUrl, httpContent);
+            string Json = JsonConvert.SerializeObject(seats);
+            var httpContent = new StringContent(Json, Encoding.UTF8, "application/json");
+
+
+
+            //var response = await client.PutAsync(BaseUrl, httpContent);
+            var response = await base.CallServicePut(httpContent);
 
             if (response.IsSuccessStatusCode)
             {
                 var responseBody = await response.Content.ReadAsStringAsync();
-                List<Seat?>? seatsReturn = System.Text.Json.JsonSerializer.Deserialize<List<Seat?>>(responseBody);
-                if (seatsReturn != null) return seatsReturn.Count != 0;
+                if (responseBody.Equals("true")) return true;
             }
 
             return false;

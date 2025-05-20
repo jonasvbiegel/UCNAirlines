@@ -17,7 +17,7 @@ namespace UCNAirlinesWebpage.Controllers
         public IActionResult GetSeats(int passenger, int flightId)
         {
             SeatServiceAccess ssa = new SeatServiceAccess();
-            TempData["Flightid"] = flightId;
+            TempData["FlightId"] = flightId;
             TempData["PassengerCount"] = passenger;
             FlightServiceAccess flightServiceAccess = new FlightServiceAccess();
             List<Seat> seats = Task.Run(() => ssa.GetSeats(flightId)).Result;
@@ -31,18 +31,19 @@ namespace UCNAirlinesWebpage.Controllers
                 Seats = seats
             };
 
+
             return View(sp);
         }
         [HttpPost]
         public  async Task<IActionResult> CreateBooking(SeatPassenger model)
         {
             model.Passengers = new();
-            List<Seat> seats = new List<Seat>();
             FlightServiceAccess flightServiceAccess = new();
             SeatServiceAccess ssa = new();
             ReceiptModel model2 = new ReceiptModel();
-            model.passengerCount = (int)TempData["PassengerCount"];
-            for (int i = 0; i < model.passengerCount; i++)
+            model.Seats = new();
+            int passengerCount = (int)TempData["PassengerCount"];
+            for (int i = 0; i < passengerCount; i++)
             {
                 string SDate = Request.Cookies[i + "Birthdate"];
                 DateOnly date = DateOnly.Parse(SDate);
@@ -52,37 +53,39 @@ namespace UCNAirlinesWebpage.Controllers
                     LastName = Request.Cookies[i + "LastName"],
                     PassportNo = Request.Cookies[i + "PassportNr"],
                     BirthDate = date
-
                 };
-                int seatId = Int32.Parse(Request.Cookies[i + "SeatId"]);
+                
+                int seatId = Convert.ToInt32(Request.Cookies[i + "SeatId"]);
                 model.Passengers.Add(passenger);
-                Seat seat = Task.Run(() => ssa.GetSeatBySeatID(seatId)).Result;
-                passenger.seat = seat;
-
+                Seat seat = await ssa.GetSeatBySeatID(seatId);
+                model.Seats.Add(seat);
+                
             }
             int flightId = (int)TempData["FlightId"];
-            Flight f = Task.Run(() => flightServiceAccess.GetFlight(flightId)).Result;
+            Flight f = await flightServiceAccess.GetFlight(flightId);
 
-            model2.booking = await InsertBooking(model.Passengers, f);
+            model2.booking = await InsertBooking(model.Seats, f);
             return View("TestWorld", model2);
         }
-        public async Task<Booking> InsertBooking(List<Passenger> passengers, Flight flight)
+        public async Task<Booking> InsertBooking(List<Seat> seats, Flight flight)
         {
             SeatServiceAccess ssa = new();
-            Booking booking = new Booking()
+           
+            List<Passenger> passengers = new();
+            foreach (Seat seat in seats)
             {
-                passengers = passengers,
-                Flight = flight
-            };
-            List<Seat> s = new();
-            foreach (Passenger passenger in passengers)
-            {
-                s.Add(passenger.seat);
+                passengers.Add(seat.Passenger);
+                
             }
-            bool seatAdded = await ssa.TryUpdateSeats(s);
+            bool seatAdded = await ssa.TryUpdateSeats(seats);
+
             if (seatAdded)
             {
-
+                Booking booking = new Booking()
+                {
+                    passengers = passengers,
+                    Flight = flight
+                };
                 BookingServiceAccess bsa = new BookingServiceAccess();
                 bool bwa = bsa.InsertBooking(booking).Result;
                 if (bwa == true)

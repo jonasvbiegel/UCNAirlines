@@ -67,7 +67,7 @@ CREATE TABLE PassengerBooking (
     booking_id_FK INT NOT NULL FOREIGN KEY REFERENCES Booking(booking_id),
     passport_no_FK VARCHAR(128) NOT NULL FOREIGN KEY REFERENCES Passenger(passport_no)
 )
-
+GO
 CREATE VIEW AirportZipCountry AS
 SELECT
     airport.icao_code AS icaoCode,
@@ -78,22 +78,22 @@ SELECT
 FROM Airport airport
          JOIN City_Zip_Code cityzip ON airport.zipcode_FK = cityzip.zipcode
          JOIN Country country ON cityzip.country_id_FK = country.country_id;
-GO;
+GO
 
 CREATE VIEW RouteWithAirports AS
 SELECT 
     r.flight_route_id AS FlightRouteId,
     r.start_destination_FK AS StartAirportCode,       -- Code from FlightRoute for the start airport
-    sa.airport_name AS StartAirportName,
-	sa.zipcode_FK AS StartZipCode,-- Name from the Airport table for the start airport
+    sa.airportName AS StartAirportName,
+	sa.airportZipcode AS StartZipCode,-- Name from the Airport table for the start airport
     r.end_destination_FK AS EndAirportCode,          -- Code from FlightRoute for the end airport
-    ea.airport_name AS EndAirportName,
-	ea.zipcode_FK AS EndZipCode-- Name from the Airport table for the end airport
+    ea.airportName AS EndAirportName,
+	ea.airportZipcode AS EndZipCode-- Name from the Airport table for the end airport
 FROM Flight_Route r
-<<<<<<< HEAD
+
          JOIN AirportZipCountry sa ON r.start_destination_FK = sa.icaoCode
          JOIN AirportZipCountry ea ON r.end_destination_FK = ea.icaoCode;
-GO;
+GO
 
 CREATE VIEW FlightRouteAirplane AS
 SELECT 
@@ -107,4 +107,3 @@ SELECT
 FROM Flight f
 INNER JOIN Airplane a ON f.airplane_id_FK = a.airplane_id
 INNER JOIN Flight_Route fr ON f.flight_route_id_FK = fr.flight_route_id;
-GO;
