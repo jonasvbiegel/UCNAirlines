@@ -30,9 +30,9 @@ namespace APIService.ModelConversion
             {
                 flightDto = new()
                 {
+                    FlightId = flight.FlightId,
                     Route = FlightRouteDTOConversion.FromFlightRoute(flight.Route),
                     Airplane = AirplaneDTOConversion.FromAirplane(flight.Airplane),
-                    FlightId = flight.FlightId,
                     Seats = SeatDTOConversion.FromSeatCollection(flight.Seats),
                     Departure_time_and_date = flight.Departure
                 };
@@ -48,6 +48,7 @@ namespace APIService.ModelConversion
             {
                 flight = new Flight()
                 {
+                    FlightId= flightDto.FlightId,
                     Departure = flightDto.Departure_time_and_date,
                     Airplane = AirplaneDTOConversion.ToAirplane(flightDto.Airplane),
                     Route = FlightRouteDTOConversion.ToFlightRoute(flightDto.Route),
