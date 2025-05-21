@@ -89,7 +89,7 @@ public class SeatDB : ISeatDB
             foreach (Seat? s in seats)
             {
                 Seat? seatReturn = GetSeat(s.SeatId);
-                if (seatReturn.Passenger != null)
+                if (seatReturn.Passenger != null || seatReturn.SeatId == 0 || seatReturn == null)
                 {
                     return false;
                 }
