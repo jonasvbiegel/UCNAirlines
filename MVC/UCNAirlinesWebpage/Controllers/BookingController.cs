@@ -14,14 +14,14 @@ namespace UCNAirlinesWebpage.Controllers
 
 
 
-        public IActionResult GetSeats(int passenger, int flightId)
+        public async Task<IActionResult> GetSeats(int passenger, int flightId)
         {
             SeatServiceAccess ssa = new SeatServiceAccess();
             TempData["FlightId"] = flightId;
             TempData["PassengerCount"] = passenger;
             FlightServiceAccess flightServiceAccess = new FlightServiceAccess();
             List<Seat> seats = Task.Run(() => ssa.GetSeats(flightId)).Result;
-            Flight f = Task.Run(() => flightServiceAccess.GetFlight(flightId)).Result;
+            Flight f = await flightServiceAccess.GetFlight(flightId);
             List<Passenger> passengersList = new List<Passenger>();
             SeatPassenger sp = new()
             {
