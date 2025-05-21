@@ -103,7 +103,7 @@ public class SeatDB : ISeatDB
 
             try
             {
-                string sqlUpdate = "UPDATE Seat SET passport_no_FK = @PassportNo WHERE seat_id = @SeatId AND passport_no_FK = null";
+                string sqlUpdate = "UPDATE Seat SET passport_no_FK = @PassportNo WHERE seat_id = @SeatId AND passport_no_FK IS NULL";
                 bool result = true;
                 foreach (Seat seat in seats)
                 {
