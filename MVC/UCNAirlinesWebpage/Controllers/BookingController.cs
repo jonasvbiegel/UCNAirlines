@@ -35,7 +35,7 @@ namespace UCNAirlinesWebpage.Controllers
             return View(sp);
         }
         [HttpPost]
-        public  async Task<IActionResult> CreateBooking(SeatPassenger model)
+        public async Task<IActionResult> CreateBooking(SeatPassenger model)
         {
             model.Passengers = new();
             FlightServiceAccess flightServiceAccess = new();
@@ -54,7 +54,7 @@ namespace UCNAirlinesWebpage.Controllers
                     PassportNo = Request.Cookies[i + "PassportNr"],
                     BirthDate = date
                 };
-                
+
                 int seatId = Convert.ToInt32(Request.Cookies[i + "SeatId"]);
                 model.Passengers.Add(passenger);
                 Seat seat = await ssa.GetSeatBySeatID(seatId);
@@ -71,12 +71,12 @@ namespace UCNAirlinesWebpage.Controllers
         {
             SeatServiceAccess ssa = new();
             PassengerServiceAccess psa = new();
-           
+
             List<Passenger> passengers = new();
             foreach (Seat seat in seats)
             {
                 passengers.Add(seat.Passenger);
-                
+
             }
             if (passengers.Count > 0)
             {
@@ -95,7 +95,11 @@ namespace UCNAirlinesWebpage.Controllers
                     Flight = flight
                 };
                 BookingServiceAccess bsa = new BookingServiceAccess();
-                bool bwa = bsa.InsertBooking(booking).Result;
+
+                // Awaiting this
+                // bool bwa = bsa.InsertBooking(booking).Result;
+
+                bool bwa = await bsa.InsertBooking(booking);
                 if (bwa == true)
                 {
 

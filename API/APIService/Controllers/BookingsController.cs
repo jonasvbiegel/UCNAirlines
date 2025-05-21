@@ -10,7 +10,7 @@ namespace APIService.Controllers
     [ApiController]
     public class BookingsController : ControllerBase
     {
-        private readonly IBookingLogic _bookingLogic;    
+        private readonly IBookingLogic _bookingLogic;
         public BookingsController(IBookingLogic bookingLogic)
         {
             _bookingLogic = bookingLogic;
@@ -19,12 +19,15 @@ namespace APIService.Controllers
         [HttpPost]
         public ActionResult<bool> PostBooking([FromBody] BookingDTO booking)
         {
-            bool b=false;
+            Console.WriteLine($"{booking.Flight.FlightId}");
+            booking.Passengers.ForEach(f => Console.WriteLine(f.FirstName));
+
+            bool b = false;
 
             try
             {
-                
-                b=_bookingLogic.CreateBooking(booking);
+
+                b = _bookingLogic.CreateBooking(booking);
             }
             catch
             {
@@ -35,4 +38,4 @@ namespace APIService.Controllers
         }
     }
 
-            }
+}
