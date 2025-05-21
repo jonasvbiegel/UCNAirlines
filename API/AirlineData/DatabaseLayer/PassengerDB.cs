@@ -34,20 +34,26 @@ public class PassengerDB : IPassengerDB
     public Passenger CreatePassenger(Passenger passenger)
     {
         string sql = "INSERT INTO Passenger VALUES (@PassportNo, @FirstName, @LastName, @BirthDate)";
-
+        Passenger existingPassenger = GetPassenger(passenger.PassportNo);
+        Passenger? p;
         using SqlConnection con = new(_connectionString);
-
-        int rows = con.Execute(sql, new
+        if (existingPassenger == null)
         {
-            PassportNo = passenger.PassportNo,
-            FirstName = passenger.FirstName,
-            LastName = passenger.LastName,
-            BirthDate = passenger.BirthDate.ToString("yyyy-MM-dd"),
-        });
+            int rows = con.Execute(sql, new
+            {
+                PassportNo = passenger.PassportNo,
+                FirstName = passenger.FirstName,
+                LastName = passenger.LastName,
+                BirthDate = passenger.BirthDate.ToString("yyyy-MM-dd"),
+            });
 
-        if (rows != 1) return null;
-
-        return passenger;
+            p = rows != 1 ? null : passenger;
+        }
+        else
+        {
+            p=existingPassenger;
+        }
+        return p;
     }
 
     private Passenger CreatePassengerFromReader(IDataReader reader)
