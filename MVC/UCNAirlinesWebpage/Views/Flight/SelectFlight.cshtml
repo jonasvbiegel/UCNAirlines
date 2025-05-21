@@ -77,7 +77,6 @@
                         <td>@Model.To</td>
                         <td>@flight.Departure.ToString("yyyy-MM-dd")</td>
                         <td>@flight.Departure.ToString("HH:mm")</td>
-                        <td>@flight.FlightId</td>
                         <td>
                         <form method="post" asp-controller="Booking" asp-action="GetSeats">
                             <input type="hidden" name="passenger" value="@Model.Passenger" />

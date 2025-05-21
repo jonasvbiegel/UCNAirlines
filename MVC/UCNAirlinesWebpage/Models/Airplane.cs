@@ -4,13 +4,13 @@ namespace UCNAirlinesWebpage.Models
 {
     public class Airplane
     {
-        [JsonProperty]
+        [JsonProperty("Airplane_number")]
         public string AirplaneId { get; set; }
         [JsonProperty]
         public string Airline { get; set; }
-        [JsonProperty]
+        [JsonProperty("ColumnCount")]
         public int SeatColumns { get; set; }
-        [JsonProperty]
+        [JsonProperty("RowCount")]
         public int SeatRows { get; set; }
         [JsonProperty]
         public int Capacity { get; }
