@@ -80,7 +80,7 @@ public class SeatDB : ISeatDB
         return seats;
     }
 
-    
+
     public bool TryUpdateSeats(List<Seat?>? seats)
     {
         Random rnd = new Random();
@@ -103,7 +103,7 @@ public class SeatDB : ISeatDB
 
             try
             {
-                string sqlUpdate = "UPDATE Seat SET passport_no_FK = @PassportNo WHERE seat_id = @SeatId";
+                string sqlUpdate = "UPDATE Seat SET passport_no_FK = @PassportNo WHERE seat_id = @SeatId AND passport_no_FK = null";
                 bool result = true;
                 foreach (Seat seat in seats)
                 {
@@ -145,7 +145,7 @@ public class SeatDB : ISeatDB
         }
     }
 
- 
+
     private Seat? CreateSeatFromReader(IDataReader reader)
     {
         Seat s = new()
