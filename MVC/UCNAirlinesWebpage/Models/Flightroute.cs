@@ -4,7 +4,7 @@ namespace UCNAirlinesWebpage.Models
 {
     public class Flightroute
     {
-        public int FlightRouteId { get; set; }
+        public int flightRouteId { get; set; }
         public Airport? StartDestination { get; set; }
         public Airport? EndDestination { get; set; }
     

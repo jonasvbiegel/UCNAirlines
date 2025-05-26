@@ -14,7 +14,8 @@ namespace APIService.ModelConversion
                 frDto = new FlightRouteDTO()
                 {
                     EndDestination = AirportDTOConversion.FromAirport(route.EndDestination),
-                    StartDestination = AirportDTOConversion.FromAirport(route.StartDestination)
+                    StartDestination = AirportDTOConversion.FromAirport(route.StartDestination),
+                    FlightRouteId = route.FlightRouteId
                 };
             }
             return frDto;

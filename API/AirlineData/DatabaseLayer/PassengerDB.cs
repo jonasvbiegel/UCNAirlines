@@ -27,7 +27,6 @@ public class PassengerDB : IPassengerDB
         var reader = con.ExecuteReader(sql, new { PassportNo = passportNo });
 
         Passenger? p = CreatePassengerFromReader(reader);
-
         return p;
     }
 
@@ -67,7 +66,7 @@ public class PassengerDB : IPassengerDB
             p.BirthDate = DateOnly.FromDateTime((DateTime)reader["birth_date"]);
             p.PassportNo = (string)reader["passport_no"];
         }
-
+        if (p.PassportNo == null) return null;
         return p;
     }
 }

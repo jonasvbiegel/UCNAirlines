@@ -98,6 +98,7 @@ namespace UCNAirlinesWebpage.Controllers
 
                 // Awaiting this
                 // bool bwa = bsa.InsertBooking(booking).Result;
+                
 
                 bool bwa = await bsa.InsertBooking(booking);
                 if (bwa == true)
