@@ -39,13 +39,22 @@
 	.seat {
 	width: 40px;
 	height: 40px;
-	background-color: lightgray;
+	background-color: limegreen;
 	border: none;
 	border-radius: 3px;
 	font-weight: bold;
 	cursor: pointer;
 	}
 
+	.BookedSeat {
+	width: 40px;
+	height: 40px;
+	background-color: palevioletred;
+	border: none;
+	border-radius: 3px;
+	font-weight: bold;
+	cursor: pointer;
+	}
 	.seat.selected {
 	background-color: green;
 	color: white;
@@ -92,38 +101,54 @@
 				<option value="">-- Select Seat --</option>
 				@foreach (Seat seat in Model.Seats)
 				{
-@* 					if (seat.Passenger == null)
- *@					@* { *@
+					if (seat.Passenger == null){
+
 						<option value="@seat.SeatId">@seat.SeatName</option>
-					@* } *@
+					}
 				}
 
 			</select>
-            </div> 
-			<div class="seat-map">
-				@for (int row = 1; row <= @Model.Flight.Airplane.SeatRows; row++)
-				{
-					<div class="seat-row">
-						@for (int column = 1; column <= Model.Flight.Airplane.SeatColumns; column++)
-						{
-
-							if (column == @Model.Flight.Airplane.SeatColumns / 2 + 1)
-							{
-								<span class="seat-gap"></span>
-
-							}
-							char c = char.ToUpper((char)(column + 96));
-							var seatID = $"{row}{c}";
-							<button type="button" class="seat" data-seat="@seatID">@seatID</button>
-						}
-					
-					</div>
-				}
-			</div>
+		</div> 
+		
 		
 
 
 	}
+	<div class="seat-map">
+		@for (int row = 1; row <= @Model.Flight.Airplane.SeatRows; row++)
+		{
+			<div class="seat-row">
+				@for (int column = 1; column <= Model.Flight.Airplane.SeatColumns; column++)
+				{
+
+					if (column == @Model.Flight.Airplane.SeatColumns / 2 + 1)
+					{
+						<span class="seat-gap"></span>
+
+					}
+					char c = char.ToUpper((char)(column + 96));
+					var seatID = $"{row}{c}";
+					foreach (Seat seat in Model.Seats)
+
+					{
+						if (seat.SeatName == seatID)
+						{
+							if (seat.Passenger != null)
+							{
+								<button type="button" class="BookedSeat" data-seat="@seatID">@seatID</button>
+							}
+							else
+							{
+								<button type="button" class="seat" data-seat="@seatID">@seatID</button>
+							}
+						}
+					}
+
+				}
+
+			</div>
+		}
+	</div>
 	<div class="submit-container">
 		<button type="submit">Tilføj passenger</button>
 	</div>
