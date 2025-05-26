@@ -2,6 +2,7 @@
 using APIService.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 
 namespace APIService.Controllers
 {
@@ -20,11 +21,12 @@ namespace APIService.Controllers
 
         public ActionResult<List<string>> GetAllAirports()
         {
-            
-            ActionResult<List<string>> foundAirports;
-            List<string?>? airports = _airportLogic.GetAllAirports();
-            if (!(airports == null))
+
+            ActionResult foundAirports;
+            try
             {
+                List<string?>? airports = _airportLogic.GetAllAirports();
+
                 if (airports.Count > 0)
                 {
                     foundAirports = Ok(airports);
@@ -34,12 +36,14 @@ namespace APIService.Controllers
                     foundAirports = new StatusCodeResult(204);
                 }
             }
-            else
+            catch (SqlException)
             {
-                foundAirports = new StatusCodeResult(500);
+                {
+                    foundAirports = StatusCode(500,"Something went wrong with retrieving airports");
+                }
+               
             }
             return foundAirports;
         }
-
     }
 }

@@ -2,6 +2,7 @@
 using APIService.BusinessLayer;
 using APIService.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 
 
 namespace APIService.Controllers
@@ -21,17 +22,25 @@ namespace APIService.Controllers
         {
             Console.WriteLine($"{booking.Flight.FlightId}");
             booking.Passengers.ForEach(f => Console.WriteLine(f.FirstName));
-
+            ActionResult postBooking;
             bool b = false;
 
             try
             {
-
+                
                 b = _bookingLogic.CreateBooking(booking);
+                if (b)
+                {
+                    postBooking=Ok(b);
+                }
+                else
+                {
+                    postBooking = new StatusCodeResult(400);
+                }
             }
-            catch
+            catch(SqlException)
             {
-                return new StatusCodeResult(500);
+                return StatusCode(500,"Couldn´t save the booking, something went wrong.");
             }
 
             return Ok(b);
