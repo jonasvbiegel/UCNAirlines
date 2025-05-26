@@ -1,6 +1,8 @@
 ﻿namespace UCNAirlinesWebpage.Helper
 {
-    public class ConfigHelper
+    public static class ConfigHelper
     {
+        public static IConfiguration? Configuration { get; set; }
+
     }
 }

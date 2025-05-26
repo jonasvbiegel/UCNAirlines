@@ -2,13 +2,14 @@
 using Newtonsoft.Json;
 using System.Net;
 using System.Text;
+using UCNAirlinesWebpage.Helper;
 using UCNAirlinesWebpage.Models;
 
 namespace UCNAirlinesWebpage.ServiceLayer
 {
     public class PassengerServiceAccess : ServiceConnection, IPassengerAccess
     {
-        public PassengerServiceAccess() : base("https://localhost:7184/api/passengers/")
+        public PassengerServiceAccess() : base(ConfigHelper.Configuration?["ServiceUrls:Passengers"])
         {
         }
 

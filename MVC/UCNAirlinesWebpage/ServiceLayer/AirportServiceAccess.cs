@@ -1,12 +1,13 @@
 ﻿using Newtonsoft.Json;
 using System.Net;
 using UCNAirlinesWebpage.Models;
-
+using System.Configuration;
+using UCNAirlinesWebpage.Helper;
 namespace UCNAirlinesWebpage.ServiceLayer
 {
     public class AirportServiceAccess : ServiceConnection, IAirportAccess
     {
-        public AirportServiceAccess() : base("https://localhost:7184/api/airports/")
+        public AirportServiceAccess() : base(ConfigHelper.Configuration?["ServiceUrls:Airports"])
         {
         }
 

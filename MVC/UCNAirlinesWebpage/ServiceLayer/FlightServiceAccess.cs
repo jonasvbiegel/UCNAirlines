@@ -3,11 +3,12 @@ using UCNAirlinesWebpage.Models;
 using System.Net.Http.Json;
 using Newtonsoft.Json;
 using System.Net;
+using UCNAirlinesWebpage.Helper;
 namespace UCNAirlinesWebpage.ServiceLayer
 {
-    public class FlightServiceAccess : ServiceConnection
+    public class FlightServiceAccess : ServiceConnection,IFlightAccess
     {
-        public FlightServiceAccess() : base("https://localhost:7184/api/flights/")
+        public FlightServiceAccess() : base(ConfigHelper.Configuration?["ServiceUrls:Flights"])
         {
         }
         public async Task<List<Flight>?> GetFlights(string date)

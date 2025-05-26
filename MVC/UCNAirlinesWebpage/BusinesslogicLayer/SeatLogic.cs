@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DesktopClientUCNFlight.ModelLayer;
-using DesktopClientUCNFlight.ServiceLayer;
+using UCNAirlinesWebpage.Models;
+using UCNAirlinesWebpage.ServiceLayer;
 
-namespace DesktopClientUCNFlight.BusinesslogicLayer
+namespace UCNAirlinesWebpage.BusinesslogicLayer
 {
     public class SeatLogic
     {
@@ -30,17 +30,33 @@ namespace DesktopClientUCNFlight.BusinesslogicLayer
 
             return seats;
         }
-        public async Task<bool> UpdateSeat(List<Seat> seat)
+        public async Task<bool> UpdateSeats(List<Seat> seat)
         {
             try
             {
-                return await _seatServiceAccess.UpdateSeat(seat);
+                return await _seatServiceAccess.TryUpdateSeats(seat);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error updating seat: {ex.Message}");
                 return false;
             }
+        }
+
+        public async Task<Seat>? GetSeatBySeatId(int seatId)
+        {
+            Seat? seat;
+            try
+            {
+                seat = await _seatServiceAccess.GetSeatBySeatID(seatId);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error retrieving seats: {ex.Message}");
+                seat = null;
+            }
+
+            return seat;
         }
     }
 }

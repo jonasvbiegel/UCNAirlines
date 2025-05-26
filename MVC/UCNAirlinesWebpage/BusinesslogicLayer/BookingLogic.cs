@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DesktopClientUCNFlight.ModelLayer;
-using DesktopClientUCNFlight.ServiceLayer;
+using UCNAirlinesWebpage.Models;
+using UCNAirlinesWebpage.ServiceLayer;
 
-namespace DesktopClientUCNFlight.BusinesslogicLayer
+namespace UCNAirlinesWebpage.BusinesslogicLayer
 {
     public class BookingLogic
     {

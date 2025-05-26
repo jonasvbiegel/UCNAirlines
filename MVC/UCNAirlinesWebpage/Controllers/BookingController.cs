@@ -4,8 +4,8 @@ using System.Reflection.Metadata;
 using System.Xml.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging.Abstractions;
+using UCNAirlinesWebpage.BusinesslogicLayer;
 using UCNAirlinesWebpage.Models;
-using UCNAirlinesWebpage.ServiceLayer;
 
 namespace UCNAirlinesWebpage.Controllers
 {
@@ -16,12 +16,12 @@ namespace UCNAirlinesWebpage.Controllers
 
         public async Task<IActionResult> GetSeats(int passenger, int flightId)
         {
-            SeatServiceAccess ssa = new SeatServiceAccess();
+            SeatLogic ssa = new SeatLogic();
             TempData["FlightId"] = flightId;
             TempData["PassengerCount"] = passenger;
-            FlightServiceAccess flightServiceAccess = new FlightServiceAccess();
-            List<Seat> seats = Task.Run(() => ssa.GetSeats(flightId)).Result;
-            Flight f = await flightServiceAccess.GetFlight(flightId);
+            FlightLogic flightServiceAccess = new FlightLogic();
+            List<Seat> seats = Task.Run(() => ssa.GetSeatsForFlight(flightId)).Result;
+            Flight f = await flightServiceAccess.GetFlightById(flightId);
             List<Passenger> passengersList = new List<Passenger>();
             SeatPassenger sp = new()
             {
@@ -38,8 +38,8 @@ namespace UCNAirlinesWebpage.Controllers
         public async Task<IActionResult> CreateBooking(SeatPassenger model)
         {
             model.Passengers = new();
-            FlightServiceAccess flightServiceAccess = new();
-            SeatServiceAccess ssa = new();
+            FlightLogic flightServiceAccess = new();
+            SeatLogic ssa = new();
             ReceiptModel model2 = new ReceiptModel();
             model.Seats = new();
             int passengerCount = (int)TempData["PassengerCount"];
@@ -57,20 +57,20 @@ namespace UCNAirlinesWebpage.Controllers
 
                 int seatId = Convert.ToInt32(Request.Cookies[i + "SeatId"]);
                 model.Passengers.Add(passenger);
-                Seat seat = await ssa.GetSeatBySeatID(seatId);
+                Seat seat = await ssa.GetSeatBySeatId(seatId);
                 seat.Passenger = passenger;
                 model.Seats.Add(seat);
             }
             int flightId = (int)TempData["FlightId"];
-            Flight f = await flightServiceAccess.GetFlight(flightId);
+            Flight f = await flightServiceAccess.GetFlightById(flightId);
 
             model2.booking = await InsertBooking(model.Seats, f);
             return View("TestWorld", model2);
         }
         public async Task<Booking> InsertBooking(List<Seat> seats, Flight flight)
         {
-            SeatServiceAccess ssa = new();
-            PassengerServiceAccess psa = new();
+            SeatLogic ssa = new();
+            PassengerLogic psa = new();
 
             List<Passenger> passengers = new();
             foreach (Seat seat in seats)
@@ -82,10 +82,10 @@ namespace UCNAirlinesWebpage.Controllers
             {
                 foreach (Passenger passenger in passengers)
                 {
-                    psa.InsertPassenger(passenger);
+                    psa.CreatePassenger(passenger);
                 }
             }
-            bool seatAdded = await ssa.TryUpdateSeats(seats);
+            bool seatAdded = await ssa.UpdateSeats(seats);
 
             if (seatAdded)
             {
@@ -94,13 +94,9 @@ namespace UCNAirlinesWebpage.Controllers
                     passengers = passengers,
                     Flight = flight
                 };
-                BookingServiceAccess bsa = new BookingServiceAccess();
+                BookingLogic bsa = new BookingLogic();
 
-                // Awaiting this
-                // bool bwa = bsa.InsertBooking(booking).Result;
-                
-
-                bool bwa = await bsa.InsertBooking(booking);
+                bool bwa = await bsa.SaveBooking(booking);
                 if (bwa == true)
                 {
 
@@ -108,7 +104,6 @@ namespace UCNAirlinesWebpage.Controllers
                 }
                 else
                 {
-                    //throw new Exception(NoBooking);
                     return null;
                 }
             }

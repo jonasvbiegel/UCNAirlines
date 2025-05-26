@@ -1,6 +1,8 @@
 using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
+using UCNAirlinesWebpage.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
+ConfigHelper.Configuration = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

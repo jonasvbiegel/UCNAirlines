@@ -1,3 +1,4 @@
+using DesktopClientUCNFlight.BusinesslogicLayer;
 using DesktopClientUCNFlight.Properties;
 using DesktopClientUCNFlight.ServiceLayer;
 
@@ -5,10 +6,10 @@ namespace DesktopClientUCNFlight
 {
     public partial class Form1 : Form
     {
-        private readonly AirportServiceAccess _airportServiceAccess;
+        private readonly AirportLogic _airportServiceAccess;
         public Form1()
         {
-            _airportServiceAccess = new AirportServiceAccess();
+            _airportServiceAccess = new AirportLogic();
             List<string> airports = Task.Run(() => _airportServiceAccess.GetAirports()).Result;
             InitializeComponent();
             comboBoxDeparture.Items.Add("--Departure Airport");

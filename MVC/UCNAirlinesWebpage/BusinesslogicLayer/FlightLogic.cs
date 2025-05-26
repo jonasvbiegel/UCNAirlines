@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DesktopClientUCNFlight.ModelLayer;
-using DesktopClientUCNFlight.ServiceLayer;
+using UCNAirlinesWebpage.Models;
+using UCNAirlinesWebpage.ServiceLayer;
 
-namespace DesktopClientUCNFlight.BusinesslogicLayer
+namespace UCNAirlinesWebpage.BusinesslogicLayer
 {
     public class FlightLogic
     {
@@ -30,6 +30,22 @@ namespace DesktopClientUCNFlight.BusinesslogicLayer
             }
 
             return foundFlights;
+        }
+    
+    public async Task<Flight>? GetFlightById(int id)
+        {
+            Flight? foundFlight;
+            try
+            {
+                foundFlight = await _flightServiceAccess.GetFlight(id);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error retrieving flights: {ex.Message}");
+                foundFlight = null;
+            }
+
+            return foundFlight;
         }
     }
 }

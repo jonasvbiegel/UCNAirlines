@@ -5,7 +5,8 @@ namespace UCNAirlinesWebpage.ServiceLayer
   public interface ISeatAccess
   {
     Task<List<Seat>?> GetSeats(int flightId);
-    Task<bool> UpdateSeat(Seat seat);
+    Task<bool> TryUpdateSeats(List<Seat> seats);
+    Task<Seat> GetSeatBySeatID(int seatId);
 
-  }
+    }
 }
