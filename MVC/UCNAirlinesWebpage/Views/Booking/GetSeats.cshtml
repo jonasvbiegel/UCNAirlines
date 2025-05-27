@@ -83,34 +83,33 @@
 
 				<div class="form-group">
 					<label for="LastName_@i">Last Name:</label><br />
-					<input type="text" id="LastName_@i" name="Passengers[@i].LastName" class="form-control" />
+					<input type="text" id="LastName_@i" name="Passengers[@i].LastName" class="form-control" required/>
 				</div>
 				<div class="form-group">
 					<label for="Passport_@i">Passport:</label><br />
-					<input type="text" id="Passport_@i" name="Passengers[@i].Passport" class="form-control" />
+					<input type="text" id="Passport_@i" name="Passengers[@i].Passport" class="form-control" required/>
 				</div>
 				<div class="form-group">
 					<label>Birthdate:</label>
-					<input type="date" id="BirthDate_@i" max="@DateTime.Today.ToString("yyyy-MM-dd")" accept="" />
+					<input type="date" id="BirthDate_@i" max="@DateTime.Today.ToString("yyyy-MM-dd")" accept="" required/>
 				</div>
 				<br />
 			</div>
 
 			<label>Seat:</label>
-			<select id="SeatId_@i" name="Seat" onchange="" required>
+			<select id="SeatId_@i" name="Seat" onsubmit="AlertifDuplicate()" required>
 				<option value="">-- Select Seat --</option>
 				@foreach (Seat seat in Model.Seats)
 				{
 					if (seat.Passenger == null){
-
 						<option value="@seat.SeatId">@seat.SeatName</option>
 					}
 				}
 
 			</select>
 		</div> 
-		
-		
+
+
 
 
 	}
@@ -156,23 +155,37 @@
 
 <script>
 	function AddPassengertoCookie() {
+		for (let i = 0; i < @Model.passengerCount; i++) {
+		const seatId1 = document.getElementById(`SeatId_${i}`).value;
+		for (let j = i + 1; i < @Model.passengerCount; i++) {
+			const seatId2 = document.getElementById(`SeatId_${j}`).value;
+			if (seatId1 == seatId2)
+			{
+				alert("End me pls");
+				return false;
+			}
+		}
+	}
 	for (let i = 0; i < @Model.passengerCount; i++) {
 
-		const firstName = document.getElementById(`FirstName_${i}`).value;
-		const lastName = document.getElementById(`LastName_${i}`).value;
-		const passportNr = document.getElementById(`Passport_${i}`).value;
-		const seatId = document.getElementById(`SeatId_${i}`).value;
-		const birthDate = document.getElementById(`BirthDate_${i}`).value;
-			var a = new Date();
-		a = new Date(a.getTime() +1000*60*10);
-		document.cookie = i + "FirstName=" + encodeURIComponent(firstName) + "; expires="+ a.toGMTString() + "; path=/";
-		document.cookie = i + "LastName=" + encodeURIComponent(lastName) + "; expires="+ a.toGMTString() + "; path=/";
-		document.cookie = i + "PassportNr=" + encodeURIComponent(passportNr) + "; expires="+ a.toGMTString() + "; path=/";
-		document.cookie = i + "SeatId=" + encodeURIComponent(seatId) + "; expires="+ a.toGMTString() + "; path=/";
-		document.cookie = i + "BirthDate=" + encodeURIComponent(birthDate) + "; expires="+ a.toGMTString() + "; path=/";
-	 }
-	 return true;
+	const firstName = document.getElementById(`FirstName_${i}`).value;
+	const lastName = document.getElementById(`LastName_${i}`).value;
+	const passportNr = document.getElementById(`Passport_${i}`).value;
+	const seatId = document.getElementById(`SeatId_${i}`).value;
+	const birthDate = document.getElementById(`BirthDate_${i}`).value;
+	var a = new Date();
+	a = new Date(a.getTime() +1000*60*10);
+	document.cookie = i + "FirstName=" + encodeURIComponent(firstName) + "; expires="+ a.toGMTString() + "; path=/";
+	document.cookie = i + "LastName=" + encodeURIComponent(lastName) + "; expires="+ a.toGMTString() + "; path=/";
+	document.cookie = i + "PassportNr=" + encodeURIComponent(passportNr) + "; expires="+ a.toGMTString() + "; path=/";
+	document.cookie = i + "SeatId=" + encodeURIComponent(seatId) + "; expires="+ a.toGMTString() + "; path=/";
+	document.cookie = i + "BirthDate=" + encodeURIComponent(birthDate) + "; expires="+ a.toGMTString() + "; path=/";
+	}
+
+	return true;
 	}
 
 </script>
+
+
 

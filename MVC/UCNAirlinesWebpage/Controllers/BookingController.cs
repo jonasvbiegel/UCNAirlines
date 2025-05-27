@@ -82,7 +82,7 @@ namespace UCNAirlinesWebpage.Controllers
             {
                 foreach (Passenger passenger in passengers)
                 {
-                    psa.CreatePassenger(passenger);
+                   await psa.CreatePassenger(passenger);
                 }
             }
             bool seatAdded = await ssa.UpdateSeats(seats);
