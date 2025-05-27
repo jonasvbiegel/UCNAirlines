@@ -35,5 +35,47 @@ namespace UCNAirlinesWebpage.BusinesslogicLayer
 
             return wasSaved;
         }
+        public async Task<ReceiptModel> InsertBooking(List<Seat> seats, Flight flight)
+        {
+            SeatLogic ssa = new();
+            PassengerLogic psa = new();
+            List<Passenger> passengers = new();
+            ReceiptModel model = new ReceiptModel();
+            foreach (Seat seat in seats)
+            {
+                passengers.Add(seat.Passenger);
+
+            }
+            if (passengers.Count > 0)
+            {
+                foreach (Passenger passenger in passengers)
+                {
+                    await psa.CreatePassenger(passenger);
+                }
+            }
+            bool seatAdded = await ssa.UpdateSeats(seats);
+
+            if (seatAdded)
+            {
+                Booking booking = new Booking()
+                {
+                    passengers = passengers,
+                    Flight = flight
+                };
+                BookingLogic bsa = new BookingLogic();
+
+                bool bookingCreated = await SaveBooking(booking);
+                if (bookingCreated == true)
+                {
+                    model.Booking = booking;
+                    return model;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else { return null; }
+        }
     }
 }

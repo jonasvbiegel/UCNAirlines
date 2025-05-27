@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UCNAirlinesWebpage.Models;
 using UCNAirlinesWebpage.ServiceLayer;
 
+
 namespace UCNAirlinesWebpage.BusinesslogicLayer
 {
     public class SeatLogic
@@ -58,5 +59,20 @@ namespace UCNAirlinesWebpage.BusinesslogicLayer
 
             return seat;
         }
+        public async Task<SeatPassengerModel> FindSeatAndFlight(int passenger, int flightId)
+        {
+            FlightLogic fl = new FlightLogic();
+            List<Passenger> passengersList = new List<Passenger>();
+            SeatPassengerModel model = new()
+            {
+                Flight = await fl.GetFlightById(flightId),
+                passengerCount = passenger,
+                Passengers = passengersList,
+                Seats = await GetSeatsForFlight(flightId)
+            };
+            return model;
+        }
     }
+
+
 }

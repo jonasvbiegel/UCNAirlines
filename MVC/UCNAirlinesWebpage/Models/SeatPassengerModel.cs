@@ -1,6 +1,6 @@
 ﻿namespace UCNAirlinesWebpage.Models
 {
-    public class SeatPassenger
+    public class SeatPassengerModel
     {
         public Flight Flight { get; set; }
         public int passengerCount {  get; set; }    

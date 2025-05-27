@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using UCNAirlinesWebpage.Models;
 using UCNAirlinesWebpage.ServiceLayer;
 
@@ -31,8 +33,8 @@ namespace UCNAirlinesWebpage.BusinesslogicLayer
 
             return foundFlights;
         }
-    
-    public async Task<Flight>? GetFlightById(int id)
+
+        public async Task<Flight>? GetFlightById(int id)
         {
             Flight? foundFlight;
             try
@@ -47,6 +49,32 @@ namespace UCNAirlinesWebpage.BusinesslogicLayer
 
             return foundFlight;
         }
+        public async Task<FlightSearchModel> ReturnSelectedFlightsAsync(string from, string to, DateOnly date, int passenger)
+        {
+            var model = new FlightSearchModel
+            {
+                From = from,
+                To = to,
+                Date = date,
+                Passenger = passenger
+            };
+            FlightServiceAccess fac = new FlightServiceAccess();
+            List<Flight> fls = await fac.GetFlights(date.ToString());
+            model.Flights = new List<Flight>();
+            foreach (Flight f in fls)
+            {
+                if (model.From == f.Route.StartDestination.AirportName && model.To == f.Route.EndDestination.AirportName)
+                {
+                    model.Flights.Add(f);
+                }
+            }
+            return model;
+
+        }
+
     }
+
 }
 
+    
+ 

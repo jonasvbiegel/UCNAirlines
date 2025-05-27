@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UCNAirlinesWebpage.Models;
+
 using UCNAirlinesWebpage.ServiceLayer;
 
 namespace UCNAirlinesWebpage.BusinesslogicLayer
@@ -32,6 +34,28 @@ namespace UCNAirlinesWebpage.BusinesslogicLayer
                 wasCreated = false;
             }
             return wasCreated;
+        }
+        public async Task<List<Seat>?> ConvertCookiesToPassengers(int passengerCount, IRequestCookieCollection cookies ) {
+            SeatLogic sl = new SeatLogic(); 
+            List<Seat> seats = new List<Seat>();
+            for (int i = 0; i < passengerCount; i++)
+            {
+                string SDate = cookies[i + "Birthdate"];
+                DateOnly date = DateOnly.Parse(SDate);
+                Passenger passenger = new()
+                {
+                    FirstName = cookies[i + "FirstName"],
+                    LastName = cookies[i + "LastName"],
+                    PassportNo = cookies[i + "PassportNr"],
+                    BirthDate = date
+                };
+
+                int seatId = Convert.ToInt32(cookies[i + "SeatId"]);
+                Seat seat = await sl.GetSeatBySeatId(seatId);
+                seat.Passenger = passenger;
+                seats.Add(seat);
+            }
+            return seats;
         }
     }
 }
