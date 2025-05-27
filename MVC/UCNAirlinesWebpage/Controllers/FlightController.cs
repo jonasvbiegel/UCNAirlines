@@ -17,7 +17,7 @@ namespace UCNAirlinesWebpage.Controllers
             {
                 Airports = airports
             };
-            return View(model);
+            return View("Index", model);
         }
         [HttpPost]
         public IActionResult Search(FlightSearchModel model)
@@ -46,8 +46,15 @@ namespace UCNAirlinesWebpage.Controllers
                     model.Flights.Add(f);
                 }
             }
+            if(model.Flights.Count > 0)
+            {
+                return View(model);
 
-            return View(model);
+            }
+            else
+            {
+                return Index();
+            }
         }
        
 
