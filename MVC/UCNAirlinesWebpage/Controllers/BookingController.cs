@@ -22,6 +22,8 @@ namespace UCNAirlinesWebpage.Controllers
         {
             SeatLogic sl = new SeatLogic();
             model = await sl.FindSeatAndFlight(flightId, passenger);
+            TempData["FlightId"] = flightId;
+            TempData["PassengerCount"] = passenger;
             return View(model);
         }
         [HttpPost]
@@ -31,6 +33,7 @@ namespace UCNAirlinesWebpage.Controllers
 
             PassengerLogic pl = new PassengerLogic();
             ReceiptModel model2 = new ReceiptModel();
+            int passengerCount = (int)TempData["PassengerCount"];
             List<Seat> seats = await pl.ConvertCookiesToPassengers(model.passengerCount, Request.Cookies);
             model2 = await bl.InsertBooking(seats, model.Flight);
             return View("TestWorld", model2);
