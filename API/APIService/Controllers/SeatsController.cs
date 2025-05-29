@@ -4,6 +4,8 @@ using APIService.BusinessLayer;
 using Microsoft.IdentityModel.Tokens;
 using APIService.DTOs;
 using APIService.ModelConversion;
+using Microsoft.Data.SqlClient;
+using System.Linq.Expressions;
 
 
 namespace APIService.Controllers;
@@ -26,8 +28,24 @@ public class SeatsController : ControllerBase
     [HttpGet]
     public ActionResult<List<SeatDTO>> GetSeats()
     {
-
-        return Ok(_seatLogic.GetSeats());
+        ActionResult result;
+        try
+        {
+            List<SeatDTO> seats = _seatLogic.GetSeats();
+            if (seats.Count > 0)
+            {
+                result = Ok(seats);
+            }
+            else
+            {
+                result = new StatusCodeResult(204);
+            }
+        }
+        catch (SqlException)
+        {
+            result = StatusCode(500, "Something went wrong finding the seats.");
+        }
+        return result;
     }
 
     // Returns seats from a specific flight
@@ -35,9 +53,24 @@ public class SeatsController : ControllerBase
     [HttpGet("flightId")]
     public ActionResult<List<SeatDTO>> GetSeatsFromAirplane(int flightId)
     {
-        List<SeatDTO?>? listOfSeats = _seatLogic.GetSeatsFromFlight(flightId);
-        if (listOfSeats.IsNullOrEmpty()) return new StatusCodeResult(204);
-        return Ok(listOfSeats);
+        ActionResult result;
+        try
+        {
+            List<SeatDTO?>? listOfSeats = _seatLogic.GetSeatsFromFlight(flightId);
+            if (listOfSeats.Count > 0)
+            {
+                result = Ok(listOfSeats);
+            }
+            else
+            {
+                result = new StatusCodeResult(204);
+            }
+        }
+        catch (SqlException)
+        {
+            return StatusCode(500,"Something went wrong with retrieving seats on the specified flight.");
+        }
+        return result;  
     }
 
     // Gets a specific seat from id
@@ -45,18 +78,46 @@ public class SeatsController : ControllerBase
     [HttpGet("{seatId}")]
     public ActionResult<SeatDTO> GetSeat(int seatId)
     {
-        SeatDTO? seat = _seatLogic.GetSeat(seatId);
-        if (seat == null) return new StatusCodeResult(204);
-        return Ok(seat);
+        ActionResult result;
+        try
+        {
+            SeatDTO? seat = _seatLogic.GetSeat(seatId);
+            if (seat != null)
+            {
+                result= Ok(seat);
+            }
+            else
+            {
+                result = new StatusCodeResult(404);
+            }
+                
+        }catch(SqlException){
+            return StatusCode(500, "Something went wrong with finding the specified seat.");
+        }
+        return result;
     }
 
     [HttpPut]
     public ActionResult<bool> TryBookSeats([FromBody] List<SeatDTO?>? seats)
     {
-        bool updated = _seatLogic.TryBookSeats(seats);
-        if (!updated) return new StatusCodeResult(500);
-
-        return Ok(updated);
+        ActionResult result;
+        try
+        {
+            bool updated = _seatLogic.TryBookSeats(seats);
+            if (updated)
+            {
+                result= Ok(updated);
+            }
+            else
+            {
+                result = StatusCode(400);
+            }
+        }
+        catch (SqlException)
+        {
+            return StatusCode(500, "Something went wrong with bookig choosing seats");
+        }
+        return result;
     }
 }
 

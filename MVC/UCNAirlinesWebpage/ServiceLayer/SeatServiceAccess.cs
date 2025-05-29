@@ -7,12 +7,13 @@ using System.Text;
 using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
+using UCNAirlinesWebpage.Helper;
 
 namespace UCNAirlinesWebpage.ServiceLayer
 {
-    public class SeatServiceAccess : ServiceConnection
+    public class SeatServiceAccess : ServiceConnection,ISeatAccess
     {
-        public SeatServiceAccess() : base("https://localhost:7184/api/seats/")
+        public SeatServiceAccess() : base(ConfigHelper.Configuration?["ServiceUrls:Seats"])
         {
         }
         public async Task<List<Seat>?> GetSeats(int flightId)

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using AirlineData.ModelLayer;
 using APIService.BusinessLayer;
 using APIService.DTOs;
+using Microsoft.Data.SqlClient;
 
 namespace APIService.Controllers;
 
@@ -20,24 +21,40 @@ public class PassengersController : ControllerBase
     [HttpGet("{passportNo}")]
     public ActionResult<PassengerDTO> GetPassenger(string passportNo)
     {
-        PassengerDTO? p = _passengerLogic.GetPassenger(passportNo);
+        ActionResult result ;
+        try
+        {
+            PassengerDTO? p = _passengerLogic.GetPassenger(passportNo);
 
-        if (p == null) return new StatusCodeResult(204);
-        return Ok(p);
+            if (p != null)
+            {
+                result = Ok(p);
+            }
+            else
+            {
+                result = NotFound();
+            }
+        }catch(SqlException)
+        {
+            result = StatusCode(500,"Something went wrong with finding the passenger with specified passport number.");
+        }
+                return result;
     }
 
     [HttpPost]
     public ActionResult<Passenger> PostPassenger(PassengerDTO passenger)
     {
+        ActionResult result;
         Passenger? p;
 
         try
         {
             p = _passengerLogic.CreatePassenger(passenger);
+            
         }
-        catch
+        catch(SqlException)
         {
-            return new StatusCodeResult(500);
+            return StatusCode(500,"Something went wrong with saving the passenger/s.");
         }
 
         return Ok(p);

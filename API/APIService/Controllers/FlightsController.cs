@@ -3,6 +3,7 @@ using AirlineData.ModelLayer;
 using APIService.BusinessLayer;
 using APIService.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 
 
 namespace APIService.Controllers
@@ -22,13 +23,14 @@ namespace APIService.Controllers
         [HttpGet, Route("{date}")]
         public ActionResult<List<FlightDTO>> GetAllFlights(string date)
         {
-            DateOnly dato=DateOnly.Parse(date);
+            DateOnly dato = DateOnly.Parse(date);
             ActionResult<List<FlightDTO>> foundFlights;
-            List<FlightDTO?>? flightsDto = _businessLogic.GetByDate(dato);
-            if (!(flightsDto == null))
+            try
             {
-                if (flightsDto.Count > 0)
+                List<FlightDTO?>? flightsDto = _businessLogic.GetByDate(dato);
+                if (flightsDto != null && flightsDto.Count > 0)
                 {
+
                     foundFlights = Ok(flightsDto);
                 }
                 else
@@ -36,9 +38,13 @@ namespace APIService.Controllers
                     foundFlights = new StatusCodeResult(204);
                 }
             }
-            else
+            catch (SqlException)
             {
-                foundFlights = new StatusCodeResult(500);
+                {
+                    foundFlights = StatusCode(500,"Something went wrong with retrieving flights.");
+
+                }
+                
             }
             return foundFlights;
         }
@@ -47,15 +53,22 @@ namespace APIService.Controllers
         {
             
             ActionResult<FlightDTO> foundFlight;
-            FlightDTO? flightDto = _businessLogic.GetById(id);
-            if (!(flightDto == null))
+            try
             {
+                FlightDTO? flightDto = _businessLogic.GetById(id);
+                if (!(flightDto == null))
+                {
                     foundFlight = Ok(flightDto);
+                }
+
+                else
+                {
+                    foundFlight = new StatusCodeResult(404);
+                }
             }
-            
-            else
+            catch (SqlException)
             {
-                foundFlight= new StatusCodeResult(500);
+                foundFlight=StatusCode(500,"Something went wrong, couldn´t retrieve any flight with the specified id");
             }
             return foundFlight;
         }

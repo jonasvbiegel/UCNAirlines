@@ -1,12 +1,13 @@
 ﻿using Newtonsoft.Json;
 using System.Text;
+using UCNAirlinesWebpage.Helper;
 using UCNAirlinesWebpage.Models;
 
 namespace UCNAirlinesWebpage.ServiceLayer
 {
     public class BookingServiceAccess : ServiceConnection, IBookingAccess
     {
-        public BookingServiceAccess() : base("https://localhost:7184/api/bookings/")
+        public BookingServiceAccess() : base(ConfigHelper.Configuration?["ServiceUrls:Bookings"])
         {
         }
         public async Task<bool> InsertBooking(Booking booking)

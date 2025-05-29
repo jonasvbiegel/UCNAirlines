@@ -2,6 +2,6 @@
 {
     public class ReceiptModel
     {
-        public Booking booking { get; set; }
+        public Booking Booking { get; set; }
     }
 }

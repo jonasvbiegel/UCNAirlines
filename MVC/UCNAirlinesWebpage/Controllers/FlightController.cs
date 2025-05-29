@@ -1,4 +1,6 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using UCNAirlinesWebpage.BusinesslogicLayer;
 using UCNAirlinesWebpage.Models;
 using UCNAirlinesWebpage.ServiceLayer;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -7,47 +9,34 @@ namespace UCNAirlinesWebpage.Controllers
 {
     public class FlightController : Controller
     {
+        private AirportModel model;
+
         [HttpGet]
         public IActionResult Index()
         {
             AirportServiceAccess ars = new AirportServiceAccess();
-
-            List<string> airports = Task.Run(() => ars.GetAirports()).Result;
-            AirportModel model = new()
+            AirportModel model = new AirportModel()
             {
-                Airports = airports
+               Airports = Task.Run(() => ars.GetAirports()).Result
             };
-            return View(model);
+            return View("Index", model);
         }
-        [HttpPost]
-        public IActionResult Search(FlightSearchModel model)
-        {
-
-            return View(model);
-        }
-
+        
 
         public async Task<IActionResult> SelectFlight(string from, string to, DateOnly date, int passenger)
         {
-            var model = new FlightSearchModel
+            FlightLogic flightLogic = new FlightLogic();
+            FlightSearchModel model1 = new FlightSearchModel();
+            model1 = await flightLogic.ReturnSelectedFlightsAsync(from, to, date, passenger);
+            if(model1.Flights.Count > 0)
             {
-                From = from,
-                To = to,
-                Date = date,
-                Passenger = passenger
-            };
-            FlightServiceAccess fac = new FlightServiceAccess();
-            List<Flight> fls = await fac.GetFlights(date.ToString());
-            model.Flights = new List<Flight>();
-            foreach (Flight f in fls)
-            {
-                if (model.From == f.Route.StartDestination.AirportName && model.To == f.Route.EndDestination.AirportName)
-                {
-                    model.Flights.Add(f);
-                }
-            }
+                return View(model1);
 
-            return View(model);
+            }
+            else
+            {
+                return Index();
+            }
         }
        
 
