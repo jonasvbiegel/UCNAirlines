@@ -140,8 +140,7 @@ public class SeatDB : ISeatDB
                 Console.WriteLine(e.Message);
                 transaction.Rollback();
             }
-            // Thread.Sleep(rnd.Next(1, 10));
-            Thread.Sleep(750);
+            Thread.Sleep(rnd.Next(1, 10));
         }
     }
 
