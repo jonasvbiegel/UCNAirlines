@@ -69,7 +69,7 @@ namespace AirlineData.DatabaseLayer
             passport_no_FK 
         FROM Seat 
         WHERE flight_id_FK = @FlightId";
-
+             
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
                 return con.Query<Seat>(seatQuery, new { FlightId = flightId }).ToList();

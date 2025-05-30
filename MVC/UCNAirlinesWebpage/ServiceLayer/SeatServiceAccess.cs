@@ -8,6 +8,7 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using UCNAirlinesWebpage.Helper;
+using static System.Net.WebRequestMethods;
 
 namespace UCNAirlinesWebpage.ServiceLayer
 {
@@ -44,8 +45,8 @@ namespace UCNAirlinesWebpage.ServiceLayer
         public async Task<Seat?> GetSeatBySeatID(int seatId)
         {
             Seat seat = new Seat();
-            UseUrl += seatId;
-
+            UseUrl = BaseUrl + seatId;
+            
             var serviceResponse = await base.CallServiceGet();
             // if success (200-299)
             if (serviceResponse != null && serviceResponse.IsSuccessStatusCode)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -49,8 +50,10 @@ namespace UCNAirlinesWebpage.BusinesslogicLayer
                     PassportNo = cookies[i + "PassportNr"],
                     BirthDate = date
                 };
-
-                int seatId = Convert.ToInt32(cookies[i + "SeatId"]);
+                
+                string Sseatid = cookies[i + "SeatId"];
+                int seatId = int.Parse(Sseatid);
+                
                 Seat seat = await sl.GetSeatBySeatId(seatId);
                 seat.Passenger = passenger;
                 seats.Add(seat);

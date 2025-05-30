@@ -35,8 +35,10 @@ namespace UCNAirlinesWebpage.BusinesslogicLayer
 
             return wasSaved;
         }
-        public async Task<ReceiptModel> InsertBooking(List<Seat> seats, Flight flight)
+        public async Task<ReceiptModel> InsertBooking(List<Seat> seats, int flightId)
         {
+            FlightLogic fl = new();
+            Flight flight = await fl.GetFlightById(flightId);
             SeatLogic ssa = new();
             PassengerLogic psa = new();
             List<Passenger> passengers = new();
