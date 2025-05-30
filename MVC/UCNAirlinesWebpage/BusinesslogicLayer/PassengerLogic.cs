@@ -53,6 +53,7 @@ namespace UCNAirlinesWebpage.BusinesslogicLayer
                 
                 string Sseatid = cookies[i + "SeatId"];
                 int seatId = int.Parse(Sseatid);
+                
                 Seat seat = await sl.GetSeatBySeatId(seatId);
                 seat.Passenger = passenger;
                 seats.Add(seat);
