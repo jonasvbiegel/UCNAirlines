@@ -17,11 +17,14 @@ namespace AirlineData.DatabaseLayer
 {
     public class FlightDatabaseAccess : IFlight
     {
+
+        private readonly ISeatDB _seatDB;
+
         private readonly string? _connectionString;
 
-        public FlightDatabaseAccess(IConfiguration inConfig)
+        public FlightDatabaseAccess(IConfiguration inConfig, ISeatDB seatDB)
         {
-
+            _seatDB = seatDB;
             _connectionString = inConfig.GetConnectionString("CompanyConnection");
         }
 
@@ -37,7 +40,7 @@ namespace AirlineData.DatabaseLayer
                 con.Open();
                 int rowsAffected = con.Execute(cmd, new { AirplaneId = flight.Airplane.AirplaneId, Departure = flight.Departure, FlightRouteId = flight.Route.FlightRouteId });
 
-                
+
                 return rowsAffected > 0;
             }
         }
@@ -176,7 +179,8 @@ namespace AirlineData.DatabaseLayer
                 Departure = fra.Departure,
                 Airplane = airplane,
                 Route = route,
-                Seats = GetSeatsForFlight(fra.FlightId)
+                // Seats = GetSeatsForFlight(fra.FlightId)
+                Seats = _seatDB.GetSeatsFromFlight(fra.FlightId)
             };
             return flight;
         }
