@@ -39,10 +39,11 @@ namespace UCNAirlinesWebpage.BusinesslogicLayer
         public async Task<List<Seat>?> ConvertCookiesToPassengers(int passengerCount, IRequestCookieCollection cookies ) {
             SeatLogic sl = new SeatLogic(); 
             List<Seat> seats = new List<Seat>();
-            for (int i = 0; i < passengerCount; i++)
+            for (int i = 0; i < passengerCount; i++)    
             {
-                string SDate = cookies[i + "Birthdate"];
-                DateOnly date = DateOnly.Parse(SDate);
+                string SDate = cookies[i + "BirthDate"];
+                Debug.WriteLine (cookies[i + "BirthDate"]);
+                    DateOnly date = DateOnly.Parse(SDate);
                 Passenger passenger = new()
                 {
                     FirstName = cookies[i + "FirstName"],

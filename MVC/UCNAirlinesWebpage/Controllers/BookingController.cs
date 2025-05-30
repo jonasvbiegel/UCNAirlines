@@ -30,7 +30,6 @@ namespace UCNAirlinesWebpage.Controllers
         public async Task<IActionResult> CreateBooking()
         {
             BookingLogic bl = new BookingLogic();
-
             PassengerLogic pl = new PassengerLogic();
             ReceiptModel model2 = new ReceiptModel();
             int passengerCount = (int)TempData["PassengerCount"];
