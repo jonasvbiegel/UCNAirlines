@@ -3,9 +3,15 @@
 *@
 @model UCNAirlinesWebpage.Models.ReceiptModel
 
+@if (@Model == null)
+{
+    <h1>Booking ERROR</h1>
 
-<h1>Booking Saved</h1>
-
+}
+else
+{
+    <h1>Booking Saved</h1>
+}
 <ul>
    @*  @foreach (var passenger in Model.booking.passengers)
     {
